@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class BiomeWorldGenerator : IWorldGenerator
 {
@@ -57,9 +59,9 @@ public class BiomeWorldGenerator : IWorldGenerator
             for (int x = 0; x < vertexCountX; x++)
             {
                 float vertX = - halfSizeX + x * settings.verticeDistance;
-                float vertY = 0;
                 float vertZ = - halfSizeZ + z * settings.verticeDistance;
-
+                float vertY = GetPerlinNoiseValue(new Vector2(vertX, vertZ), settings);
+               
                 Vector3 vertice = new Vector3(vertX, vertY, vertZ);
                 vertices.Add(vertice);
             }
@@ -91,5 +93,10 @@ public class BiomeWorldGenerator : IWorldGenerator
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
         chunk.mesh = mesh;
+    }
+
+    private float GetPerlinNoiseValue(Vector2 input, WorldSettings settings)
+    {
+        return Mathf.PerlinNoise(input.x * settings.noiseScale + settings.NoiseSeed, input.y * settings.noiseScale + settings.NoiseSeed) * settings.noiseMultiplier;
     }
 }

@@ -16,6 +16,10 @@ MonoBehaviour:
     type: 3}
   WorldSize: {x: 1000, y: 1000}
   ChunkSize: {x: 100, y: 100}
+  noiseScale: 0.035
+  noiseMultiplier: 50
+  randomSeed: 1
+  ManualSeed: 564
   verticeDistance: 2
   meshMat: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   BiomeSpawnRules: []
