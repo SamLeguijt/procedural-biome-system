@@ -7,7 +7,6 @@ public class WorldChunk
     public Vector3 Size { get; private set; }
     public Vector3 WorldPosition { get; private set; }
 
-    public Bounds bounds;
     public Mesh mesh = null;
     public BiomeConfig biomeConfig = null;
 

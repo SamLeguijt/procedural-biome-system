@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WorldSize: {x: 1000, y: 1000}
   ChunkSize: {x: 100, y: 100}
+  verticeDistance: 5
+  meshMat: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   BiomeSpawnRules: []

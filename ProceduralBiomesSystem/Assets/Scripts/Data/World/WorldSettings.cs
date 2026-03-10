@@ -7,5 +7,10 @@ public class WorldSettings : ScriptableObject
 {
     public Vector2 WorldSize;
     public Vector2 ChunkSize;
+
+    // TODO: Move mesh settings to another place (per biome?)
+    public float verticeDistance = 1;
+    public Material meshMat;
+
     public List<BiomeSpawnRule> BiomeSpawnRules; 
 }
