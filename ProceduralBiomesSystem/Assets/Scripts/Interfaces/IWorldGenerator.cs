@@ -1,4 +1,4 @@
 public interface IWorldGenerator 
 {
-    void GenerateWorld(); 
+    void GenerateWorld(WorldLayout layout, WorldSettings settings); 
 }

@@ -1,4 +1,4 @@
 public interface IWorldLayoutGenerator 
 {
-    WorldLayout GenerateWorldLayout();
+    WorldLayout GenerateWorldLayout(WorldSettings settings);
 }
