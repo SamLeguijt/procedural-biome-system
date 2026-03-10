@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd056f1264bd6347a38cbe4e89411b7, type: 3}
   m_Name: WorldSettings_Test
   m_EditorClassIdentifier: 
+  <ChunkPrefab>k__BackingField: {fileID: 6011080805577089550, guid: fdf602edf8cf96643be28378eaff4377,
+    type: 3}
   WorldSize: {x: 1000, y: 1000}
   ChunkSize: {x: 100, y: 100}
-  verticeDistance: 5
+  verticeDistance: 2
   meshMat: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   BiomeSpawnRules: []
