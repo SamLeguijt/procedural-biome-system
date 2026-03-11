@@ -7,5 +7,6 @@ public class DesertTerrainGenerator : AbstractMeshTerrainGenerator
 {
     public override void GenerateTerrain(WorldChunk chunk)
     {
+        CreateMesh(chunk);
     }
 }

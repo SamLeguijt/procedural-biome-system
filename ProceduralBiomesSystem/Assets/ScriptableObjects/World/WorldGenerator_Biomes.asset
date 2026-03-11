@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: WorldGenerator_Biomes
   m_EditorClassIdentifier: 
   <BiomeRules>k__BackingField:
-  - {fileID: 11400000, guid: 7e3af654b2965df48b33d6485aa29591, type: 2}
+  - {fileID: 11400000, guid: 62ea568bd9ae9aa49bf86bdc8bcdf919, type: 2}
+  - {fileID: 11400000, guid: 11b73fb056016cc469c2eb7177f01d8b, type: 2}
+  - {fileID: 11400000, guid: f4f23b5da32c3ec42b64abf3ddb44cc1, type: 2}

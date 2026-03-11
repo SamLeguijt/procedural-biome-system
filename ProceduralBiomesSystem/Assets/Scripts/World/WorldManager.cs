@@ -78,19 +78,19 @@ public class WorldManager : MonoBehaviour
         if (worldSettings == null)
 
         {
-            Debug.LogError("[WorldGenerator] WorldSettings is null!");
+            //Debug.LogError("[WorldGenerator] WorldSettings is null!");
             return true;
         }
 
         if (worldGenerator == null)
         {
-            Debug.LogError("[WorldGenerator] WorldGenerator is null!");
+            //Debug.LogError("[WorldGenerator] WorldGenerator is null!");
             return true;
         }
 
         if (worldLayoutGenerator == null)
         {
-            Debug.LogError("[WorldGenerator] WorldLayoutGenerator is null!");
+            //Debug.LogError("[WorldGenerator] WorldLayoutGenerator is null!");
             return true;
         }
 

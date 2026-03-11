@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// Generates a world of biomes, where each biome generates it's own terrain. 
+/// Generates a world of biomes, where each biome is responsible for generating it's own terrain. 
 /// </summary>
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
 public class BiomeWorldGenerator : AbstractWorldGenerator
@@ -38,7 +38,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         foreach (WorldChunk chunk in layout.worldChunks)
         {
-            chunk.biomeConfig = settings[0].BiomeConfig;
+            int randomIndex = Random.Range(0, settings.Count);
+            chunk.biomeConfig = settings[randomIndex].BiomeConfig;
         }
     }
 

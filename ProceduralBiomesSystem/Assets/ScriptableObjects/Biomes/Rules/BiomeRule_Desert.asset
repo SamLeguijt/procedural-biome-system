@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e154678f1bba6419f8767c78f80873, type: 3}
   m_Name: BiomeRule_Desert
   m_EditorClassIdentifier: 
-  <BiomeConfig>k__BackingField: {fileID: 0}
+  <BiomeConfig>k__BackingField: {fileID: 11400000, guid: 04e2fe1871c28a4498ad82aad3693126,
+    type: 2}
   <Weight>k__BackingField: 0
   <PreventNeighbours>k__BackingField: []

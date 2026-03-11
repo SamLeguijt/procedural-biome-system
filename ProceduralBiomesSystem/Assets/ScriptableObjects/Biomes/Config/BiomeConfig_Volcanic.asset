@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e83935d91361964ca94423e181b4068, type: 3}
   m_Name: BiomeConfig_Volcanic
   m_EditorClassIdentifier: 
-  <Generator>k__BackingField: {fileID: 11400000, guid: 6d7e334d6cf9d9540b98624122963ce6,
+  <Generator>k__BackingField: {fileID: 11400000, guid: dd19ed22939288d44b2d16c2804e7359,
     type: 2}
