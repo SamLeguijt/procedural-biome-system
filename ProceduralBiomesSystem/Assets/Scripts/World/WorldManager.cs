@@ -67,7 +67,7 @@ public class WorldManager : MonoBehaviour
             MeshFilter meshFilter = chunkObject.GetComponent<MeshFilter>();
             MeshRenderer meshRenderer = chunkObject.GetComponent<MeshRenderer>();
             meshFilter.mesh = chunk.mesh;
-            meshRenderer.material = chunk.biomeConfig.meshMaterial;
+            meshRenderer.material = chunk.biomeConfig.Generator.MeshMaterial;
         }
 
         recentWorlds.Add(recentWorld);

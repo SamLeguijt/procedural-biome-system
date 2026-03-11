@@ -17,8 +17,6 @@ public class GridLayoutGenerator : AbstractLayoutGenerator
             {
                 Vector3 size = new Vector3(settings.ChunkSize.x, 0, settings.ChunkSize.y);
                 Vector3 worldPos = new Vector3(x * settings.ChunkSize.x + settings.ChunkSize.x / 2f, 0, y * settings.ChunkSize.y + settings.ChunkSize.y / 2f);
-                Debug.Log($"Chunk ({x},{y}) WorldPos = {worldPos}");
-
                 WorldChunk chunk = new WorldChunk(size, worldPos);
                 chunks.Add(chunk);
             }
