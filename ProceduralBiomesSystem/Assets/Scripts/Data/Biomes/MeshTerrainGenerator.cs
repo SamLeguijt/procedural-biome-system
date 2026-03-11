@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseTerrainGenerator : ScriptableObject, ITerrainGenerator
+public abstract class MeshTerrainGenerator : ScriptableObject, ITerrainGenerator
 {
+    public abstract void GenerateTerrain(WorldChunk chunk);
 
-    public virtual void CreateMesh(WorldChunk chunk)
+    protected virtual void CreateMesh(WorldChunk chunk)
     {
         BiomeConfig settings = chunk.biomeConfig;
 
@@ -59,5 +60,4 @@ public abstract class BaseTerrainGenerator : ScriptableObject, ITerrainGenerator
         mesh.RecalculateBounds();
         chunk.mesh = mesh;
     }
-    public abstract void GenerateTerrain(WorldChunk chunk);
 }

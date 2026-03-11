@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridLayoutGenerator : IWorldLayoutGenerator
+[CreateAssetMenu(fileName = "LayoutGenerator_", menuName = "ScriptableObjects/World/new LayoutGenerator")]
+public class GridLayoutGenerator : AbstractLayoutGenerator
 {
-    public WorldLayout GenerateWorldLayout(WorldSettings settings)
+    public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
         List<WorldChunk> chunks = new List<WorldChunk>();
         Vector2 gridSize = new Vector2(settings.WorldSize.x / settings.ChunkSize.x, settings.WorldSize.y / settings.ChunkSize.y);

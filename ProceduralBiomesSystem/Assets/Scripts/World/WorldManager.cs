@@ -11,7 +11,6 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private bool drawChunkGizmos = true;
     [SerializeField] private bool drawVerticeGizmos = true;
 
-
     private IWorldGenerator worldGenerator;
     private IWorldLayoutGenerator worldLayoutGenerator;
 
@@ -22,8 +21,8 @@ public class WorldManager : MonoBehaviour
     // TODO: Factory / DI.
     private void GetDependencies()
     {
-        worldGenerator = new BiomeWorldGenerator();
-        worldLayoutGenerator = new GridLayoutGenerator();
+        worldGenerator = worldSettings.WorldGenerator;
+        worldLayoutGenerator = worldSettings.LayoutGenerator;
     }
 
     [Button]
@@ -55,7 +54,7 @@ public class WorldManager : MonoBehaviour
 
     private void GenerateWorld(WorldLayout layout)
     {
-        worldGenerator.GenerateWorld(layout, worldSettings);
+        worldGenerator.GenerateWorld(layout);
 
         if (layout.worldChunks.Count == 0)
             return;

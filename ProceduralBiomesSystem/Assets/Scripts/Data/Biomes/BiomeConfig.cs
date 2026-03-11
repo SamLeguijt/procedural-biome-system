@@ -6,7 +6,7 @@ using UnityEngine;
 public class BiomeConfig : ScriptableObject
 {
     // TODO: Is terrain generation now coupled to noise? (abstracted correctly?)
-    [field: SerializeField] public BaseTerrainGenerator Generator { get; private set; }
+    [field: SerializeField] public MeshTerrainGenerator Generator { get; private set; }
 
     [Header("Mesh generation:")]
     public Material meshMaterial;

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e83935d91361964ca94423e181b4068, type: 3}
-  m_Name: BiomeConfig_Testing
+  m_Name: BiomeConfig_Default
   m_EditorClassIdentifier: 
   <Generator>k__BackingField: {fileID: 11400000, guid: dd19ed22939288d44b2d16c2804e7359,
     type: 2}
   meshMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   verticeDistance: 1
   NoiseFrequencey: 0.1
-  NoiseAmplitude: 10
+  NoiseAmplitude: 0.5
   RandomOffset: 1
   Offset: 0.01

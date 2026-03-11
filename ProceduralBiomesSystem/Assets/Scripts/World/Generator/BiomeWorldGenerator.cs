@@ -6,31 +6,42 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class BiomeWorldGenerator : IWorldGenerator
+/// <summary>
+/// Generates a world of biomes, where each biome generates it's own terrain. 
+/// </summary>
+[CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
+public class BiomeWorldGenerator : AbstractWorldGenerator
 {
-    public void GenerateWorld(WorldLayout layout, WorldSettings settings)
-    {
+    [field: SerializeField] public List<BiomeSpawnRule> BiomeRules {  get; private set; }
 
-        // 1) Assign biomes to the chunks 
-        // 2) Generate mesh for each chunk (using WorldChunk.ITerrainGenerator
+    public override void GenerateWorld(WorldLayout layout)
+    {
+        if (BiomeRules.Count == 0)
+            return;
+
+        // 1) Assign biomes to the chunks:
+        AssignBiomes(layout, BiomeRules);
+
+        // 2) Generate mesh for each chunk:
+        foreach (WorldChunk chunk in layout.worldChunks)
+        {
+            chunk.biomeConfig.Generator.GenerateTerrain(chunk);
+        }
+
+
         // 3) Analyze each chunk, store the info in the chunk 
         // 4) Populate each chunk, store the objects in the chunk
         // 5) Blend biomes (optional)
-
-        AssignBiomes(layout, settings);
-        foreach (WorldChunk chunk in layout.worldChunks)
-        {
-            CreateMesh(chunk); 
-        }
     }
 
-    private void AssignBiomes(WorldLayout layout, WorldSettings settings)
+    private void AssignBiomes(WorldLayout layout, List<BiomeSpawnRule> settings)
     {
         foreach (WorldChunk chunk in layout.worldChunks)
         {
-            chunk.biomeConfig = settings.TempDefaultBiome;
+            chunk.biomeConfig = settings[0].BiomeConfig;
         }
     }
+
 
     private void Analyze(WorldChunk chunk)
     {
@@ -45,10 +56,5 @@ public class BiomeWorldGenerator : IWorldGenerator
     private void BlendBiomeBorders()
     {
 
-    }
-
-    private void CreateMesh(WorldChunk chunk)
-    {
-        chunk.biomeConfig.Generator.GenerateTerrain(chunk);
     }
 }
