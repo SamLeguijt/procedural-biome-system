@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f75c688a08b71484cbe46926450caf37, type: 3}
-  m_Name: TerrainGenerator_Default
+  m_Script: {fileID: 11500000, guid: c2e20069c8b466641b8aefe20c271d3a, type: 3}
+  m_Name: TerrainGenerator_Mountains
   m_EditorClassIdentifier: 
-  <MeshMaterial>k__BackingField: {fileID: 0}
+  <MeshMaterial>k__BackingField: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9,
+    type: 2}
   <VerticeDistance>k__BackingField: 1
   <NoiseFrequencey>k__BackingField: 0.1
   <NoiseAmplitude>k__BackingField: 10
