@@ -7,5 +7,6 @@ public class VolcanicTerrainGenerator : BaseTerrainGenerator
 {
     public override void GenerateTerrain(WorldChunk chunk)
     {
+        CreateMesh(chunk);
     }
 }
