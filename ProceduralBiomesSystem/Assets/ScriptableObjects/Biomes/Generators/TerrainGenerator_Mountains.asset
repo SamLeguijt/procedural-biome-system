@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9,
     type: 2}
-  <VerticeDistance>k__BackingField: 1
-  <NoiseFrequencey>k__BackingField: 0.1
-  <NoiseAmplitude>k__BackingField: 10
+  <VerticeDistance>k__BackingField: 3
+  <NoiseFrequencey>k__BackingField: 0.08
+  <NoiseAmplitude>k__BackingField: 18
   <RandomOffset>k__BackingField: 1
   <ManualOffset>k__BackingField: {x: 0, y: 0}

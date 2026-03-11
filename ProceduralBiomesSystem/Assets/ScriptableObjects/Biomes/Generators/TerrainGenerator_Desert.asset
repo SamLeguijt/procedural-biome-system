@@ -15,7 +15,7 @@ MonoBehaviour:
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: 7edc004d0e5447c4c9d13a4f7e0ecaaf,
     type: 2}
   <VerticeDistance>k__BackingField: 1
-  <NoiseFrequencey>k__BackingField: 0.1
-  <NoiseAmplitude>k__BackingField: 10
+  <NoiseFrequencey>k__BackingField: 0.0015
+  <NoiseAmplitude>k__BackingField: 5
   <RandomOffset>k__BackingField: 1
   <ManualOffset>k__BackingField: {x: 0, y: 0}
