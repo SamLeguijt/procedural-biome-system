@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.UI;
 using UnityEngine;
 
 public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainGenerator
@@ -14,6 +16,13 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     [field: SerializeField] public float NoiseAmplitude { get; private set;  } = 10;
     [field: SerializeField] public bool RandomOffset { get; private set; } = true;
     [field: SerializeField] protected Vector2 ManualOffset { get; private set; } = Vector2.zero;
+
+    public int seed;
+    public float scale;
+    public int octaves;
+    public float persistance;
+    public float lacunarity;
+    public Vector2 offset; 
 
     public Vector2 NoiseOffset
     {
@@ -33,11 +42,54 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         }
     }
     public abstract void GenerateTerrain(WorldChunk chunk);
-    
+
+    protected float[,] GenerateHeightMap(int width, int height)
+    {
+        return Utils.GenerateNoiseMap(width, height, seed, scale, octaves, persistance, lacunarity, offset); 
+    }
+
+    protected virtual Mesh CreateMesh(float[,] heightMap)
+    {
+        int width = heightMap.GetLength(0);
+        int depth = heightMap.GetLength(1);
+
+        float topLeftX = (width - 1) / -2f;
+        float topLeftZ = (depth - 1) / 2f;
+
+        Vector3[] vertices = new Vector3[width * depth];
+        List<int> triangles = new List<int>();
+        int vertexIndex = 0;
+
+        for (int z = 0; z < depth; z++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                vertices[vertexIndex] = new Vector3(topLeftX + x, heightMap[x, z], topLeftZ - z);
+
+                if (x < width - 1 && z < depth - 1)
+                {
+                    triangles.Add(vertexIndex);
+                    triangles.Add(vertexIndex + width + 1);
+                    triangles.Add(vertexIndex + width);
+
+                    triangles.Add(vertexIndex + width + 1);
+                    triangles.Add(vertexIndex);
+                    triangles.Add(vertexIndex + 1);
+                }
+                vertexIndex++;
+            }
+        }
+
+        Mesh mesh = new Mesh();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+        return mesh;
+    }
+
     protected virtual void CreateMesh(WorldChunk chunk)
     {
-        BiomeConfig settings = chunk.biomeConfig;
-
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
 

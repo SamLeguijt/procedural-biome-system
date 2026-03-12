@@ -42,14 +42,14 @@ public static class Utils
             {
                 float amplitude = 1f;
                 float frequency = 1f;
-                float noiseHeight = 0; 
+                float noiseHeight = 0;
 
                 for (int o = 0; o < octaves; o++)
                 {
-                    float sampleX = (x-halfWidth) / scale * frequency + octaveOffsets[o].x;
-                    float sampleY = (y-halfHeight) / scale * frequency + octaveOffsets[o].y;
+                    float sampleX = (x - halfWidth) / scale * frequency + octaveOffsets[o].x;
+                    float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[o].y;
 
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) *2 -1;
+                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight *= perlinValue * amplitude;
 
                     amplitude *= persistance;
@@ -67,3 +67,4 @@ public static class Utils
 
         return noiseMap;
     }
+}
