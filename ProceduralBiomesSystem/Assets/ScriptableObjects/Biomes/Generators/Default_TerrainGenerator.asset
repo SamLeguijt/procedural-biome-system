@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f75c688a08b71484cbe46926450caf37, type: 3}
-  m_Name: TerrainGenerator_Default
+  m_Name: Default_TerrainGenerator
   m_EditorClassIdentifier: 
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff,
     type: 2}
   <VerticeDistance>k__BackingField: 1
-  <NoiseFrequencey>k__BackingField: 0.1
-  <NoiseAmplitude>k__BackingField: 10
-  <RandomOffset>k__BackingField: 1
-  <ManualOffset>k__BackingField: {x: 0, y: 0}
+  seed: 45
+  scale: 1
+  octaves: 5
+  persistance: 0.5
+  lacunarity: 2
+  offset: {x: 0, y: 0}

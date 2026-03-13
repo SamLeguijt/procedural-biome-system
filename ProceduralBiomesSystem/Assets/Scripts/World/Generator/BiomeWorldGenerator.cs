@@ -38,7 +38,10 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         foreach (WorldChunk chunk in layout.worldChunks)
         {
-            int randomIndex = Random.Range(0, settings.Count);
+            int randomIndex = 0;
+            if (settings.Count > 1)
+                randomIndex = Random.Range(0, settings.Count);
+            
             chunk.biomeConfig = settings[randomIndex].BiomeConfig;
         }
     }

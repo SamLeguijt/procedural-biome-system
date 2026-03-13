@@ -8,16 +8,16 @@ public class GridLayoutGenerator : AbstractLayoutGenerator
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
         List<WorldChunk> chunks = new List<WorldChunk>();
-        Vector2 gridSize = new Vector2(settings.WorldSize.x / settings.ChunkSize.x, settings.WorldSize.y / settings.ChunkSize.y);
+        Vector2 gridSize = new Vector2(settings.WorldSize.x / settings.ChunkQuads.x, settings.WorldSize.y / settings.ChunkQuads.y);
         
 
         for (int x = 0; x < gridSize.x; x++)
         {
             for (int y = 0; y < gridSize.y; y++)
             {
-                Vector3 size = new Vector3(settings.ChunkSize.x, 0, settings.ChunkSize.y);
-                Vector3 worldPos = new Vector3(x * settings.ChunkSize.x + settings.ChunkSize.x / 2f, 0, y * settings.ChunkSize.y + settings.ChunkSize.y / 2f);
-                WorldChunk chunk = new WorldChunk(size, worldPos);
+                Vector2Int quads = new Vector2Int(settings.ChunkQuads.x, settings.ChunkQuads.y);
+                Vector3 worldPos = new Vector3(x * settings.ChunkQuads.x + settings.ChunkQuads.x / 2f, 0, y * settings.ChunkQuads.y + settings.ChunkQuads.y / 2f);
+                WorldChunk chunk = new WorldChunk(quads, worldPos);
                 chunks.Add(chunk);
             }
         }

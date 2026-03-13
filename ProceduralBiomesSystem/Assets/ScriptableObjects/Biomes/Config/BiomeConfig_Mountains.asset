@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e83935d91361964ca94423e181b4068, type: 3}
   m_Name: BiomeConfig_Mountains
   m_EditorClassIdentifier: 
-  <Generator>k__BackingField: {fileID: 11400000, guid: 740de9968039f84478854d18ed9bb43b,
+  <Generator>k__BackingField: {fileID: 11400000, guid: cef1ec39a818af949805cd5c3e386cb5,
     type: 2}

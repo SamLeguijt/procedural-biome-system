@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2e20069c8b466641b8aefe20c271d3a, type: 3}
-  m_Name: TerrainGenerator_Volcanic
+  m_Name: Volcanic_TerrainGenerator
   m_EditorClassIdentifier: 
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: f680a2e2ec3439546ab07b3cf7e48960,
     type: 2}
   <VerticeDistance>k__BackingField: 1
-  <NoiseFrequencey>k__BackingField: 0.083
-  <NoiseAmplitude>k__BackingField: 7
-  <RandomOffset>k__BackingField: 1
-  <ManualOffset>k__BackingField: {x: 0, y: 0}
+  randomSeed: 1
+  seed: 50
+  scale: 10
+  octaves: 5
+  persistance: 0.9
+  lacunarity: 2
+  heightMultiplier: 10
+  offset: {x: 0, y: 0}

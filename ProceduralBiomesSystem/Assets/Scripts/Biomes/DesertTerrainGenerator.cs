@@ -7,7 +7,7 @@ public class DesertTerrainGenerator : AbstractMeshTerrainGenerator
 {
     public override void GenerateTerrain(WorldChunk chunk)
     {
-        var heightMap = GenerateHeightMap((int)chunk.Size.x, (int)chunk.Size.y);
+        var heightMap = GenerateHeightMap(chunk);
         Mesh mesh = CreateMesh(heightMap);
         chunk.mesh = mesh;
     }
