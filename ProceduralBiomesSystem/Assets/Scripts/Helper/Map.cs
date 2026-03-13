@@ -16,6 +16,18 @@ public class Map<T>
         Values = new T[width, height];
     }
 
+    public Map(T[,] values)
+    {
+        Width = values.GetLength(0);
+        Height = values.GetLength(1);
+        Values = values;
+    }
+
+    public void Set(T[,] values)
+    {
+        Values = values;
+    }
+
     public T this[int x, int y]
     {
         get => Values[x, y];
