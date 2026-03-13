@@ -17,9 +17,9 @@ MonoBehaviour:
   <VerticeDistance>k__BackingField: 1
   randomSeed: 1
   seed: 50
-  scale: 10
-  octaves: 5
-  persistance: 0.9
+  scale: 75
+  octaves: 10
+  persistance: 0.45
   lacunarity: 2
-  heightMultiplier: 10
+  heightMultiplier: 65
   offset: {x: 0, y: 0}

@@ -15,11 +15,11 @@ MonoBehaviour:
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: 7edc004d0e5447c4c9d13a4f7e0ecaaf,
     type: 2}
   <VerticeDistance>k__BackingField: 1
-  randomSeed: 0
+  randomSeed: 1
   seed: 45
-  scale: 50
+  scale: 150
   octaves: 5
   persistance: 0.5
-  lacunarity: 2
-  heightMultiplier: 1
+  lacunarity: 1
+  heightMultiplier: 20
   offset: {x: 0, y: 0}

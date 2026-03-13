@@ -11,8 +11,8 @@ public class Map<T>
 
     public Map(int width, int height)
     {
-        Width = width;
-        Height = height;
+        Width = Mathf.Max(0, width);
+        Height = Mathf.Max(0, height);
         Values = new T[width, height];
     }
 
@@ -39,7 +39,7 @@ public class Map<T>
         if (!IsInBounds(x, y))
             return false;
 
-        return Values[x, y] != null;
+        return !EqualityComparer<T>.Default.Equals(Values[x, y], default);
     }
 
     bool IsInBounds(int x, int y)
