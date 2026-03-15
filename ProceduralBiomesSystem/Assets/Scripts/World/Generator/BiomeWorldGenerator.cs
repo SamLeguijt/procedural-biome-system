@@ -38,11 +38,32 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         foreach (WorldChunk chunk in layout.worldChunks)
         {
-            int randomIndex = 0;
-            if (settings.Count > 1)
-                randomIndex = Random.Range(0, settings.Count);
+            BiomeSpawnRule randomSelected = settings[0];
             
-            chunk.biomeConfig = settings[randomIndex].BiomeConfig;
+            if (settings.Count > 1)
+            {
+                float totalWeight = 0f;
+
+                for (int i = 0; i < settings.Count; i++)
+                {
+                    totalWeight += settings[i].Weight;
+                }
+
+                float randomRoll = Random.Range(0f, totalWeight);
+
+                for (int j = 0; j < settings.Count; j++)
+                {
+                    randomRoll -= settings[j].Weight;
+
+                    if (randomRoll <= 0f)
+                    {
+                        randomSelected = settings[j];
+                        break;
+                    }
+                }
+            }
+            
+            chunk.biomeConfig = randomSelected.BiomeConfig;
         }
     }
 

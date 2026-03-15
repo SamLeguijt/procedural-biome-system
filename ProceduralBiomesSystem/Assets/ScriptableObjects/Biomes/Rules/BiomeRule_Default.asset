@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BiomeConfig>k__BackingField: {fileID: 11400000, guid: f34d84845843a0840a8523882a65b1f8,
     type: 2}
-  <Weight>k__BackingField: 1
+  <Weight>k__BackingField: 0
   <PreventNeighbours>k__BackingField: []

@@ -65,6 +65,15 @@ public static class Utils
             }
         }
 
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for(int x = 0; x < mapWidth; x++)
+            {
+                float normalisedHeight = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
+                noiseMap[x, y] = normalisedHeight;
+            }
+        }
+
         return noiseMap;
     }
 }

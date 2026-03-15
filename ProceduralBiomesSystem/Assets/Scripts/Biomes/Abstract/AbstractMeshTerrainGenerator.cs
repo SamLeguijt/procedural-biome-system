@@ -10,6 +10,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     [field: SerializeField] public Material MeshMaterial { get; private set; }
     [field: SerializeField] public float VerticeDistance { get; private set; } = 1;
 
+    public AnimationCurve heightCurve; 
     public bool randomSeed = false; 
     public int seed;
     public float scale;
@@ -47,7 +48,8 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         {
             for (int x = 0; x < width; x++)
             {
-                vertices[vertexIndex] = new Vector3(topLeftX + x, heightMap[x, z] * -heightMultiplier, topLeftZ - z);
+                float height = heightCurve.Evaluate(heightMap[x, z]) * heightMultiplier;
+                vertices[vertexIndex] = new Vector3(topLeftX + x, height, topLeftZ - z);
                 if (x < width - 1 && z < depth - 1)
                 {
                     triangles.Add(vertexIndex);
@@ -63,7 +65,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         }
 
         Mesh mesh = new Mesh();
-        mesh.vertices = vertices.ToArray();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;        mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();

@@ -14,12 +14,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9,
     type: 2}
-  <VerticeDistance>k__BackingField: 1
+  <VerticeDistance>k__BackingField: 10
+  heightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.14205998
+      outSlope: 0.14205998
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8019141
+      value: 0.1139199
+      inSlope: 0.38361463
+      outSlope: 0.38361463
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.89493823
+    - serializedVersion: 3
+      time: 0.86077225
+      value: 0.45943567
+      inSlope: 4.8764515
+      outSlope: 4.8764515
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 3.8825903
+      outSlope: 3.8825903
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   randomSeed: 1
-  seed: 0
-  scale: 80
-  octaves: 10
-  persistance: 0.3
+  seed: 128
+  scale: 120
+  octaves: 5
+  persistance: 0.35
   lacunarity: 2
-  heightMultiplier: 50
-  offset: {x: 0, y: 0}
+  heightMultiplier: 123.55
+  offset: {x: 450, y: 0}
