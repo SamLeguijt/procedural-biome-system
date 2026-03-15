@@ -28,10 +28,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             chunk.biomeConfig.Generator.GenerateTerrain(chunk);
         }
 
-
         // 3) Analyze each chunk, store the info in the chunk 
         // 4) Populate each chunk, store the objects in the chunk
-        // 5) Blend biomes (optional)
     }
 
     private void AssignBiomes(WorldLayout layout, List<BiomeSpawnRule> settings)

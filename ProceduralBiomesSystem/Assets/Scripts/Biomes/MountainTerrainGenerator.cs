@@ -14,13 +14,4 @@ public class MountainTerrainGenerator : AbstractMeshTerrainGenerator
         Mesh mesh = CreateMesh(heightMap);
         chunk.mesh = mesh;
     }
-
-    private void OnValidate()
-    {
-        if (latestChunk != null)
-        {
-            Debug.Log("check"); 
-            GenerateTerrain(latestChunk);
-        }
-    }
 }
