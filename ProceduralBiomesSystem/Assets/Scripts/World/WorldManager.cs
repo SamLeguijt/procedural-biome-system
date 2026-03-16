@@ -35,7 +35,7 @@ public class WorldManager : MonoBehaviour
         }
 
         WorldLayout layout = GenerateLayout(worldSettings);
-        GenerateWorld(layout);
+        //GenerateWorld(layout);
         recentLayoutDebug = layout;
     }
 
@@ -101,6 +101,39 @@ public class WorldManager : MonoBehaviour
     {
         if (recentLayoutDebug != null)
         {
+            if (recentLayoutDebug.BiomeMap != null)
+            {
+                for (int x = 0; x < recentLayoutDebug.BiomeMap.Width; x++)
+                {
+                    for (int y = 0; y < recentLayoutDebug.BiomeMap.Height; y++)
+                    {
+                        Color color;
+
+                        switch (recentLayoutDebug.BiomeMap[x, y])
+                        {
+                            case EBiome.Desert:
+                                color = Color.yellow;
+                                break;
+                            case EBiome.Mountains:
+                                color = Color.green;
+                                break;
+                            case EBiome.Volcanic:
+                                color = Color.red;
+                                break;
+                            default:
+                                color = Color.black;
+                                break;
+                        }
+
+                        Gizmos.color = color;
+
+                        Vector3 pos = new Vector3(x, 1, y);
+
+                        Gizmos.DrawCube(pos, Vector3.one * 0.9f);
+                    }
+                }
+            }
+
             if (recentLayoutDebug.worldChunks != null)
             {   
                 foreach (WorldChunk chunk in recentLayoutDebug.worldChunks)

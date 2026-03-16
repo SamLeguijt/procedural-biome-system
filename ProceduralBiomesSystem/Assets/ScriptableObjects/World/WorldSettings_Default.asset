@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 3}
   <WorldGenerator>k__BackingField: {fileID: 11400000, guid: 7c7a105b6cbce9043ad706b215876113,
     type: 2}
-  <LayoutGenerator>k__BackingField: {fileID: 11400000, guid: 581a4c327a2e3f247a09805dbd560a09,
+  <LayoutGenerator>k__BackingField: {fileID: 11400000, guid: c2dc9ce4ac476304a84761bf3c058aa7,
     type: 2}
   <WorldSize>k__BackingField: {x: 2000, y: 2000}
   <ChunkQuads>k__BackingField: {x: 333, y: 333}
