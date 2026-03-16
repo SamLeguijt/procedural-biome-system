@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 200
   height: 200
-  seed: 0
-  scale: 200
+  randomSeed: 1
+  seed: -6018
+  scale: 150
   octaves: 5
   persistance: 0.5
-  lacunarity: 2
+  lacunarity: 1.5
   offset: {x: 0, y: 0}
   heightMultiplier: 1
   biomeThresholds:
@@ -27,4 +28,4 @@ MonoBehaviour:
   - biome: 2
     threshold: 0.66
   - biome: 3
-    threshold: 1.1
+    threshold: 1

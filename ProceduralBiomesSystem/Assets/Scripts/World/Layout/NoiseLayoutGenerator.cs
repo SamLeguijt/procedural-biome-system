@@ -17,6 +17,7 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
     [SerializeField] int height = 200;
 
     [Header("Noise Settings")]
+    [SerializeField] bool randomSeed = true;
     [SerializeField] int seed = 0;
     [SerializeField] float scale = 50;
     [SerializeField] int octaves = 4;
@@ -38,7 +39,12 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
 
     Map<EBiome> Generate()
     {
-        var noiseMap = Utils.GenerateNoiseMap(
+        if (randomSeed)
+        {
+            int randomSeed = Random.Range(-10000, 10000);
+            seed = randomSeed;
+        }
+            var noiseMap = Utils.GenerateNoiseMap(
             width,
             height,
             seed,
@@ -65,7 +71,10 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
                     float noiseValue = noiseMap[x, y];
 
                     if (noiseValue < kvp.threshold)
+                    {
                         selectedBiome = kvp.biome;
+                        break;
+                    }
                 }
 
                 biomeMap[x, y] = selectedBiome;

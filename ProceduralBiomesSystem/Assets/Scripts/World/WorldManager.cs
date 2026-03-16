@@ -127,7 +127,7 @@ public class WorldManager : MonoBehaviour
 
                         Gizmos.color = color;
 
-                        Vector3 pos = new Vector3(x, 1, y);
+                        Vector3 pos = new Vector3(x, 1 * (int)recentLayoutDebug.BiomeMap[x, y] * 5, y);
 
                         Gizmos.DrawCube(pos, Vector3.one * 0.9f);
                     }
