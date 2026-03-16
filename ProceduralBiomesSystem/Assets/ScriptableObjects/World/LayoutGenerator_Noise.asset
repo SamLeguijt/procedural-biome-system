@@ -15,7 +15,7 @@ MonoBehaviour:
   width: 200
   height: 200
   randomSeed: 1
-  seed: -6018
+  seed: -997
   scale: 150
   octaves: 5
   persistance: 0.5

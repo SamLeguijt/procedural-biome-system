@@ -8,7 +8,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private WorldSettings worldSettings;
 
     [Header("Debug settings")]
-    [SerializeField] private bool drawChunkGizmos = true;
+    [SerializeField] private bool drawLayoutGizmos = true;
     [SerializeField] private bool drawVerticeGizmos = true;
 
     private IWorldGenerator worldGenerator;
@@ -35,7 +35,7 @@ public class WorldManager : MonoBehaviour
         }
 
         WorldLayout layout = GenerateLayout(worldSettings);
-        //GenerateWorld(layout);
+        GenerateWorld(layout);
         recentLayoutDebug = layout;
     }
 
@@ -56,21 +56,21 @@ public class WorldManager : MonoBehaviour
     {
         worldGenerator.GenerateWorld(layout);
 
-        if (layout.worldChunks.Count == 0)
-            return;
+        //if (layout.worldChunks.Count == 0)
+        //    return;
 
-        GameObject recentWorld = new GameObject("World");
-        for (int i = 0; i < layout.worldChunks.Count; i++)
-        {
-            WorldChunk chunk = layout.worldChunks[i];
-            GameObject chunkObject = Instantiate(worldSettings.ChunkPrefab, chunk.WorldPosition, Quaternion.identity, recentWorld.transform);
-            MeshFilter meshFilter = chunkObject.GetComponent<MeshFilter>();
-            MeshRenderer meshRenderer = chunkObject.GetComponent<MeshRenderer>();
-            meshFilter.mesh = chunk.mesh;
-            meshRenderer.material = chunk.biomeConfig.Generator.MeshMaterial;
-        }
+        //GameObject recentWorld = new GameObject("World");
+        //for (int i = 0; i < layout.worldChunks.Count; i++)
+        //{
+        //    WorldChunk chunk = layout.worldChunks[i];
+        //    GameObject chunkObject = Instantiate(worldSettings.ChunkPrefab, chunk.WorldPosition, Quaternion.identity, recentWorld.transform);
+        //    MeshFilter meshFilter = chunkObject.GetComponent<MeshFilter>();
+        //    MeshRenderer meshRenderer = chunkObject.GetComponent<MeshRenderer>();
+        //    meshFilter.mesh = chunk.mesh;
+        //    meshRenderer.material = chunk.biomeConfig.Generator.MeshMaterial;
+        //}
 
-        recentWorlds.Add(recentWorld);
+        //recentWorlds.Add(recentWorld);
     }
 
     private bool CheckForNull()
@@ -103,9 +103,14 @@ public class WorldManager : MonoBehaviour
         {
             if (recentLayoutDebug.BiomeMap != null)
             {
-                for (int x = 0; x < recentLayoutDebug.BiomeMap.Width; x++)
+                if (!drawLayoutGizmos)
+                    return;
+
+                int width = recentLayoutDebug.BiomeMap.Width;
+                int depth = recentLayoutDebug.BiomeMap.Height;
+                for (int x = 0; x < width; x++)
                 {
-                    for (int y = 0; y < recentLayoutDebug.BiomeMap.Height; y++)
+                    for (int y = 0; y < depth; y++)
                     {
                         Color color;
 
@@ -127,18 +132,21 @@ public class WorldManager : MonoBehaviour
 
                         Gizmos.color = color;
 
-                        Vector3 pos = new Vector3(x, 1 * (int)recentLayoutDebug.BiomeMap[x, y] * 5, y);
+                        float topLeftX = (width - 1) / -2f;
+                        float topLeftZ = (depth - 1) / 2f;
+                        Vector3 pos = new Vector3(x + topLeftX, 1 * (int)recentLayoutDebug.BiomeMap[x, y] * 5, topLeftZ - y);
 
                         Gizmos.DrawCube(pos, Vector3.one * 0.9f);
                     }
                 }
             }
 
+            return;
             if (recentLayoutDebug.worldChunks != null)
             {   
                 foreach (WorldChunk chunk in recentLayoutDebug.worldChunks)
                 {   
-                    if (drawChunkGizmos)
+                    if (drawLayoutGizmos)
                     {
                         Gizmos.color = Color.blue;
                         Gizmos.DrawSphere(chunk.WorldPosition, .5f);

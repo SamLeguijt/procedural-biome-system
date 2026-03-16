@@ -8,8 +8,8 @@ public class DefaultTerrainGenerator : AbstractMeshTerrainGenerator
 {
     public override void GenerateTerrain(WorldChunk chunk)
     {
-        var heightMap = GenerateHeightMap(chunk);
-        Mesh mesh = CreateMesh(heightMap);
-        chunk.mesh = mesh;
+        //var heightMap = GenerateHeightMap(chunk);
+        //Mesh mesh = CreateMesh(heightMap);
+        //chunk.mesh = mesh;
     }
 }

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e83935d91361964ca94423e181b4068, type: 3}
   m_Name: BiomeConfig_Desert
   m_EditorClassIdentifier: 
+  <BiomeType>k__BackingField: 1
   <Generator>k__BackingField: {fileID: 11400000, guid: 9436a73e14be99b47b9a3bf112e3c84d,
     type: 2}

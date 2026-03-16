@@ -9,9 +9,9 @@ public class MountainTerrainGenerator : AbstractMeshTerrainGenerator
 
     public override void GenerateTerrain(WorldChunk chunk)
     {
-        latestChunk = chunk;
-        var heightMap = GenerateHeightMap(chunk);
-        Mesh mesh = CreateMesh(heightMap);
-        chunk.mesh = mesh;
+        //latestChunk = chunk;
+        //var heightMap = GenerateHeightMap(chunk);
+        //Mesh mesh = CreateMesh(heightMap);
+        //chunk.mesh = mesh;
     }
 }

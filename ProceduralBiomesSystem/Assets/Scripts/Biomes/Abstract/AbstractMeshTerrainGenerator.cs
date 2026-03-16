@@ -18,17 +18,52 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     public float persistance;
     public float lacunarity;
     public float heightMultiplier = 1; 
-    public Vector2 offset; 
+    public Vector2 offset;
+
+    Map<float> noiseMap = null;
 
     public abstract void GenerateTerrain(WorldChunk chunk);
 
-    protected Map<float> GenerateHeightMap(WorldChunk chunk)
+    public float GetHeightAtWorldPosition(Vector2 worldPos)
+    {
+        float height = 0;
+        float amplitude = 1f;
+        float frequency = 1f;
+        for (int o = 0; o < octaves; o++)
+        {
+            float sampleX = worldPos.x / scale * frequency + offset.x;
+            float sampleY = worldPos.y / scale * frequency + offset.y;
+
+            float perlin = Mathf.PerlinNoise(sampleX + seed, sampleY + seed) * 2 - 1;
+            height += perlin * amplitude;
+
+            amplitude *= persistance;
+            frequency *= lacunarity;
+        }
+
+        return heightCurve.Evaluate(height) * heightMultiplier;
+    }
+
+    public float GetHeightAtPosition(int x, int y, int mapWidth, int mapHeight)
+    {
+        if (noiseMap == null)
+        {
+            noiseMap = GenerateHeightMap(mapWidth, mapHeight);
+        }
+
+        float result = heightCurve.Evaluate(noiseMap[x, y]) * heightMultiplier;
+
+        return result;
+    }
+
+    protected Map<float> GenerateHeightMap(int width, int height)
     {
         int usedSeed = seed;
         if (randomSeed)
             usedSeed = Random.Range(0, 10000);
-        var map = Utils.GenerateNoiseMap(chunk.Quads.x +1 , chunk.Quads.y +1, usedSeed, scale, octaves, persistance, lacunarity, offset + new Vector2(chunk.WorldPosition.x, chunk.WorldPosition.z)); 
-        
+
+        var map = Utils.GenerateNoiseMap(width, height, usedSeed, scale, octaves, persistance, lacunarity, offset);
+
         return new Map<float>(map);
     }
 
@@ -65,7 +100,8 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         }
 
         Mesh mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;        mesh.vertices = vertices.ToArray();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;       
+        mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
