@@ -134,7 +134,7 @@ public class WorldManager : MonoBehaviour
 
                         float topLeftX = (width - 1) / -2f;
                         float topLeftZ = (depth - 1) / 2f;
-                        Vector3 pos = new Vector3(x + topLeftX, 1 * (int)recentLayoutDebug.BiomeMap[x, y] * 5, topLeftZ - y);
+                        Vector3 pos = new Vector3(x + topLeftX, 1 * 10, topLeftZ - y);
 
                         Gizmos.DrawCube(pos, Vector3.one * 0.9f);
                     }
