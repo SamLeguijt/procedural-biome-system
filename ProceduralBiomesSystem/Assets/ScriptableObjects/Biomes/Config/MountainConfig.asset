@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e83935d91361964ca94423e181b4068, type: 3}
-  m_Name: BiomeConfig_Desert
+  m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
+  m_Name: MountainConfig
   m_EditorClassIdentifier: 
-  <BiomeType>k__BackingField: 1
-  <Generator>k__BackingField: {fileID: 11400000, guid: 9436a73e14be99b47b9a3bf112e3c84d,
+  <BiomeType>k__BackingField: 2
+  <Generator>k__BackingField: {fileID: 11400000, guid: cef1ec39a818af949805cd5c3e386cb5,
     type: 2}

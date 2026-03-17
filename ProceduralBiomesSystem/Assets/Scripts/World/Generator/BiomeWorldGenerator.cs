@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.XR;
 using Random = UnityEngine.Random;
+
 
 /// <summary>
 /// Generates a world of biomes, where each biome is responsible for generating it's own terrain. 
@@ -13,95 +17,67 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
 public class BiomeWorldGenerator : AbstractWorldGenerator
 {
-    [field: SerializeField] public List<BiomeSpawnRule> BiomeRules { get; private set; }
+    [field: SerializeField] public List<BiomeConfig> BiomeConfigs { get; private set; }
+
+    [field: SerializeField] private Material terrainMaterial = null;
+
+    private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
     public override void GenerateWorld(WorldLayout layout)
     {
-        if (BiomeRules.Count == 0)
+        if (BiomeConfigs.Count == 0)
             return;
 
-        // 1) Assign biomes to the chunks:
-        //AssignBiomes(layout, BiomeRules);
+        Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
+        Color[] colorMap = BiomeToColorMap(layout.BiomeMap);
 
-        // 2) Generate mesh for each chunk: [DEPRECATED]
-        //foreach (WorldChunk chunk in layout.worldChunks)
-        //{
-        //chunk.biomeConfig.Generator.GenerateTerrain(chunk);
-        //}
+        Mesh terrainMesh = CreateMesh(heightMap.Values, colorMap);
+        CreateMeshObject(terrainMesh);
 
-        // 3) Analyze each chunk, store the info in the chunk 
-        // 4) Populate each chunk, store the objects in the chunk
+        // Analyze... (in generator?)
+        // Populate... (in generator?)
+    }
 
-        /// V2: 
-        /// 1) Use biome map to create a heightmap for the mesh 
-        /// 2) Use each vertex's biome to sample the position using the generator from that biome
-        /// 3) Generate a mesh using the created heightmap
-        /// 4) Spawn a gameobject and assign its mesh to it. 
+    private Map<float> BiomeToHeightMap(Map<EBiome> biomeMap)
+    {
+        int width = biomeMap.Width;
+        int height = biomeMap.Height;
 
-        int width = layout.BiomeMap.Width;
-        int height = layout.BiomeMap.Height;
         Map<float> heightMap = new Map<float>(width, height);
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                EBiome biome = layout.BiomeMap[x, y];
-                BiomeConfig config = BiomeRules[0].BiomeConfig;
-
-                foreach (BiomeSpawnRule rule in BiomeRules)
-                {
-                    if (rule.BiomeConfig.BiomeType == biome)
-                        config = rule.BiomeConfig;
-                }
+                EBiome biome = biomeMap[x, y];
+                BiomeConfig config = GetBiomeData(biome);
 
                 Vector2 worldPos = new Vector2(x, y);
                 heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
             }
         }
 
-        Color[] colorMap = CreateColorMap(layout.BiomeMap);
-        Mesh terrainMesh = CreateMesh(heightMap.Values, colorMap);
-
-        GameObject world = new GameObject("WORLD");
-        MeshFilter meshFilter = world.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
-
-        meshFilter.mesh = terrainMesh;
-        meshRenderer.material = BiomeRules[0].BiomeConfig.Generator.MeshMaterial;
+        return heightMap;
     }
 
-    private void AssignBiomes(WorldLayout layout, List<BiomeSpawnRule> settings)
+    private BiomeConfig GetBiomeData(EBiome biomeType)
     {
-        foreach (WorldChunk chunk in layout.worldChunks)
+        BiomeConfig biomeData = biomeConfigMappings[biomeType];
+
+        if (biomeData != null)
+            return biomeData;
+
+        foreach (BiomeConfig config in BiomeConfigs)
         {
-            BiomeSpawnRule randomSelected = settings[0];
-
-            if (settings.Count > 1)
+            if (config.BiomeType == biomeType)
             {
-                float totalWeight = 0f;
-
-                for (int i = 0; i < settings.Count; i++)
-                {
-                    totalWeight += settings[i].Weight;
-                }
-
-                float randomRoll = Random.Range(0f, totalWeight);
-
-                for (int j = 0; j < settings.Count; j++)
-                {
-                    randomRoll -= settings[j].Weight;
-
-                    if (randomRoll <= 0f)
-                    {
-                        randomSelected = settings[j];
-                        break;
-                    }
-                }
+                biomeConfigMappings.Add(biomeType, config);
+                return config;
             }
-
-            chunk.biomeConfig = randomSelected.BiomeConfig;
         }
+
+        /// Todo: Throw error?
+        return null;
     }
 
     private Mesh CreateMesh(float[,] heightMap, Color[] colorMap)
@@ -150,10 +126,10 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return mesh;
     }
 
-    Color[] CreateColorMap(Map<EBiome> biomeMap)
+    Color[] BiomeToColorMap(Map<EBiome> biomeMap)
     {
         int width = biomeMap.Width;
-        int height = biomeMap.Height ;
+        int height = biomeMap.Height;
 
         Color[] colorMap = new Color[width * height];
 
@@ -183,6 +159,18 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
 
         return colorMap;
+    }
+
+    private void CreateMeshObject(Mesh mesh)
+    {
+        GameObject world = new GameObject("WORLD");
+        MeshFilter meshFilter = world.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
+
+        meshFilter.mesh = mesh;
+        meshRenderer.material = terrainMaterial;
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
     }
 
     private void Analyze(WorldChunk chunk)

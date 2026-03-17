@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e83935d91361964ca94423e181b4068, type: 3}
-  m_Name: BiomeConfig_Volcanic
+  m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
+  m_Name: VolcanicConfig
   m_EditorClassIdentifier: 
   <BiomeType>k__BackingField: 3
   <Generator>k__BackingField: {fileID: 11400000, guid: 1c42890fd87faeb4485283685d31d88e,

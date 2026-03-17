@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7354a11a4c4f39c4aae488d89dbcd7dd, type: 3}
   m_Name: WorldGenerator_Biomes
   m_EditorClassIdentifier: 
-  <BiomeRules>k__BackingField:
-  - {fileID: 11400000, guid: 62ea568bd9ae9aa49bf86bdc8bcdf919, type: 2}
-  - {fileID: 11400000, guid: 11b73fb056016cc469c2eb7177f01d8b, type: 2}
-  - {fileID: 11400000, guid: f4f23b5da32c3ec42b64abf3ddb44cc1, type: 2}
+  <BiomeConfigs>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
