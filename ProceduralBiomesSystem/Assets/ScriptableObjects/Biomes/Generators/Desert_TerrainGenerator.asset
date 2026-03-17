@@ -19,53 +19,44 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0023653656
-      value: 0.0020879507
-      inSlope: 0
-      outSlope: 0
+      time: -0.999382
+      value: -0.0038146973
+      inSlope: 0.3834997
+      outSlope: 0.3834997
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
+      outWeight: 0.4151309
+    - serializedVersion: 3
+      time: -0.6797101
+      value: 0.054637
+      inSlope: 0.26749063
+      outSlope: 0.26749063
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.8008829
       outWeight: 0
     - serializedVersion: 3
-      time: 0.45199192
-      value: 0.056826293
-      inSlope: 0.08142846
-      outSlope: 0.08142846
+      time: -0.087153375
+      value: 0.37064338
+      inSlope: 0.8066693
+      outSlope: 0.8066693
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.30216783
+    - serializedVersion: 3
+      time: 0.68844414
+      value: 0.83143497
+      inSlope: 2.0448115
+      outSlope: 2.0448115
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5941618
-      value: 0.1711208
-      inSlope: 1.2998573
-      outSlope: 1.2998573
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.80484414
-      value: 0.3177235
-      inSlope: 1.4999783
-      outSlope: 1.4999783
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.95352024
-      value: 0.4678614
-      inSlope: 1.4832318
-      outSlope: 1.4832318
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0288696
-      value: 0.7588501
+      time: 0.9905988
+      value: 1.0043955
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -77,9 +68,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   randomSeed: 1
   seed: 45
-  scale: 150
-  octaves: 5
-  persistance: 0.16
-  lacunarity: 3
-  heightMultiplier: 10
+  scale: 53.2
+  octaves: 10
+  persistance: 0.15
+  lacunarity: 2.06
+  heightMultiplier: 25
   offset: {x: 0, y: 0}

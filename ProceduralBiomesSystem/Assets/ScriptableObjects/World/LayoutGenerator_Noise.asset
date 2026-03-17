@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 200
   height: 200
-  randomSeed: 1
-  seed: -997
+  randomSeed: 0
+  seed: -7663
   scale: 150
   octaves: 5
   persistance: 0.5
