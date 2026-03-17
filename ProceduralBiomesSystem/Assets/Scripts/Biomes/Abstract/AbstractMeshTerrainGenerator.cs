@@ -27,33 +27,38 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     public float GetHeightAtWorldPosition(Vector2 worldPos)
     {
         float height = 0;
+        float maxHeight = 0;
         float amplitude = 1f;
         float frequency = 1f;
+
+        System.Random random = new System.Random(seed);
+
+        Vector2[] octaveOffsets = new Vector2[octaves];
+
+        for (int i = 0; i < octaves; i++)
+        {
+            float xOffset = random.Next(-100000, 100000) + offset.x;
+            float yOffset = random.Next(-100000, 100000) + offset.y;
+            octaveOffsets[i] = new Vector2(xOffset, yOffset);
+        }
+
         for (int o = 0; o < octaves; o++)
         {
-            float sampleX = worldPos.x / scale * frequency + offset.x;
-            float sampleY = worldPos.y / scale * frequency + offset.y;
+            float sampleX = worldPos.x / scale * frequency + octaveOffsets[o].x;    
+            float sampleY = worldPos.y / scale * frequency + octaveOffsets[o].y;
 
-            float perlin = Mathf.PerlinNoise(sampleX + seed, sampleY + seed) * 2 - 1;
-            height += perlin * amplitude;
+            float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+            height += perlinValue * amplitude;
 
+            maxHeight += amplitude; 
             amplitude *= persistance;
             frequency *= lacunarity;
         }
 
-        return heightCurve.Evaluate(height) * heightMultiplier;
-    }
+        float normalizedHeight = (height + maxHeight) / (2f * maxHeight);
 
-    public float GetHeightAtPosition(int x, int y, int mapWidth, int mapHeight)
-    {
-        if (noiseMap == null)
-        {
-            noiseMap = GenerateHeightMap(mapWidth, mapHeight);
-        }
-
-        float result = heightCurve.Evaluate(noiseMap[x, y]) * heightMultiplier;
-
-        return result;
+        float finalHeight = heightCurve.Evaluate(normalizedHeight);
+        return finalHeight * heightMultiplier;
     }
 
     protected Map<float> GenerateHeightMap(int width, int height)

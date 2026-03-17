@@ -66,11 +66,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  randomSeed: 1
+  randomSeed: 0
   seed: 45
-  scale: 53.2
+  scale: 52.12
   octaves: 10
-  persistance: 0.15
-  lacunarity: 2.06
-  heightMultiplier: 12
+  persistance: 0.5
+  lacunarity: 0.25
+  heightMultiplier: 50
   offset: {x: 0, y: 0}

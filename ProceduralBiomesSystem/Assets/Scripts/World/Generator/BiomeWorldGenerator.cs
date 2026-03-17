@@ -23,15 +23,19 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
+    public int meshResolution = 1;
+
     public override void GenerateWorld(WorldLayout layout)
     {
         if (BiomeConfigs.Count == 0)
             return;
 
         Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
-        Color[] colorMap = BiomeToColorMap(layout.BiomeMap);
 
-        Mesh terrainMesh = CreateMesh(heightMap.Values, colorMap);
+        Mesh terrainMesh = CreateMesh(heightMap.Values);
+        //Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
+
+        //terrainMesh.colors = colorMap;
         CreateMeshObject(terrainMesh);
 
         // Analyze... (in generator?)
@@ -53,7 +57,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                 BiomeConfig config = GetBiomeData(biome);
 
                 Vector2 worldPos = new Vector2(x, y);
-                heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
+                if (config != null)
+                    heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
             }
         }
 
@@ -62,10 +67,13 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     private BiomeConfig GetBiomeData(EBiome biomeType)
     {
-        BiomeConfig biomeData = biomeConfigMappings[biomeType];
+        if (biomeConfigMappings.ContainsKey(biomeType))
+        {
+            BiomeConfig biomeData = biomeConfigMappings[biomeType];
 
-        if (biomeData != null)
-            return biomeData;
+            if (biomeData != null)
+                return biomeData;
+        }
 
         foreach (BiomeConfig config in BiomeConfigs)
         {
@@ -80,13 +88,17 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return null;
     }
 
-    private Mesh CreateMesh(float[,] heightMap, Color[] colorMap)
+    private Mesh CreateMesh(float[,] heightMap)
     {
         int width = heightMap.GetLength(0);
         int height = heightMap.GetLength(1);
 
-        Vector3[] vertices = new Vector3[width * height];
-        Color[] vertexColors = new Color[width * height];
+        int verticesX = (width / meshResolution) +1;
+        int verticesY = (height / meshResolution) +1;
+
+        Vector3[] vertices = new Vector3[verticesX * verticesY];
+        Color[] vertexColors = new Color[verticesX * verticesY];
+
         List<int> triangles = new List<int>();
 
         float topLeftX = (width - 1) / -2f;
@@ -94,20 +106,23 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         int vertexIndex = 0;
 
-        for (int z = 0; z < height; z++)
+        for (int z = 0; z < verticesY ; z++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < verticesX; x++)
             {
-                float vertexHeight = heightMap[x, z];
-                vertices[vertexIndex] = new Vector3(topLeftX + x, heightMap[x, z], topLeftZ - z);
+                int mapX = Mathf.Min(x * meshResolution, width -1);
+                int mapZ = Mathf.Min(z * meshResolution, height -1);
+                
+                float vertexHeight = heightMap[mapX, mapZ];
+                vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
-                if (x < width - 1 && z < height - 1)
+                if (x < verticesX - 1 && z < verticesY - 1)
                 {
                     triangles.Add(vertexIndex);
-                    triangles.Add(vertexIndex + width + 1);
-                    triangles.Add(vertexIndex + width);
+                    triangles.Add(vertexIndex + verticesX + 1);
+                    triangles.Add(vertexIndex + verticesX);
 
-                    triangles.Add(vertexIndex + width + 1);
+                    triangles.Add(vertexIndex + verticesX + 1);
                     triangles.Add(vertexIndex);
                     triangles.Add(vertexIndex + 1);
                 }
@@ -119,38 +134,41 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
-        mesh.colors = colorMap;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
         return mesh;
     }
 
-    Color[] BiomeToColorMap(Map<EBiome> biomeMap)
+    Color[] BiomeToColorMap(Map<EBiome> biomeMap, int verticesCount)
     {
-        int width = biomeMap.Width;
-        int height = biomeMap.Height;
-
-        Color[] colorMap = new Color[width * height];
+        Color[] colorMap = new Color[verticesCount];
 
         int currentIndex = 0;
+
+        int width = biomeMap.Width;
+        int height = biomeMap.Height;
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 Color color = Color.white;
-                switch (biomeMap[x, y])
+
+                if (biomeMap.Contains(x, y))
                 {
-                    case EBiome.Desert:
-                        color = Color.yellow;
-                        break;
-                    case EBiome.Mountains:
-                        color = Color.green;
-                        break;
-                    case EBiome.Volcanic:
-                        color = Color.red;
-                        break;
+                    switch (biomeMap[x, y])
+                    {
+                        case EBiome.Desert:
+                            color = Color.yellow;
+                            break;
+                        case EBiome.Mountains:
+                            color = Color.green;
+                            break;
+                        case EBiome.Volcanic:
+                            color = Color.red;
+                            break;
+                    }
                 }
 
                 colorMap[currentIndex] = color;
@@ -172,7 +190,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
     }
-
+        
     private void Analyze(WorldChunk chunk)
     {
 
