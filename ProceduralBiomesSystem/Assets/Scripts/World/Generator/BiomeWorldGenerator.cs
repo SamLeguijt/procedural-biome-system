@@ -25,21 +25,19 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     public int meshResolution = 1;
 
-    public override void GenerateWorld(WorldLayout layout)
+    public override World GenerateWorld(WorldLayout layout)
     {
-        if (BiomeConfigs.Count == 0)
-            return;
-
         Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
 
         Mesh terrainMesh = CreateMesh(heightMap.Values);
         //Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         //terrainMesh.colors = colorMap;
-        CreateMeshObject(terrainMesh);
 
         // Analyze... (in generator?)
         // Populate... (in generator?)
+
+        return new World(terrainMesh, terrainMaterial);
     }
 
     private Map<float> BiomeToHeightMap(Map<EBiome> biomeMap)
@@ -179,17 +177,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return colorMap;
     }
 
-    private void CreateMeshObject(Mesh mesh)
-    {
-        GameObject world = new GameObject("WORLD");
-        MeshFilter meshFilter = world.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
-
-        meshFilter.mesh = mesh;
-        meshRenderer.material = terrainMaterial;
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-    }
         
     private void Analyze(WorldChunk chunk)
     {
