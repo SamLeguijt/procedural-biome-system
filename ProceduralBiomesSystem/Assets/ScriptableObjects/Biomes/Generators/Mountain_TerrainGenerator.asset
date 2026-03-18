@@ -80,6 +80,6 @@ MonoBehaviour:
   scale: 50
   octaves: 10
   persistance: 0.6
-  lacunarity: 1.98
+  lacunarity: 2.07
   heightMultiplier: 100
   offset: {x: 0, y: 0}
