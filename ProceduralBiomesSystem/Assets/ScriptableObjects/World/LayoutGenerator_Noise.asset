@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0236fad0525d047a8ab3baff697807, type: 3}
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
-  width: 255
-  height: 255
+  width: 500
+  height: 500
   randomSeed: 0
-  seed: -1485
+  seed: 1907
   scale: 150
   octaves: 5
   persistance: 0.5

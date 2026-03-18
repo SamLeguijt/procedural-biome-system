@@ -30,9 +30,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
 
         Mesh terrainMesh = CreateMesh(heightMap.Values);
-        //Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
+        Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
-        //terrainMesh.colors = colorMap;
+        terrainMesh.colors = colorMap;
 
         // Analyze... (in generator?)
         // Populate... (in generator?)
@@ -130,6 +130,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
 
         Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32; 
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
