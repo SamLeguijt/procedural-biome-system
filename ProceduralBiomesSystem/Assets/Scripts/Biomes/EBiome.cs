@@ -8,5 +8,6 @@ public enum EBiome
     None,
     Desert,
     Mountains,
-    Volcanic
+    Volcanic,
+    Plains
 }

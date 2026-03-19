@@ -15,6 +15,7 @@ public class WorldLayout
     {
         BiomeMap = biomeMap;
         ElevationMap = elevation;
+        ErosionMap = erosion;
         HumidityMap = humidity;
         WorldChunks = chunks;
     }
@@ -23,6 +24,7 @@ public class WorldLayout
     {
         WorldChunks = chunks;
     }
+
 
     public class LayoutBuilder
     {

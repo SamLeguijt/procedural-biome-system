@@ -22,8 +22,7 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
 
     public List<BiomeThreshold> biomeThresholds;
 
-    Map<EBiome> BiomeMap;
-    Texture2D debugTexture;
+    private Map<EBiome> BiomeMap;
 
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
@@ -31,8 +30,8 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
         int mapHeight = settings.WorldSize.y;
 
         Map<float> elevationMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, elevation));
-        var erosionMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, erosion));
-        var humidityMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, humidity));
+        Map<float> erosionMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, erosion));
+        Map<float> humidityMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, humidity));
 
         BiomeMap = GenerateBiomeMap(mapWidth, mapHeight);
 

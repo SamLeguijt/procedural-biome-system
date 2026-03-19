@@ -18,5 +18,5 @@ MonoBehaviour:
     type: 2}
   <LayoutGenerator>k__BackingField: {fileID: 11400000, guid: c2dc9ce4ac476304a84761bf3c058aa7,
     type: 2}
-  <WorldSize>k__BackingField: {x: 10000, y: 10000}
+  <WorldSize>k__BackingField: {x: 200, y: 200}
   <ChunkQuads>k__BackingField: {x: 1000, y: 1000}

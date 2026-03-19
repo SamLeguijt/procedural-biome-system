@@ -7,6 +7,11 @@ public class WorldManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private WorldSettings worldSettings;
 
+    [Header("Visualization")]
+    [SerializeField] private MapVisualizer visualizer;
+    [SerializeField] private MapDrawMode debugMap;
+
+
     [Header("Debug settings")]
     [SerializeField] private bool drawLayoutGizmos = true;
     [SerializeField] private bool drawVerticeGizmos = true;
@@ -25,6 +30,42 @@ public class WorldManager : MonoBehaviour
         worldLayoutGenerator = worldSettings.LayoutGenerator;
     }
 
+    private void OnValidate()
+    {
+        if (Application.isPlaying)
+            return;
+
+        //CreateWorld();
+
+        if (recentLayoutDebug == null)
+            return;
+
+        switch (debugMap)
+        {
+            case MapDrawMode.Elevation:
+                visualizer.DrawFloatMap(recentLayoutDebug.ElevationMap);
+                break;
+
+            case MapDrawMode.Erosion:
+                visualizer.DrawFloatMap(recentLayoutDebug.ErosionMap);
+                break;
+
+            case MapDrawMode.Humidity:
+                visualizer.DrawFloatMap(recentLayoutDebug.HumidityMap);
+                break;
+
+            case MapDrawMode.Biomes:
+                visualizer.DrawBiomeMap(recentLayoutDebug.BiomeMap);
+                break;
+            case MapDrawMode.All:
+                visualizer.DrawFloatMap(recentLayoutDebug.ElevationMap);
+                visualizer.DrawFloatMap(recentLayoutDebug.ErosionMap);
+                visualizer.DrawFloatMap(recentLayoutDebug.HumidityMap);
+                break;
+        }
+
+    }
+
     [Button]
     private void CreateWorld()
     {
@@ -35,7 +76,7 @@ public class WorldManager : MonoBehaviour
         }
 
         WorldLayout layout = GenerateLayout(worldSettings);
-        GenerateWorld(layout);
+        //GenerateWorld(layout);
         recentLayoutDebug = layout;
     }
 

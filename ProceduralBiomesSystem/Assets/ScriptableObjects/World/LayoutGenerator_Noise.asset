@@ -12,16 +12,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0236fad0525d047a8ab3baff697807, type: 3}
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
-  width: 255
-  height: 255
-  randomSeed: 0
-  seed: -1485
-  scale: 150
-  octaves: 5
-  persistance: 0.5
-  lacunarity: 1.5
-  offset: {x: 0, y: 0}
-  heightMultiplier: 1
+  elevation:
+    useRandomSeed: 1
+    seed: 0
+    octaves: 5
+    persistance: 0.5
+    lacunarity: 2
+    scale: 50
+    offset: {x: 0, y: 0}
+    heightMultiplier: 0
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  erosion:
+    useRandomSeed: 1
+    seed: 0
+    octaves: 5
+    persistance: 0.5
+    lacunarity: 2
+    scale: 10
+    offset: {x: 0, y: 0}
+    heightMultiplier: 0
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  humidity:
+    useRandomSeed: 1
+    seed: 0
+    octaves: 5
+    persistance: 0.5
+    lacunarity: 2
+    scale: 5
+    offset: {x: 0, y: 0}
+    heightMultiplier: 10
+    remapCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   biomeThresholds:
   - biome: 1
     threshold: 0.33
