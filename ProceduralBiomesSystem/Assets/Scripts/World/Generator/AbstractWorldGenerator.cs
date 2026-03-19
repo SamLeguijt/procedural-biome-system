@@ -5,5 +5,5 @@ using UnityEngine;
 public abstract class AbstractWorldGenerator : ScriptableObject, IWorldGenerator
 {
     // TODO: Add default implementation?
-    public abstract void GenerateWorld(WorldLayout layout);
+    public abstract World GenerateWorld(WorldLayout layout);
 }

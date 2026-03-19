@@ -76,9 +76,13 @@ public class WorldManager : MonoBehaviour
         }
 
         WorldLayout layout = GenerateLayout(worldSettings);
-        //GenerateWorld(layout);
+        World world = GenerateWorld(layout);
+        
+        CreateWorldObject(world);
+
         recentLayoutDebug = layout;
     }
+
 
     [Button]
     private void ClearWorld()
@@ -93,9 +97,23 @@ public class WorldManager : MonoBehaviour
         return worldLayoutGenerator.GenerateWorldLayout(settings);
     }
 
-    private void GenerateWorld(WorldLayout layout)
+    private World GenerateWorld(WorldLayout layout)
     {
-        worldGenerator.GenerateWorld(layout);
+        return worldGenerator.GenerateWorld(layout);
+    }
+
+
+    private void CreateWorldObject(World worldData)
+    {
+        GameObject world = new GameObject("World");
+        MeshFilter meshFilter = world.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
+
+        meshFilter.mesh = worldData.Mesh;
+        meshRenderer.material = worldData.Material;
+
+        world.transform.parent = transform;
+        recentWorlds.Add(world);
     }
 
     private bool CheckForNull()

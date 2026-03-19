@@ -20,26 +20,27 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     [field: SerializeField] public List<BiomeConfig> BiomeConfigs { get; private set; }
 
     [field: SerializeField] private Material terrainMaterial = null;
+    [SerializeField] int meshWidth = 200;  
+    [SerializeField] int meshHeight = 200;
 
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
     public int meshResolution = 1;
+    public float noiseScale = 0.05f;
 
-    public override void GenerateWorld(WorldLayout layout)
+    public override World GenerateWorld(WorldLayout layout)
     {
-        if (BiomeConfigs.Count == 0)
-            return;
-
         Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
 
         Mesh terrainMesh = CreateMesh(heightMap.Values);
         //Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         //terrainMesh.colors = colorMap;
-        CreateMeshObject(terrainMesh);
 
         // Analyze... (in generator?)
         // Populate... (in generator?)
+
+        return new World(terrainMesh, terrainMaterial);
     }
 
     private Map<float> BiomeToHeightMap(Map<EBiome> biomeMap)
@@ -56,7 +57,11 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                 EBiome biome = biomeMap[x, y];
                 BiomeConfig config = GetBiomeData(biome);
 
-                Vector2 worldPos = new Vector2(x, y);
+                Vector2 worldPos = new Vector2(
+                    x * noiseScale,
+                    y * noiseScale
+                ); 
+                
                 if (config != null)
                     heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
             }
@@ -90,39 +95,45 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     private Mesh CreateMesh(float[,] heightMap)
     {
-        int width = heightMap.GetLength(0);
-        int height = heightMap.GetLength(1);
+        int mapWidth = heightMap.GetLength(0);
+        int mapHeight = heightMap.GetLength(1);
 
-        int verticesX = (width / meshResolution) +1;
-        int verticesY = (height / meshResolution) +1;
+        //int verticesX = (width / meshResolution) +1;
+        //int verticesY = (height / meshResolution) +1;
 
-        Vector3[] vertices = new Vector3[verticesX * verticesY];
-        Color[] vertexColors = new Color[verticesX * verticesY];
+        Vector3[] vertices = new Vector3[meshWidth * meshHeight];
+        //Color[] vertexColors = new Color[verticesX * verticesY];
 
         List<int> triangles = new List<int>();
 
-        float topLeftX = (width - 1) / -2f;
-        float topLeftZ = (height - 1) / 2f;
+        float topLeftX = (meshWidth - 1) / -2f;
+        float topLeftZ = (meshHeight - 1) / 2f;
 
         int vertexIndex = 0;
 
-        for (int z = 0; z < verticesY ; z++)
+        for (int z = 0; z < meshHeight ; z++)
         {
-            for (int x = 0; x < verticesX; x++)
+            for (int x = 0; x < meshWidth; x++)
             {
-                int mapX = Mathf.Min(x * meshResolution, width -1);
-                int mapZ = Mathf.Min(z * meshResolution, height -1);
+                float percentX = x / (float)(meshWidth - 1);
+                float percentZ = z / (float)(meshHeight - 1);
+
+                // Map to heightMap
+                int mapX = Mathf.RoundToInt(percentX * (mapWidth - 1));
+                int mapZ = Mathf.RoundToInt(percentZ * (mapHeight - 1));
+                //int mapX = Mathf.Min(x * meshResolution, width -1);
+                //int mapZ = Mathf.Min(z * meshResolution, height -1);
                 
                 float vertexHeight = heightMap[mapX, mapZ];
                 vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
-                if (x < verticesX - 1 && z < verticesY - 1)
+                if (x < meshWidth - 1 && z < meshHeight - 1)
                 {
                     triangles.Add(vertexIndex);
-                    triangles.Add(vertexIndex + verticesX + 1);
-                    triangles.Add(vertexIndex + verticesX);
+                    triangles.Add(vertexIndex + meshWidth + 1);
+                    triangles.Add(vertexIndex + meshWidth);
 
-                    triangles.Add(vertexIndex + verticesX + 1);
+                    triangles.Add(vertexIndex + meshWidth + 1);
                     triangles.Add(vertexIndex);
                     triangles.Add(vertexIndex + 1);
                 }
@@ -132,6 +143,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
 
         Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32; 
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
@@ -179,17 +191,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return colorMap;
     }
 
-    private void CreateMeshObject(Mesh mesh)
-    {
-        GameObject world = new GameObject("WORLD");
-        MeshFilter meshFilter = world.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
-
-        meshFilter.mesh = mesh;
-        meshRenderer.material = terrainMaterial;
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-    }
         
     private void Analyze(WorldChunk chunk)
     {
