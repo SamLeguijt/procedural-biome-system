@@ -13,6 +13,12 @@ public static class Utils
         return Mathf.PerlinNoise(x, y) * amplitude;
     }
 
+    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings)
+    {
+        return GenerateNoiseMap(mapWidth, mapHeight,
+            settings.seed, settings.scale, settings.octaves, settings.persistance, settings.lacunarity, settings.offset); 
+    }
+
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];

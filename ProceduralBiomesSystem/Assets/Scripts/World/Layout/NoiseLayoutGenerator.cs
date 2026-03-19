@@ -13,19 +13,12 @@ public struct BiomeThreshold
 [CreateAssetMenu(fileName = "LayoutGenerator_", menuName = "ScriptableObjects/World/new LayoutGenerator")]
 public class NoiseLayoutGenerator : AbstractLayoutGenerator
 {
-    [Header("Map Settings")]
-    [SerializeField] int width = 200;
-    [SerializeField] int height = 200;
-
     [Header("Noise Settings")]
-    [SerializeField] bool randomSeed = true;
-    [SerializeField] int seed = 0;
-    [SerializeField] float scale = 50;
-    [SerializeField] int octaves = 4;
-    [SerializeField] float persistance = 0.5f;
-    [SerializeField] float lacunarity = 2f;
-    [SerializeField] Vector2 offset;
-    [SerializeField] public int heightMultiplier;
+
+    [SerializeField] private NoiseSettings elevation; 
+    [SerializeField] private NoiseSettings erosion; 
+    [SerializeField] private NoiseSettings humidity; 
+
 
     public List<BiomeThreshold> biomeThresholds;
 
@@ -34,54 +27,50 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
 
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
-        BiomeMap = Generate();
-        return new WorldLayout(BiomeMap);
+        int mapWidth = settings.WorldSize.x;
+        int mapHeight = settings.WorldSize.y;
+
+        Map<float> elevationMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, elevation));
+        var erosionMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, erosion));
+        var humidityMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, humidity));
+
+        BiomeMap = GenerateBiomeMap(mapWidth, mapHeight);
+
+        return new WorldLayout.LayoutBuilder()
+            .WithElevationMap(elevationMap)
+            .WithErosionMap(erosionMap)
+            .WithHumidityMap(humidityMap)
+            .WithBiomeMap(BiomeMap)
+            .Build();
     }
 
-    Map<EBiome> Generate()
+    Map<EBiome> GenerateBiomeMap(int width, int height)
     {
-        if (randomSeed)
-        {
-            int randomSeed = Random.Range(-10000, 10000);
-            seed = randomSeed;
-        }
-            var noiseMap = Utils.GenerateNoiseMap(
-            width,
-            height,
-            seed,
-            scale,
-            octaves,
-            persistance,
-            lacunarity,
-            offset
-        );
+        // Use other maps to determine biomes somehow
+        return new Map<EBiome>(width, height);
 
-        int mapWidth = noiseMap.GetLength(0);
-        int mapHeight = noiseMap.GetLength(1);
+        //Map<EBiome> biomeMap = new Map<EBiome>(width, height);
 
-        Map<EBiome> biomeMap = new Map<EBiome>(mapWidth, mapHeight);
+        //for (int y = 0; y < height; y++)
+        //{
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        EBiome selectedBiome = EBiome.None;
 
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
-            {
-                EBiome selectedBiome = EBiome.None;
+        //        foreach (var kvp in biomeThresholds)
+        //        {
 
-                foreach (var kvp in biomeThresholds)
-                {
-                    float noiseValue = noiseMap[x, y];
+        //            if (noiseValue < kvp.threshold)
+        //            {
+        //                selectedBiome = kvp.biome;
+        //                break;
+        //            }
+        //        }
 
-                    if (noiseValue < kvp.threshold)
-                    {
-                        selectedBiome = kvp.biome;
-                        break;
-                    }
-                }
+        //        biomeMap[x, y] = selectedBiome;
+        //    }
+        //}
 
-                biomeMap[x, y] = selectedBiome;
-            }
-        }
-
-        return biomeMap;
+        //return biomeMap;
     }
 }

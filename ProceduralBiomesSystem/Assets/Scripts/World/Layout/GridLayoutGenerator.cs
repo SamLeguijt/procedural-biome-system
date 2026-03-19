@@ -11,8 +11,7 @@ public class GridLayoutGenerator : AbstractLayoutGenerator
         Vector2 gridSize = new Vector2(settings.WorldSize.x / settings.ChunkQuads.x, settings.WorldSize.y / settings.ChunkQuads.y);
         
 
-        for (int x = 0; x < gridSize.x; x++)
-        {
+        for (int x = 0; x < gridSize.x; x++)        {
             for (int y = 0; y < gridSize.y; y++)
             {
                 Vector2Int quads = new Vector2Int(settings.ChunkQuads.x, settings.ChunkQuads.y);
