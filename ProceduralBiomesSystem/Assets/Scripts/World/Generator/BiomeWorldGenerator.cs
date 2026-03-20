@@ -23,6 +23,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     [SerializeField] int meshWidth = 200;  
     [SerializeField] int meshHeight = 200;
 
+    public int heightMultiplier = 10;
+
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
     public int meshResolution = 1;
@@ -30,9 +32,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     public override World GenerateWorld(WorldLayout layout)
     {
-        Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
+        //Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
 
-        Mesh terrainMesh = CreateMesh(heightMap.Values);
+        Mesh terrainMesh = CreateMesh(layout.ElevationMap.Values);
         //Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         //terrainMesh.colors = colorMap;
@@ -101,39 +103,37 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         //int verticesX = (width / meshResolution) +1;
         //int verticesY = (height / meshResolution) +1;
 
-        Vector3[] vertices = new Vector3[meshWidth * meshHeight];
+        Vector3[] vertices = new Vector3[mapWidth * mapHeight];
         //Color[] vertexColors = new Color[verticesX * verticesY];
 
         List<int> triangles = new List<int>();
 
-        float topLeftX = (meshWidth - 1) / -2f;
-        float topLeftZ = (meshHeight - 1) / 2f;
+        float topLeftX = (mapWidth - 1) / -2f;
+        float topLeftZ = (mapHeight - 1) / 2f;
 
         int vertexIndex = 0;
 
-        for (int z = 0; z < meshHeight ; z++)
+        for (int z = 0; z < mapHeight ; z++)
         {
-            for (int x = 0; x < meshWidth; x++)
+            for (int x = 0; x < mapWidth; x++)
             {
-                float percentX = x / (float)(meshWidth - 1);
-                float percentZ = z / (float)(meshHeight - 1);
+                float percentX = x / (float)(mapWidth - 1);
+                float percentZ = z / (float)(mapHeight - 1);
 
                 // Map to heightMap
                 int mapX = Mathf.RoundToInt(percentX * (mapWidth - 1));
                 int mapZ = Mathf.RoundToInt(percentZ * (mapHeight - 1));
-                //int mapX = Mathf.Min(x * meshResolution, width -1);
-                //int mapZ = Mathf.Min(z * meshResolution, height -1);
                 
-                float vertexHeight = heightMap[mapX, mapZ];
+                float vertexHeight = heightMap[x, z] * heightMultiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
-                if (x < meshWidth - 1 && z < meshHeight - 1)
+                if (x < mapWidth- 1 && z < mapHeight - 1)
                 {
                     triangles.Add(vertexIndex);
-                    triangles.Add(vertexIndex + meshWidth + 1);
-                    triangles.Add(vertexIndex + meshWidth);
+                    triangles.Add(vertexIndex + mapWidth + 1);
+                    triangles.Add(vertexIndex + mapWidth);
 
-                    triangles.Add(vertexIndex + meshWidth + 1);
+                    triangles.Add(vertexIndex + mapWidth + 1);
                     triangles.Add(vertexIndex);
                     triangles.Add(vertexIndex + 1);
                 }

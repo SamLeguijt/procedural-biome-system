@@ -33,7 +33,7 @@ public class MapVisualizer : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 float value = map[x, y];
-                Color color = Color.Lerp(Color.black, mapColor, value);
+                Color color = Color.Lerp(Color.white, mapColor, value);
 
                 texture.SetPixel(x, y, color);
             }

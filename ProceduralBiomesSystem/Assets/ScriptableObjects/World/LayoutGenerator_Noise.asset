@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
   elevation:
-    useRandomSeed: 0
+    useRandomSeed: 1
     seed: 3
     octaves: 10
     persistance: 0.5
     lacunarity: 2.5
-    scale: 51.2
+    scale: 223.2
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -34,14 +34,32 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.470016
-        value: 0.44371855
-        inSlope: 0
-        outSlope: 0
+        time: 0.02721426
+        value: 0.00891492
+        inSlope: 0.11608877
+        outSlope: 0.11608877
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.1344783
+        value: 0.009222925
+        inSlope: 0.25425103
+        outSlope: 0.25425103
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.38582632
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.49061537
+        value: 0.0011831522
+        inSlope: 0.391853
+        outSlope: 0.391853
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.05658476
       - serializedVersion: 3
         time: 0.8970642
         value: 0.9964905
