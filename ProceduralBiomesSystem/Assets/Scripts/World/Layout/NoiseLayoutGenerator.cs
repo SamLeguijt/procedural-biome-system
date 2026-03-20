@@ -23,29 +23,38 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
     public List<BiomeThreshold> biomeThresholds;
     private Map<EBiome> BiomeMap;
 
-    WorldSettings recentSettings = null;
+    private int recentWidth = 0; 
+    private int recentHeight = 0;
 
     private void OnValidate()
     {
-        if (recentSettings == null)
+        if (recentWidth == 0 || recentHeight == 0)
             return;
 
-        WorldLayout layout = GenerateWorldLayout(recentSettings); 
+        WorldLayout layout = GenerateWorldLayout(recentWidth, recentHeight); 
         OnLayoutChanged?.Invoke(layout);
     }
-
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
-        recentSettings = settings;
-
         int mapWidth = settings.WorldSize.x;
         int mapHeight = settings.WorldSize.y;
+
+        return GenerateWorldLayout(mapWidth, mapHeight);
+    }
+
+    public WorldLayout GenerateWorldLayout(int width, int height)
+    {
+        int mapWidth = width;
+        int mapHeight = height;
+
+        recentWidth = mapWidth;
+        recentHeight = mapHeight;
 
         Map<float> elevationMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, elevation));
         Map<float> erosionMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, erosion));
         Map<float> humidityMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, humidity));
 
-        BiomeMap = GenerateBiomeMap(mapWidth, mapHeight);
+        BiomeMap = GenerateBiomeMap(elevationMap, erosionMap, humidityMap);
 
         return new WorldLayout.LayoutBuilder()
             .WithElevationMap(elevationMap)
@@ -55,33 +64,55 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
             .Build();
     }
 
-    Map<EBiome> GenerateBiomeMap(int width, int height)
+    private Map<EBiome> GenerateBiomeMap(Map<float> elevationMap, Map<float> erosionMap, Map<float> humidityMap)
     {
-        // Use other maps to determine biomes somehow
-        return new Map<EBiome>(width, height);
+        int width = elevationMap.Width;
+        int height = elevationMap.Height;
 
-        //Map<EBiome> biomeMap = new Map<EBiome>(width, height);
+        Map<EBiome> biomeMap = new Map<EBiome> (width, height);
 
-        //for (int y = 0; y < height; y++)
-        //{
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        EBiome selectedBiome = EBiome.None;
 
-        //        foreach (var kvp in biomeThresholds)
-        //        {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float elevationValue = elevationMap[x, y];
+                float erosionValue = erosionMap[x, y];
+                float humidityValue = humidityMap[x, y];
 
-        //            if (noiseValue < kvp.threshold)
-        //            {
-        //                selectedBiome = kvp.biome;
-        //                break;
-        //            }
-        //        }
+                EBiome chosenBiome = EBiome.None; 
+                
+                // TODO: Fix naive selection, magic numbers, architecture.
+                if (elevationValue < 0.5f)
+                {
+                    // desert/plains
+                    if (humidityValue < 0.5f)
+                    {
+                        chosenBiome = EBiome.Desert;
+                    }
+                    else
+                    {
+                        chosenBiome = EBiome.Plains;
+                    }
+                }
+                else
+                {
+                    // mountain/volcanic
+                    if (humidityValue < 0.5f)
+                    {
+                        chosenBiome = EBiome.Volcanic;
+                    }
+                    else
+                    {
+                        chosenBiome = EBiome.Mountains;
+                    }
+                }
 
-        //        biomeMap[x, y] = selectedBiome;
-        //    }
-        //}
+                biomeMap[x, y] = chosenBiome;
+            }
+        }
 
-        //return biomeMap;
+
+        return biomeMap;
     }
 }
