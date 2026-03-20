@@ -15,13 +15,11 @@ public struct BiomeThreshold
 public class NoiseLayoutGenerator : AbstractLayoutGenerator
 {
     [Header("Noise Settings")]
-
     [SerializeField] private NoiseSettings elevation; 
     [SerializeField] private NoiseSettings erosion; 
     [SerializeField] private NoiseSettings humidity; 
 
     public List<BiomeThreshold> biomeThresholds;
-    private Map<EBiome> BiomeMap;
 
     private int recentWidth = 0; 
     private int recentHeight = 0;
@@ -53,14 +51,13 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
         Map<float> elevationMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, elevation));
         Map<float> erosionMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, erosion));
         Map<float> humidityMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, humidity));
-
-        BiomeMap = GenerateBiomeMap(elevationMap, erosionMap, humidityMap);
+        Map<EBiome> biomeMap = GenerateBiomeMap(elevationMap, erosionMap, humidityMap);
 
         return new WorldLayout.LayoutBuilder()
             .WithElevationMap(elevationMap)
             .WithErosionMap(erosionMap)
             .WithHumidityMap(humidityMap)
-            .WithBiomeMap(BiomeMap)
+            .WithBiomeMap(biomeMap)
             .Build();
     }
 
@@ -85,27 +82,17 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
                 // TODO: Fix naive selection, magic numbers, architecture.
                 if (elevationValue < 0.5f)
                 {
-                    // desert/plains
                     if (humidityValue < 0.5f)
-                    {
                         chosenBiome = EBiome.Desert;
-                    }
                     else
-                    {
                         chosenBiome = EBiome.Plains;
-                    }
                 }
                 else
                 {
-                    // mountain/volcanic
                     if (humidityValue < 0.5f)
-                    {
                         chosenBiome = EBiome.Volcanic;
-                    }
                     else
-                    {
                         chosenBiome = EBiome.Mountains;
-                    }
                 }
 
                 biomeMap[x, y] = chosenBiome;
