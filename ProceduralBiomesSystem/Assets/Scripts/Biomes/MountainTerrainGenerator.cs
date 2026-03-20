@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TerrainGenerator_Mountain", menuName = "ScriptableObjects/Terrain/new Mountain generator")]
 public class MountainTerrainGenerator : AbstractMeshTerrainGenerator
 {
-    WorldChunk latestChunk = null;
-
     public override void GenerateTerrain(WorldChunk chunk)
     {
         //latestChunk = chunk;

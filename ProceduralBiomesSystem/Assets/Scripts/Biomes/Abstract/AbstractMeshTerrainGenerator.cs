@@ -20,8 +20,6 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     public float heightMultiplier = 1; 
     public Vector2 offset;
 
-    Map<float> noiseMap = null;
-
     public abstract void GenerateTerrain(WorldChunk chunk);
 
     public float GetHeightAtWorldPosition(Vector2 worldPos)
@@ -67,9 +65,9 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         if (randomSeed)
             usedSeed = Random.Range(0, 10000);
 
-        var map = Utils.GenerateNoiseMap(width, height, usedSeed, scale, octaves, persistance, lacunarity, offset);
+        //var map = Utils.GenerateNoiseMap(width, height, usedSeed, scale, octaves, persistance, lacunarity, offset);
 
-        return new Map<float>(map);
+        return new Map<float>(0,0);
     }
 
     protected virtual Mesh CreateMesh(Map<float> heightMap)

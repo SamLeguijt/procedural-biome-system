@@ -13,32 +13,41 @@ MonoBehaviour:
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
   elevation:
-    useRandomSeed: 1
-    seed: 0
-    octaves: 5
+    useRandomSeed: 0
+    seed: 3
+    octaves: 10
     persistance: 0.5
-    lacunarity: 2
-    scale: 50
+    lacunarity: 2.5
+    scale: 51.2
     offset: {x: 0, y: 0}
-    heightMultiplier: 0
+    useCurve: 1
     remapCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: -0.022071362
+        value: 0.0069293976
+        inSlope: 1.3230667
+        outSlope: 1.3230667
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.470016
+        value: 0.44371855
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 1
-        value: 1
+        time: 0.8970642
+        value: 0.9964905
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -48,12 +57,12 @@ MonoBehaviour:
   erosion:
     useRandomSeed: 1
     seed: 0
-    octaves: 5
-    persistance: 0.5
-    lacunarity: 2
-    scale: 10
-    offset: {x: 0, y: 0}
-    heightMultiplier: 0
+    octaves: 1
+    persistance: -1.35
+    lacunarity: 2.68
+    scale: 62.22
+    offset: {x: 6.39, y: 0}
+    useCurve: 0
     remapCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,9 +93,9 @@ MonoBehaviour:
     octaves: 5
     persistance: 0.5
     lacunarity: 2
-    scale: 5
+    scale: 169.03
     offset: {x: 0, y: 0}
-    heightMultiplier: 10
+    useCurve: 0
     remapCurve:
       serializedVersion: 2
       m_Curve: []

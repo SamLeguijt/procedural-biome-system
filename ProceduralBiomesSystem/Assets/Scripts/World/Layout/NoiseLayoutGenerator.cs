@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -19,13 +20,24 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
     [SerializeField] private NoiseSettings erosion; 
     [SerializeField] private NoiseSettings humidity; 
 
-
     public List<BiomeThreshold> biomeThresholds;
-
     private Map<EBiome> BiomeMap;
+
+    WorldSettings recentSettings = null;
+
+    private void OnValidate()
+    {
+        if (recentSettings == null)
+            return;
+
+        WorldLayout layout = GenerateWorldLayout(recentSettings); 
+        OnLayoutChanged?.Invoke(layout);
+    }
 
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
+        recentSettings = settings;
+
         int mapWidth = settings.WorldSize.x;
         int mapHeight = settings.WorldSize.y;
 

@@ -5,21 +5,32 @@ using UnityEngine;
 
 public static class Utils
 { 
-    public static float GetPerlinNoiseValue(Vector2 input, float frequency, float amplitude, Vector2 offset)
-    {
-        float x = (input.x * frequency + offset.x);
-        float y = (input.y * frequency + offset.y);
-
-        return Mathf.PerlinNoise(x, y) * amplitude;
-    }
-
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings)
     {
-        return GenerateNoiseMap(mapWidth, mapHeight,
-            settings.seed, settings.scale, settings.octaves, settings.persistance, settings.lacunarity, settings.offset); 
+        int seed = settings.seed;
+        if (settings.useRandomSeed)
+        {
+            System.Random random = new System.Random();
+            seed = random.Next(-10000, 10000);
+        }
+
+        float[,] map = GenerateNoiseMap(mapWidth, 
+            mapHeight,
+            seed, 
+            settings.scale, 
+            settings.octaves, 
+            settings.persistance, 
+            settings.lacunarity, 
+            settings.offset
+        );
+
+        if (settings.useCurve)
+            return ApplyCurve(map, settings.remapCurve);
+        else
+            return map;
     }
 
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
+    private static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
@@ -81,5 +92,53 @@ public static class Utils
         }
 
         return noiseMap;
+    }
+    private static float[,] ApplyCurve(float[,] map, AnimationCurve curve)
+    {
+        int width = map.GetLength(0);
+        int height = map.GetLength(1);
+
+        float[,] result = new float[width, height];
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                result[x, y] = curve.Evaluate(map[x, y]);
+            }
+        }
+
+        return Normalize(result);
+    }
+
+    private static float[,] Normalize(float[,] map)
+    {
+        int width = map.GetLength(0);
+        int height = map.GetLength(1);
+
+        float min = float.MaxValue;
+        float max = float.MinValue;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float v = map[x, y];
+                if (v < min) 
+                    min = v;
+                if (v > max) 
+                    max = v;
+            }
+        }
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                map[x, y] = Mathf.InverseLerp(min, max, map[x, y]);
+            }
+        }
+
+        return map;
     }
 }

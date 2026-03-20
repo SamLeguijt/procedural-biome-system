@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class WorldManager : MonoBehaviour
@@ -9,15 +10,14 @@ public class WorldManager : MonoBehaviour
 
     [Header("Visualization")]
     [SerializeField] private MapVisualizer visualizer;
-    [SerializeField] private MapDrawMode debugMap;
+    [SerializeField] private MapDrawMode mapDrawMode;
 
 
     [Header("Debug settings")]
     [SerializeField] private bool drawLayoutGizmos = true;
-    [SerializeField] private bool drawVerticeGizmos = true;
 
     private IWorldGenerator worldGenerator;
-    private IWorldLayoutGenerator worldLayoutGenerator;
+    private AbstractLayoutGenerator worldLayoutGenerator;
 
     // TODO: Make seperate visualisation script(s).
     WorldLayout recentLayoutDebug;
@@ -28,6 +28,43 @@ public class WorldManager : MonoBehaviour
     {
         worldGenerator = worldSettings.WorldGenerator;
         worldLayoutGenerator = worldSettings.LayoutGenerator;
+        worldLayoutGenerator.OnLayoutChanged += DrawMaps; 
+    }
+
+    private void DrawMaps(WorldLayout layout)
+    {
+        if (layout == null)
+            return;
+
+        recentLayoutDebug = layout;
+
+        switch (mapDrawMode)
+        {
+            case MapDrawMode.None:
+                break;
+            case MapDrawMode.Elevation:
+                visualizer.DrawFloatMap(recentLayoutDebug.ElevationMap, Color.blue);
+                break;
+
+            case MapDrawMode.Erosion:
+                visualizer.DrawFloatMap(recentLayoutDebug.ErosionMap, Color.green);
+                break;
+
+            case MapDrawMode.Humidity:
+                visualizer.DrawFloatMap(recentLayoutDebug.HumidityMap, Color.red);
+                break;
+
+            case MapDrawMode.Biomes:
+                visualizer.DrawBiomeMap(recentLayoutDebug.BiomeMap);
+                break;
+            case MapDrawMode.All:
+                visualizer.DrawCombinedMap(
+                     (recentLayoutDebug.ElevationMap, Color.blue),
+                     (recentLayoutDebug.HumidityMap, Color.red),
+                     (recentLayoutDebug.ErosionMap, Color.green)
+                 );
+                break;
+        }
     }
 
     private void OnValidate()
@@ -35,35 +72,7 @@ public class WorldManager : MonoBehaviour
         if (Application.isPlaying)
             return;
 
-        //CreateWorld();
-
-        if (recentLayoutDebug == null)
-            return;
-
-        switch (debugMap)
-        {
-            case MapDrawMode.Elevation:
-                visualizer.DrawFloatMap(recentLayoutDebug.ElevationMap);
-                break;
-
-            case MapDrawMode.Erosion:
-                visualizer.DrawFloatMap(recentLayoutDebug.ErosionMap);
-                break;
-
-            case MapDrawMode.Humidity:
-                visualizer.DrawFloatMap(recentLayoutDebug.HumidityMap);
-                break;
-
-            case MapDrawMode.Biomes:
-                visualizer.DrawBiomeMap(recentLayoutDebug.BiomeMap);
-                break;
-            case MapDrawMode.All:
-                visualizer.DrawFloatMap(recentLayoutDebug.ElevationMap);
-                visualizer.DrawFloatMap(recentLayoutDebug.ErosionMap);
-                visualizer.DrawFloatMap(recentLayoutDebug.HumidityMap);
-                break;
-        }
-
+        DrawMaps(recentLayoutDebug);
     }
 
     [Button]

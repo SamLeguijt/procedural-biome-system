@@ -16,7 +16,7 @@ public class MapVisualizer : MonoBehaviour
 {
     [SerializeField] private Renderer targetRenderer;
 
-    public void DrawFloatMap(Map<float> map)
+    public void DrawFloatMap(Map<float> map, Color mapColor)
     {
         if (map == null)
         {
@@ -32,8 +32,8 @@ public class MapVisualizer : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                float value = map[x, y]; // assumed 0–1
-                Color color = Color.Lerp(Color.black, Color.white, value);
+                float value = map[x, y];
+                Color color = Color.Lerp(Color.black, mapColor, value);
 
                 texture.SetPixel(x, y, color);
             }
@@ -74,6 +74,36 @@ public class MapVisualizer : MonoBehaviour
                 }
 
                 texture.SetPixel(x, y, color);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    public void DrawCombinedMap((Map<float>, Color) mapA, (Map<float>, Color) mapB, (Map<float>, Color) mapC)
+    {
+        int width = mapA.Item1.Width;
+        int height = mapA.Item1.Height;
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float a = mapA.Item1[x, y];
+                float b = mapB.Item1[x, y];
+                float c = mapC.Item1[x, y];
+
+                Color colorA = mapA.Item2 * a;
+                Color colorB = mapB.Item2 * b;
+                Color colorC = mapC.Item2 * c;
+
+                Color pixelColor = colorA + colorB + colorC;
+
+                texture.SetPixel(x, y, pixelColor);
             }
         }
 

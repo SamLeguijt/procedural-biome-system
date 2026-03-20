@@ -9,13 +9,13 @@ public struct NoiseSettings
     public bool useRandomSeed; 
     public int seed;
 
-    [Space] public int octaves;
-    public float persistance;
-    public float lacunarity;
+    [Space, Min(1)] public int octaves;
+    [Min(0.0001f)]public float persistance;
+    [Min(0.0001f)]public float lacunarity;
 
-    [Space] public float scale;
+    [Space, Min(0.001f)] public float scale;
     public Vector2 offset;
-    public int heightMultiplier;
+    //public int heightMultiplier;
 
     [Space] public bool useCurve;
     public AnimationCurve remapCurve; 
