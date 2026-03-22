@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevation:
     useRandomSeed: 1
-    seed: 3
+    seed: 168
     octaves: 10
     persistance: 0.5
     lacunarity: 2.5

@@ -34,10 +34,10 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         //Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
 
-        Mesh terrainMesh = CreateMesh(layout.ElevationMap.Values);
-        //Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
+        Mesh terrainMesh = CreateMesh(layout.ElevationMap.Values, layout.BiomeMap);
+        Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
-        //terrainMesh.colors = colorMap;
+        terrainMesh.colors = colorMap;
 
         // Analyze... (in generator?)
         // Populate... (in generator?)
@@ -95,16 +95,12 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return null;
     }
 
-    private Mesh CreateMesh(float[,] heightMap)
+    private Mesh CreateMesh(float[,] heightMap, Map<EBiome> biomeMap)
     {
         int mapWidth = heightMap.GetLength(0);
         int mapHeight = heightMap.GetLength(1);
 
-        //int verticesX = (width / meshResolution) +1;
-        //int verticesY = (height / meshResolution) +1;
-
         Vector3[] vertices = new Vector3[mapWidth * mapHeight];
-        //Color[] vertexColors = new Color[verticesX * verticesY];
 
         List<int> triangles = new List<int>();
 
@@ -117,14 +113,18 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                float percentX = x / (float)(mapWidth - 1);
-                float percentZ = z / (float)(mapHeight - 1);
-
-                // Map to heightMap
-                int mapX = Mathf.RoundToInt(percentX * (mapWidth - 1));
-                int mapZ = Mathf.RoundToInt(percentZ * (mapHeight - 1));
-                
                 float vertexHeight = heightMap[x, z] * heightMultiplier;
+                vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
+
+                EBiome biome = biomeMap[x, z];
+                BiomeConfig config = GetBiomeData(biome);
+                Vector2 worldPos = new Vector2(x * noiseScale, z * noiseScale);
+
+                float biomeHeight = config.Generator.GetHeightAtWorldPosition(worldPos);
+                float finalHeight = heightMap[x, z] + biomeHeight;
+
+                //float vertexHeight = finalHeight * heightMultiplier;
+
                 vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
                 if (x < mapWidth- 1 && z < mapHeight - 1)
@@ -175,15 +175,18 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                             color = Color.yellow;
                             break;
                         case EBiome.Mountains:
-                            color = Color.green;
+                            color = Color.gray;
                             break;
                         case EBiome.Volcanic:
                             color = Color.red;
                             break;
+                        case EBiome.Plains:
+                            color = Color.green;
+                            break;
                     }
                 }
 
-                colorMap[currentIndex] = color;
+                colorMap[currentIndex] = new Color(color.r, color.g, color.b, color.a);
                 currentIndex++; 
             }
         }

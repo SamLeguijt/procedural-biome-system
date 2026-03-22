@@ -15,9 +15,17 @@ MonoBehaviour:
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff,
     type: 2}
   <VerticeDistance>k__BackingField: 1
+  heightCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  randomSeed: 0
   seed: 45
   scale: 1
   octaves: 5
   persistance: 0.5
   lacunarity: 2
+  heightMultiplier: 10
   offset: {x: 0, y: 0}

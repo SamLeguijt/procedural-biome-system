@@ -81,5 +81,5 @@ MonoBehaviour:
   octaves: 10
   persistance: 0.6
   lacunarity: 2.07
-  heightMultiplier: 100
+  heightMultiplier: 10
   offset: {x: 0, y: 0}
