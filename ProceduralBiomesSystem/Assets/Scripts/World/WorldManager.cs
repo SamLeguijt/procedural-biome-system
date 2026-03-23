@@ -149,7 +149,7 @@ public class WorldManager : MonoBehaviour
             {
                 for (int y = 0; y < depth; y++)
                 {
-                    Color color = recentLayoutDebug.BiomeMap[x, y];
+                    Color color = recentLayoutDebug.BiomeMap[x, y].ToColor();
 
                     switch (recentLayoutDebug.BiomeMap[x, y])
                     {

@@ -11,6 +11,7 @@ using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 
 /// <summary>
@@ -34,9 +35,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     public override World GenerateWorld(WorldLayout layout)
     {
-        //Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
+        Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
 
-        Mesh terrainMesh = CreateMesh(layout.ElevationMap.Values, layout.BiomeMap);
+        Mesh terrainMesh = CreateMesh(layout.ElevationMap.Values);
         Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
@@ -47,7 +48,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return new World(terrainMesh, terrainMaterial);
     }
 
-    private Map<float> BiomeToHeightMap(Map<EBiome> biomeMap)
+    private Map<float> BiomeToHeightMap(Map<BiomeWeights> biomeMap)
     {
         int width = biomeMap.Width;
         int height = biomeMap.Height;
@@ -58,16 +59,22 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             for (int x = 0; x < width; x++)
             {
-                EBiome biome = biomeMap[x, y];
-                BiomeConfig config = GetBiomeData(biome);
+                BiomeWeights biome = biomeMap[x, y];
 
-                Vector2 worldPos = new Vector2(
-                    x * noiseScale,
-                    y * noiseScale
-                ); 
+                /// For each biome, get a noise value using the configs generators.
+                /// Use the weights to add all the noise values together
+                /// Normalise that all to 0-1
+                /// Return it all as a float map.
+                /// 
+
+                BiomeConfig mountainConfig = GetBiomeData(EBiome.Mountains);
+                BiomeConfig volcanicConfig = GetBiomeData(EBiome.Volcanic);
+                BiomeConfig desertConfig  = GetBiomeData(EBiome.Desert);
+                BiomeConfig plainsConfig  = GetBiomeData(EBiome.Plains);
+
+
                 
-                if (config != null)
-                    heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
+                    //heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
             }
         }
 
@@ -97,7 +104,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return null;
     }
 
-    private Mesh CreateMesh(float[,] heightMap, Map<Dictionary<EBiome, float>> biomeMap)
+    private Mesh CreateMesh(float[,] heightMap)
     {
         int mapWidth = heightMap.GetLength(0);
         int mapHeight = heightMap.GetLength(1);
@@ -116,18 +123,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             for (int x = 0; x < mapWidth; x++)
             {
                 float vertexHeight = heightMap[x, z] * heightMultiplier;
-                //vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
-
-                //EBiome biome = biomeMap[x, z];
-                //BiomeConfig config = GetBiomeData(biome);
-                //Vector2 worldPos = new Vector2(x * noiseScale, z * noiseScale);
-
-                //float biomeHeight = config.Generator.GetHeightAtWorldPosition(worldPos);
-                //float finalHeight = heightMap[x, z] + biomeHeight;
-
-                ////float vertexHeight = finalHeight * heightMultiplier;
-
-                //vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
+                vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
                 if (x < mapWidth- 1 && z < mapHeight - 1)
                 {
@@ -154,7 +150,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return mesh;
     }
 
-    Color[] BiomeToColorMap(Map<Dictionary<EBiome, float>> biomeMap, int verticesCount)
+    Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
     {
         Color[] colorMap = new Color[verticesCount];
 
@@ -171,24 +167,24 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
                 if (biomeMap.Contains(x, y))
                 {
-                    foreach (var dict in biomeMap[x, y])
-                    {
-                        switch (dict.Key)
-                        {
-                            case EBiome.Desert:
-                                color = Color.yellow;
-                                break;
-                            case EBiome.Mountains:
-                                color = Color.gray;
-                                break;
-                            case EBiome.Volcanic:
-                                color = Color.red;
-                                break;
-                            case EBiome.Plains:
-                                color = Color.green;
-                                break;
-                        }
-                    }
+                    //foreach (var dict in biomeMap[x, y])
+                    //{
+                    //    switch (dict.Key)
+                    //    {
+                    //        case EBiome.Desert:
+                    //            color = Color.yellow;
+                    //            break;
+                    //        case EBiome.Mountains:
+                    //            color = Color.gray;
+                    //            break;
+                    //        case EBiome.Volcanic:
+                    //            color = Color.red;
+                    //            break;
+                    //        case EBiome.Plains:
+                    //            color = Color.green;
+                    //            break;
+                    //    }
+                    //}
                 }
 
                 colorMap[currentIndex] = new Color(color.r, color.g, color.b, color.a);

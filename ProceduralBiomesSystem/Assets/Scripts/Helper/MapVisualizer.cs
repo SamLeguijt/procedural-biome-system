@@ -43,7 +43,7 @@ public class MapVisualizer : MonoBehaviour
         targetRenderer.sharedMaterial.mainTexture = texture;
     }
 
-    public void DrawBiomeMap(Map<Color> map)
+    public void DrawBiomeMap(Map<BiomeWeights> map)
     {
         int width = map.Width;
         int height = map.Height;
