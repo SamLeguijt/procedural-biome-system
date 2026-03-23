@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PlainsConfig
   m_EditorClassIdentifier: 
   <BiomeType>k__BackingField: 4
-  <Generator>k__BackingField: {fileID: 11400000, guid: 03878083f0b93f043abdd4de8aee2cfa,
+  <Generator>k__BackingField: {fileID: 11400000, guid: 9e61e0280a55cdf4a8483e9cc1248428,
     type: 2}

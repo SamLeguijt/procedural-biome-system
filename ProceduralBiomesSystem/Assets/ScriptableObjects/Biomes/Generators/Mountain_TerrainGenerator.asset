@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.025451899
-      value: 0.0027591437
+      time: 0.07844308
+      value: -1.0104547
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.9833529
-      value: 1.0427184
+      time: 1.0363467
+      value: 0.928514
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -76,10 +76,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   randomSeed: 1
-  seed: 0
-  scale: 50
-  octaves: 10
-  persistance: 0.6
+  seed: 127
+  scale: 72.38
+  octaves: 5
+  persistance: 0.2
   lacunarity: 2.07
   heightMultiplier: 100
   offset: {x: 0, y: 0}

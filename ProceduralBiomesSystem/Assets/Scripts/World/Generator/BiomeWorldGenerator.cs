@@ -60,14 +60,23 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                float height = mapA[x,y] + (mapB[x,y] * biomeInfluence);
+                //float finalHeight = Mathf.Lerp(mapA[x, y], mapB[x, y], biomeInfluence);
+                //float finalHeight = mapB[x, y];
 
-                heightMapResult[x,y] = height;
+                float finalHeight = mapA[x,y] + (mapB[x,y] * biomeInfluence);
+
+                heightMapResult[x,y] = finalHeight;
             }
         }
 
         return heightMapResult;
     }
+
+    private Map<float> GenerateBiomeInfluenceMap(EBiome biomeType)
+    {
+        return null;
+    }
+
 
     private Map<float> BiomeToHeightMap(Map<BiomeWeights> biomeMap)
     {
@@ -93,7 +102,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                                     + (desertValue * biome.DesertWeight)
                                     + (plainsValue * biome.PlainsWeight);
 
-  
                 heightMap[x, y] = finalHeight;
             }
         }

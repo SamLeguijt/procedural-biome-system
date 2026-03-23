@@ -7,8 +7,12 @@ public enum MapDrawMode
     Elevation, 
     Erosion,
     Humidity,
-    Biomes,
-    All
+    Combined,
+    Biomes, 
+    DesertSample,
+    MountainSample,
+    VolcanicSample,
+    PlainsSample
 }
 
 public class MapVisualizer : MonoBehaviour
@@ -19,15 +23,25 @@ public class MapVisualizer : MonoBehaviour
 
     WorldLayout recentLayoutDebug;
 
+    [SerializeField] AbstractMeshTerrainGenerator MountainGenerator;
+
+    /// Should reference the generators, then subscribe to generators on value changed event, 
+    /// Then have enum option to draw those maps 
+
+    void GetDependencies()
+    {
+        MountainGenerator.OnValueChanged += Draw;
+    }
+
     public void SetRecentLayout(WorldLayout layout)
     {
         if (layout != null)
             recentLayoutDebug = layout;
 
-        DrawRecentLayoutMaps();
+        Draw();
     }
 
-    private void DrawRecentLayoutMaps()
+    private void Draw() 
     {
         if (recentLayoutDebug == null)
             return;
@@ -45,26 +59,32 @@ public class MapVisualizer : MonoBehaviour
             case MapDrawMode.Humidity:
                 DrawFloatMap(recentLayoutDebug.HumidityMap, Color.red);
                 break;
-
             case MapDrawMode.Biomes:
                 DrawBiomeMap(recentLayoutDebug.BiomeMap);
                 break;
-            case MapDrawMode.All:
+            case MapDrawMode.Combined:
                 DrawCombinedMap(
                      (recentLayoutDebug.ElevationMap, Color.blue),
                      (recentLayoutDebug.HumidityMap, Color.red),
                      (recentLayoutDebug.ErosionMap, Color.green)
                  );
                 break;
+            case MapDrawMode.MountainSample:
+                int width = recentLayoutDebug.ElevationMap.Width;
+                int height = recentLayoutDebug.ElevationMap.Height;
+                DrawFloatMap(MountainGenerator.GenerateHeightMapFromNoise(width, height), Color.green);
+                break;
         }
     }
+
 
     private void OnValidate()
     {
         if (Application.isPlaying)
             return;
 
-        DrawRecentLayoutMaps();
+        GetDependencies();
+        Draw();
     }
 
     public void DrawFloatMap(Map<float> map, Color mapColor)

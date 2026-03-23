@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,15 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     public float heightMultiplier = 1; 
     public Vector2 offset;
 
+    public Action OnValueChanged;
+
     public abstract void GenerateTerrain(WorldChunk chunk);
+
+
+    private void OnValidate()
+    {
+        OnValueChanged?.Invoke();
+    }
 
     public float GetHeightAtWorldPosition(Vector2 worldPos)
     {
@@ -59,11 +68,29 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         return finalHeight ;
     }
 
+    public Map<float> GenerateHeightMapFromNoise(int width, int height)
+    {
+        Map<float> map = new Map<float>(width, height);
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Vector2 worldPos = new Vector2(x, y); // grid space
+                float value = GetHeightAtWorldPosition(worldPos);
+
+                map[x, y] = value;
+            }
+        }
+
+        return map;
+    }
+
     protected Map<float> GenerateHeightMap(int width, int height)
     {
         int usedSeed = seed;
         if (randomSeed)
-            usedSeed = Random.Range(0, 10000);
+            usedSeed = UnityEngine.Random.Range(0, 10000);
 
         //var map = Utils.GenerateNoiseMap(width, height, usedSeed, scale, octaves, persistance, lacunarity, offset);
 

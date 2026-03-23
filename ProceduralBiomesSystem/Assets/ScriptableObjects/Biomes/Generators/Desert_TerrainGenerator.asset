@@ -68,7 +68,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   randomSeed: 0
   seed: 45
-  scale: 50
+  scale: 30.9
   octaves: 1
   persistance: 0
   lacunarity: 0

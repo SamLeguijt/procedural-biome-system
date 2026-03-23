@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DeserConfig
   m_EditorClassIdentifier: 
   <BiomeType>k__BackingField: 1
-  <Generator>k__BackingField: {fileID: 11400000, guid: 9436a73e14be99b47b9a3bf112e3c84d,
+  <Generator>k__BackingField: {fileID: 11400000, guid: 9e61e0280a55cdf4a8483e9cc1248428,
     type: 2}
