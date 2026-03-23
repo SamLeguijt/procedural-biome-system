@@ -55,24 +55,7 @@ public class MapVisualizer : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                Color color = Color.black;
-
-                //switch (map[x, y])
-                //{
-                //    case EBiome.Desert:
-                //        color = Color.yellow;
-                //        break;
-                //    case EBiome.Mountains:
-                //        color = Color.gray;
-                //        break;
-                //    case EBiome.Volcanic:
-                //        color = Color.red;
-                //        break;
-                //    case EBiome.Plains:
-                //        color = Color.green;
-                //        break;
-                //}
-
+                Color color = map[x,y].ToColor();
                 texture.SetPixel(x, y, color);
             }
         }

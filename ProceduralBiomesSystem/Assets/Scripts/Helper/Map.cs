@@ -23,10 +23,13 @@ public class Map<T>
         Values = values;
     }
 
+
+
     public void Set(T[,] values)
     {
         Values = values;
     }
+
 
     public T this[int x, int y]
     {

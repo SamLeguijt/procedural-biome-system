@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -27,6 +26,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     [SerializeField] int meshHeight = 200;
 
     public int heightMultiplier = 10;
+    public float verticeDistance = 1;
 
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
@@ -35,9 +35,12 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     public override World GenerateWorld(WorldLayout layout)
     {
-        Map<float> heightMap = BiomeToHeightMap(layout.BiomeMap);
+        Map<float> biomeInfluenceHeightMap = BiomeToHeightMap(layout.BiomeMap);
 
-        Mesh terrainMesh = CreateMesh(layout.ElevationMap.Values);
+        // Combine maps
+        Map<float> finalHeightMap = AddMaps(layout.ElevationMap, biomeInfluenceHeightMap) ;
+
+        Mesh terrainMesh = CreateMesh(finalHeightMap.Values);
         Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
@@ -46,6 +49,28 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         // Populate... (in generator?)
 
         return new World(terrainMesh, terrainMaterial);
+    }
+
+    public Map<float> AddMaps(Map<float> mapA, Map<float> mapB)
+    {
+        int mapWidth = mapA.Width;
+        int mapHeight = mapB.Height;
+
+        Map<float> heightMapResult = new Map<float>(mapWidth, mapHeight);
+
+        float biomeInfluence = 0.05f; /// MAKE MEMBER
+
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                float height = mapA[x,y] + (mapB[x,y] * biomeInfluence);
+
+                heightMapResult[x,y] = height;
+            }
+        }
+
+        return heightMapResult;
     }
 
     private Map<float> BiomeToHeightMap(Map<BiomeWeights> biomeMap)
@@ -60,25 +85,32 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             for (int x = 0; x < width; x++)
             {
                 BiomeWeights biome = biomeMap[x, y];
+                Vector2 worldPos = new Vector2(x, y); 
 
-                /// For each biome, get a noise value using the configs generators.
-                /// Use the weights to add all the noise values together
-                /// Normalise that all to 0-1
-                /// Return it all as a float map.
-                /// 
-
-                BiomeConfig mountainConfig = GetBiomeData(EBiome.Mountains);
-                BiomeConfig volcanicConfig = GetBiomeData(EBiome.Volcanic);
-                BiomeConfig desertConfig  = GetBiomeData(EBiome.Desert);
-                BiomeConfig plainsConfig  = GetBiomeData(EBiome.Plains);
-
-
+                float mountainValue = GetBiomeNoiseValue(worldPos, EBiome.Mountains);
+                float volcanicValue = GetBiomeNoiseValue(worldPos, EBiome.Volcanic);
+                float desertValue = GetBiomeNoiseValue(worldPos, EBiome.Desert);
+                float plainsValue = GetBiomeNoiseValue(worldPos, EBiome.Plains);
                 
-                    //heightMap[x, y] = config.Generator.GetHeightAtWorldPosition(worldPos);
+                float finalHeight = (mountainValue * biome.MountainsWeight)
+                                    + (volcanicValue * biome.VolcanicWeight)
+                                    + (desertValue * biome.DesertWeight)
+                                    + (plainsValue * biome.PlainsWeight);
+
+  
+                heightMap[x, y] = finalHeight;
             }
         }
 
         return heightMap;
+    }
+
+    private float GetBiomeNoiseValue(Vector2 worldPos, EBiome biomeType)
+    {
+        BiomeConfig config = GetBiomeData(biomeType);
+        float noiseValue = config.Generator.GetHeightAtWorldPosition(worldPos);
+
+        return noiseValue;
     }
 
     private BiomeConfig GetBiomeData(EBiome biomeType)
@@ -167,24 +199,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
                 if (biomeMap.Contains(x, y))
                 {
-                    //foreach (var dict in biomeMap[x, y])
-                    //{
-                    //    switch (dict.Key)
-                    //    {
-                    //        case EBiome.Desert:
-                    //            color = Color.yellow;
-                    //            break;
-                    //        case EBiome.Mountains:
-                    //            color = Color.gray;
-                    //            break;
-                    //        case EBiome.Volcanic:
-                    //            color = Color.red;
-                    //            break;
-                    //        case EBiome.Plains:
-                    //            color = Color.green;
-                    //            break;
-                    //    }
-                    //}
+                    color = biomeMap[x,y].ToColor();
                 }
 
                 colorMap[currentIndex] = new Color(color.r, color.g, color.b, color.a);
