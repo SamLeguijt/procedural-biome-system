@@ -43,7 +43,7 @@ public class MapVisualizer : MonoBehaviour
         targetRenderer.sharedMaterial.mainTexture = texture;
     }
 
-    public void DrawBiomeMap(Map<EBiome> map)
+    public void DrawBiomeMap(Map<Color> map)
     {
         int width = map.Width;
         int height = map.Height;
@@ -57,21 +57,21 @@ public class MapVisualizer : MonoBehaviour
             {
                 Color color = Color.black;
 
-                switch (map[x, y])
-                {
-                    case EBiome.Desert:
-                        color = Color.yellow;
-                        break;
-                    case EBiome.Mountains:
-                        color = Color.gray;
-                        break;
-                    case EBiome.Volcanic:
-                        color = Color.red;
-                        break;
-                    case EBiome.Plains:
-                        color = Color.green;
-                        break;
-                }
+                //switch (map[x, y])
+                //{
+                //    case EBiome.Desert:
+                //        color = Color.yellow;
+                //        break;
+                //    case EBiome.Mountains:
+                //        color = Color.gray;
+                //        break;
+                //    case EBiome.Volcanic:
+                //        color = Color.red;
+                //        break;
+                //    case EBiome.Plains:
+                //        color = Color.green;
+                //        break;
+                //}
 
                 texture.SetPixel(x, y, color);
             }

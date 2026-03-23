@@ -149,22 +149,22 @@ public class WorldManager : MonoBehaviour
             {
                 for (int y = 0; y < depth; y++)
                 {
-                    Color color;
+                    Color color = recentLayoutDebug.BiomeMap[x, y];
 
                     switch (recentLayoutDebug.BiomeMap[x, y])
                     {
-                        case EBiome.Desert:
-                            color = Color.yellow;
-                            break;
-                        case EBiome.Mountains:
-                            color = Color.green;
-                            break;
-                        case EBiome.Volcanic:
-                            color = Color.red;
-                            break;
-                        default:
-                            color = Color.black;
-                            break;
+                        //case EBiome.Desert:
+                        //    color = Color.yellow;
+                        //    break;
+                        //case EBiome.Mountains:
+                        //    color = Color.green;
+                        //    break;
+                        //case EBiome.Volcanic:
+                        //    color = Color.red;
+                        //    break;
+                        //default:
+                        //    color = Color.black;
+                        //    break;
                     }
 
                     Gizmos.color = color;

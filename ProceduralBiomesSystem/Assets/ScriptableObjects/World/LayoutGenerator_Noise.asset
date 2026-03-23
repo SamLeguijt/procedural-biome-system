@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevation:
     useRandomSeed: 1
-    seed: 168
+    seed: 156
     octaves: 10
-    persistance: 0.5
-    lacunarity: 2.5
-    scale: 223.2
+    persistance: 0.41
+    lacunarity: 3.6
+    scale: 135.16
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:

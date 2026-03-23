@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
 using Random = UnityEngine.Random;
@@ -95,7 +97,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return null;
     }
 
-    private Mesh CreateMesh(float[,] heightMap, Map<EBiome> biomeMap)
+    private Mesh CreateMesh(float[,] heightMap, Map<Dictionary<EBiome, float>> biomeMap)
     {
         int mapWidth = heightMap.GetLength(0);
         int mapHeight = heightMap.GetLength(1);
@@ -114,18 +116,18 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             for (int x = 0; x < mapWidth; x++)
             {
                 float vertexHeight = heightMap[x, z] * heightMultiplier;
-                vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
+                //vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
-                EBiome biome = biomeMap[x, z];
-                BiomeConfig config = GetBiomeData(biome);
-                Vector2 worldPos = new Vector2(x * noiseScale, z * noiseScale);
+                //EBiome biome = biomeMap[x, z];
+                //BiomeConfig config = GetBiomeData(biome);
+                //Vector2 worldPos = new Vector2(x * noiseScale, z * noiseScale);
 
-                float biomeHeight = config.Generator.GetHeightAtWorldPosition(worldPos);
-                float finalHeight = heightMap[x, z] + biomeHeight;
+                //float biomeHeight = config.Generator.GetHeightAtWorldPosition(worldPos);
+                //float finalHeight = heightMap[x, z] + biomeHeight;
 
-                //float vertexHeight = finalHeight * heightMultiplier;
+                ////float vertexHeight = finalHeight * heightMultiplier;
 
-                vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
+                //vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
                 if (x < mapWidth- 1 && z < mapHeight - 1)
                 {
@@ -152,7 +154,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return mesh;
     }
 
-    Color[] BiomeToColorMap(Map<EBiome> biomeMap, int verticesCount)
+    Color[] BiomeToColorMap(Map<Dictionary<EBiome, float>> biomeMap, int verticesCount)
     {
         Color[] colorMap = new Color[verticesCount];
 
@@ -169,20 +171,23 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
                 if (biomeMap.Contains(x, y))
                 {
-                    switch (biomeMap[x, y])
+                    foreach (var dict in biomeMap[x, y])
                     {
-                        case EBiome.Desert:
-                            color = Color.yellow;
-                            break;
-                        case EBiome.Mountains:
-                            color = Color.gray;
-                            break;
-                        case EBiome.Volcanic:
-                            color = Color.red;
-                            break;
-                        case EBiome.Plains:
-                            color = Color.green;
-                            break;
+                        switch (dict.Key)
+                        {
+                            case EBiome.Desert:
+                                color = Color.yellow;
+                                break;
+                            case EBiome.Mountains:
+                                color = Color.gray;
+                                break;
+                            case EBiome.Volcanic:
+                                color = Color.red;
+                                break;
+                            case EBiome.Plains:
+                                color = Color.green;
+                                break;
+                        }
                     }
                 }
 

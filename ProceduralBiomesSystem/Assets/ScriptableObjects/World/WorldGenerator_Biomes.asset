@@ -20,6 +20,6 @@ MonoBehaviour:
   terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   meshWidth: 512
   meshHeight: 512
-  heightMultiplier: 5
+  heightMultiplier: 50
   meshResolution: 1
   noiseScale: 0.005
