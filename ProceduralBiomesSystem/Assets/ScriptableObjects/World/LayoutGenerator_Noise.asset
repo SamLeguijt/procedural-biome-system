@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevation:
     useRandomSeed: 1
-    seed: 156
+    seed: 168
     octaves: 10
     persistance: 0.41
     lacunarity: 3.6
@@ -120,10 +120,3 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  biomeThresholds:
-  - biome: 1
-    threshold: 0.33
-  - biome: 2
-    threshold: 0.66
-  - biome: 3
-    threshold: 1

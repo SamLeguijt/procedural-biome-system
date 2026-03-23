@@ -69,8 +69,8 @@ MonoBehaviour:
   randomSeed: 0
   seed: 45
   scale: 50
-  octaves: 2
-  persistance: 0.2
-  lacunarity: 1.75
+  octaves: 1
+  persistance: 0
+  lacunarity: 0
   heightMultiplier: 0
   offset: {x: 0, y: 0}

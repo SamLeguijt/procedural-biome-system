@@ -56,7 +56,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         float normalizedHeight = (height + maxHeight) / (2f * maxHeight);
 
         float finalHeight = heightCurve.Evaluate(normalizedHeight);
-        return finalHeight * heightMultiplier;
+        return finalHeight ;
     }
 
     protected Map<float> GenerateHeightMap(int width, int height)

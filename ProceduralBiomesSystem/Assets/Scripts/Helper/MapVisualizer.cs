@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum MapDrawMode
 {
-    None,
     Elevation, 
     Erosion,
     Humidity,
@@ -16,12 +15,60 @@ public class MapVisualizer : MonoBehaviour
 {
     [SerializeField] private Renderer targetRenderer;
 
+    [SerializeField] private MapDrawMode mapDrawMode;
+
+    WorldLayout recentLayoutDebug;
+
+    public void SetRecentLayout(WorldLayout layout)
+    {
+        if (layout != null)
+            recentLayoutDebug = layout;
+
+        DrawRecentLayoutMaps();
+    }
+
+    private void DrawRecentLayoutMaps()
+    {
+        if (recentLayoutDebug == null)
+            return;
+
+        switch (mapDrawMode)
+        {
+            case MapDrawMode.Elevation:
+                DrawFloatMap(recentLayoutDebug.ElevationMap, Color.blue);
+                break;
+
+            case MapDrawMode.Erosion:
+                DrawFloatMap(recentLayoutDebug.ErosionMap, Color.green);
+                break;
+
+            case MapDrawMode.Humidity:
+                DrawFloatMap(recentLayoutDebug.HumidityMap, Color.red);
+                break;
+
+            case MapDrawMode.Biomes:
+                DrawBiomeMap(recentLayoutDebug.BiomeMap);
+                break;
+            case MapDrawMode.All:
+                DrawCombinedMap(
+                     (recentLayoutDebug.ElevationMap, Color.blue),
+                     (recentLayoutDebug.HumidityMap, Color.red),
+                     (recentLayoutDebug.ErosionMap, Color.green)
+                 );
+                break;
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (Application.isPlaying)
+            return;
+
+        DrawRecentLayoutMaps();
+    }
+
     public void DrawFloatMap(Map<float> map, Color mapColor)
     {
-        if (map == null)
-        {
-            Debug.Log("null");
-        }
         int width = map.Width;
         int height = map.Height;
 

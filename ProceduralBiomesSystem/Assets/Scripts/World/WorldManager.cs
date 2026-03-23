@@ -10,8 +10,6 @@ public class WorldManager : MonoBehaviour
 
     [Header("Visualization")]
     [SerializeField] private MapVisualizer visualizer;
-    [SerializeField] private MapDrawMode mapDrawMode;
-
 
     [Header("Debug settings")]
     [SerializeField] private bool drawLayoutGizmos = true;
@@ -28,51 +26,16 @@ public class WorldManager : MonoBehaviour
     {
         worldGenerator = worldSettings.WorldGenerator;
         worldLayoutGenerator = worldSettings.LayoutGenerator;
-        worldLayoutGenerator.OnLayoutChanged += DrawMaps; 
+        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps; 
     }
 
-    private void DrawMaps(WorldLayout layout)
+    private void VisualiseMaps(WorldLayout layout)
     {
         if (layout == null)
             return;
 
         recentLayoutDebug = layout;
-
-        switch (mapDrawMode)
-        {
-            case MapDrawMode.None:
-                break;
-            case MapDrawMode.Elevation:
-                visualizer.DrawFloatMap(recentLayoutDebug.ElevationMap, Color.blue);
-                break;
-
-            case MapDrawMode.Erosion:
-                visualizer.DrawFloatMap(recentLayoutDebug.ErosionMap, Color.green);
-                break;
-
-            case MapDrawMode.Humidity:
-                visualizer.DrawFloatMap(recentLayoutDebug.HumidityMap, Color.red);
-                break;
-
-            case MapDrawMode.Biomes:
-                visualizer.DrawBiomeMap(recentLayoutDebug.BiomeMap);
-                break;
-            case MapDrawMode.All:
-                visualizer.DrawCombinedMap(
-                     (recentLayoutDebug.ElevationMap, Color.blue),
-                     (recentLayoutDebug.HumidityMap, Color.red),
-                     (recentLayoutDebug.ErosionMap, Color.green)
-                 );
-                break;
-        }
-    }
-
-    private void OnValidate()
-    {
-        if (Application.isPlaying)
-            return;
-
-        DrawMaps(recentLayoutDebug);
+        visualizer.SetRecentLayout(recentLayoutDebug);
     }
 
     [Button]
@@ -90,6 +53,7 @@ public class WorldManager : MonoBehaviour
         CreateWorldObject(world);
 
         recentLayoutDebug = layout;
+        visualizer.SetRecentLayout(recentLayoutDebug);
     }
 
 

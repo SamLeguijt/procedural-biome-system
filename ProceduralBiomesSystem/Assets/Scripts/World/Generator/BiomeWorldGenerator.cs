@@ -26,12 +26,10 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     [SerializeField] int meshHeight = 200;
 
     public int heightMultiplier = 10;
-    public float verticeDistance = 1;
+    [Range(0, 1)]
+    public float biomeInfluence = 1f;
 
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
-
-    public int meshResolution = 1;
-    public float noiseScale = 0.05f;
 
     public override World GenerateWorld(WorldLayout layout)
     {
@@ -57,8 +55,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         int mapHeight = mapB.Height;
 
         Map<float> heightMapResult = new Map<float>(mapWidth, mapHeight);
-
-        float biomeInfluence = 0.05f; /// MAKE MEMBER
 
         for (int y = 0; y < mapHeight; y++)
         {
