@@ -17,11 +17,11 @@ MonoBehaviour:
   <VerticeDistance>k__BackingField: 1
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
-    seed: 0
+    seed: 37
     octaves: 2
     persistance: 0.35
     lacunarity: 2.15
-    scale: 80
+    scale: 125
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
