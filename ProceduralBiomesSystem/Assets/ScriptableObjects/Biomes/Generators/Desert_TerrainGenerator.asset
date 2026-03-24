@@ -17,7 +17,7 @@ MonoBehaviour:
   <VerticeDistance>k__BackingField: 1
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
-    seed: 37
+    seed: 110
     octaves: 2
     persistance: 0.35
     lacunarity: 2.15
@@ -55,14 +55,23 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.44363332
-        value: 0.32006228
+        time: 0.43570402
+        value: 0.2728907
         inSlope: 0.48296076
         outSlope: 0.48296076
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.17753376
         outWeight: 0.24982916
+      - serializedVersion: 3
+        time: 0.6005974
+        value: 0.31350267
+        inSlope: 0.7396485
+        outSlope: 0.7396485
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.7300159
         value: 0.7827906
@@ -84,71 +93,4 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  heightCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.083158284
-      value: -0.0044342447
-      inSlope: 0.06499959
-      outSlope: 0.06499959
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35285464
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.32741958
-      value: 0.16570129
-      inSlope: 1.5345935
-      outSlope: 1.5345935
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.44363332
-      value: 0.32006228
-      inSlope: 0.48296076
-      outSlope: 0.48296076
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.17753376
-      outWeight: 0.24982916
-    - serializedVersion: 3
-      time: 0.7300159
-      value: 0.7827906
-      inSlope: 1.2280014
-      outSlope: 1.2280014
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.90960044
-      value: 0.8887653
-      inSlope: 0.6499591
-      outSlope: 0.6499591
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.34332955
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  randomSeed: 0
-  seed: 111
-  scale: 78.5
-  octaves: 2
-  persistance: 0.36
-  lacunarity: 2.18
-  heightMultiplier: 28.4
-  offset: {x: 0, y: 0}
+  heightMultiplier: 25

@@ -21,4 +21,4 @@ MonoBehaviour:
   meshWidth: 1000
   meshHeight: 1000
   heightMultiplier: 50
-  biomeInfluence: 0.49
+  biomeInfluence: 1

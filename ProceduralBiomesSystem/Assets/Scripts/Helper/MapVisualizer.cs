@@ -72,7 +72,7 @@ public class MapVisualizer : MonoBehaviour
             case MapDrawMode.MountainSample:
                 int width = recentLayoutDebug.ElevationMap.Width;
                 int height = recentLayoutDebug.ElevationMap.Height;
-                DrawFloatMap(MountainGenerator.GenerateHeightMapFromNoise(width, height), Color.green);
+                DrawFloatMap(MountainGenerator.GenerateHeightMap(width, height), Color.green);
                 break;
         }
     }

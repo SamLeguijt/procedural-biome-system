@@ -15,12 +15,12 @@ MonoBehaviour:
   elevation:
     useRandomSeed: 1
     seed: 223
-    octaves: 5
-    persistance: 0.15
-    lacunarity: 4.1
-    scale: 46.02
+    octaves: 2
+    persistance: 0.2
+    lacunarity: 3
+    scale: 800
     offset: {x: 0, y: 0}
-    useCurve: 1
+    useCurve: 0
     remapCurve:
       serializedVersion: 2
       m_Curve:
@@ -107,11 +107,11 @@ MonoBehaviour:
       m_RotationOrder: 4
   humidity:
     useRandomSeed: 1
-    seed: 0
-    octaves: 5
-    persistance: 0.8
-    lacunarity: 2.5
-    scale: 148.38
+    seed: 350
+    octaves: 1
+    persistance: 0.21
+    lacunarity: 2
+    scale: 350
     offset: {x: 0, y: 0}
     useCurve: 0
     remapCurve:

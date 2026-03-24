@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public struct BiomeWeights
         desertWeight = _desertWeight;
         plainsWeight = _plainsWeight;
 
-        Normalise(); 
+        Normalise();
     }
 
     private void Normalise()
@@ -38,6 +39,24 @@ public struct BiomeWeights
         }
     }
 
+    public float GetWeight(EBiome biomeType)
+    {
+        switch (biomeType)
+        {
+            case EBiome.Mountains:
+                return mountainsWeight;
+            case EBiome.Volcanic:
+                return volcanicWeight;
+            case EBiome.Desert:
+                return desertWeight;
+            case EBiome.Plains:
+                return plainsWeight;
+        }
+
+        return 0f;
+    }
+
+
     /// <summary>
     /// Returns a color representing the stored weights: 
     /// R -> Desert
@@ -48,6 +67,19 @@ public struct BiomeWeights
     /// <returns></returns>
     public Color ToColor()
     {
-        return new Color(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight); 
+        //return new Color(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight); 
+
+        float max = Mathf.Max(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight);
+
+        if (max == DesertWeight)
+            return Color.yellow;
+
+        if (max == MountainsWeight)
+            return Color.green;
+
+        if (max == VolcanicWeight)
+            return Color.red;
+
+        return Color.cyan;
     }
 }

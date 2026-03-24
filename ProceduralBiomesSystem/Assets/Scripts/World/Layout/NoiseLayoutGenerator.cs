@@ -67,6 +67,10 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
                 float erosionValue = erosionMap[x, y];
                 float humidityValue = humidityMap[x, y];
 
+                elevationValue = Mathf.Pow(elevationValue, 1.5f);
+                humidityValue = Mathf.Pow(humidityValue, 1.5f);
+                erosionValue = Mathf.Pow(erosionValue, 1.5f);
+
                 /// TODO: Strategy / class / Method? 
                 float desert = (1f - humidityValue) * (1f - elevationValue);
                 float mountains = elevationValue * (1f - erosionValue);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -10,6 +11,7 @@ using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
 using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
@@ -33,12 +35,17 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     public override World GenerateWorld(WorldLayout layout)
     {
-        Map<float> biomeInfluenceHeightMap = BiomeToHeightMap(layout.BiomeMap);
+        Map<float> baseHeightMap = layout.ElevationMap;
 
-        // Combine maps
-        Map<float> finalHeightMap = AddMaps(layout.ElevationMap, biomeInfluenceHeightMap) ;
+        var biomeHeightMaps = GenerateBiomeTerrainMaps(layout.BiomeMap.Width, layout.BiomeMap.Height);
+        var blendedMap = BlendBiomeMaps(layout.BiomeMap, biomeHeightMaps);
 
-        Mesh terrainMesh = CreateMesh(finalHeightMap.Values);
+        //CreateBiomeTerrainMapsDebug(biomeHeightMaps);
+
+        Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
+        finalHeightmap = Normalize(finalHeightmap);
+
+        Mesh terrainMesh = CreateMesh(finalHeightmap.Values);
         Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
@@ -49,95 +56,139 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return new World(terrainMesh, terrainMaterial);
     }
 
-    public Map<float> AddMaps(Map<float> mapA, Map<float> mapB)
+    private void CreateBiomeTerrainMapsDebug(Dictionary<EBiome, Map<float>> maps)
     {
-        int mapWidth = mapA.Width;
-        int mapHeight = mapB.Height;
-
-        Map<float> heightMapResult = new Map<float>(mapWidth, mapHeight);
-
-        for (int y = 0; y < mapHeight; y++)
+        foreach (var kvp in maps)
         {
-            for (int x = 0; x < mapWidth; x++)
+            var map = kvp.Value;
+
+            Mesh mesh = CreateMesh(map.Values);
+
+            GameObject go = new GameObject("Biome terrain debug");
+            MeshRenderer renderer = go.AddComponent<MeshRenderer>();
+            MeshFilter filter = go.AddComponent<MeshFilter>();
+
+            filter.sharedMesh = mesh;
+            renderer.material = terrainMaterial;
+        }
+    }
+   
+
+    private Dictionary<EBiome, Map<float>> GenerateBiomeTerrainMaps(int width, int height)
+    {
+        var maps = new Dictionary<EBiome, Map<float>>();
+
+        foreach (var config in BiomeConfigs)
+        {
+            var generator = config.Generator;
+            var map = generator.GenerateHeightMap(width, height);
+            maps.Add(config.BiomeType, map);
+        }
+
+        return maps;
+    }
+
+    private Map<float> CombineMaps(Map<float> baseMap, Map<float> addMap)
+    {
+        Map<float> result = new Map<float>(baseMap.Width, baseMap.Height);
+
+        for (int y = 0; y < result.Height; y++)
+        {
+            for (int x = 0; x < result.Width; x++)
             {
-                //float finalHeight = Mathf.Lerp(mapA[x, y], mapB[x, y], biomeInfluence);
-                //float finalHeight = mapB[x, y];
+                float baseHeight = baseMap[x, y];
+                float biomeHeight = addMap[x, y];
+                float finalHeight = baseHeight + biomeHeight * biomeInfluence;
 
-                float finalHeight = mapA[x,y] + (mapB[x,y] * biomeInfluence);
-
-                heightMapResult[x,y] = finalHeight;
+                result[x, y] = finalHeight;
             }
         }
 
-        return heightMapResult;
+        return result;
     }
 
-    private Map<float> GenerateBiomeInfluenceMap(EBiome biomeType)
+    private float GetBiomeMultiplier(EBiome biomeType)
     {
-        return null;
+        if (biomeConfigMappings.TryGetValue(biomeType, out var config))
+            return config.Generator.heightMultiplier;
+
+        return 1f;
     }
 
-
-    private Map<float> BiomeToHeightMap(Map<BiomeWeights> biomeMap)
+    private Map<float> Normalize(Map<float> map)
     {
-        int width = biomeMap.Width;
-        int height = biomeMap.Height;
+        float min = float.MaxValue;
+        float max = float.MinValue;
 
-        Map<float> heightMap = new Map<float>(width, height);
-
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < map.Height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < map.Width; x++)
             {
-                BiomeWeights biome = biomeMap[x, y];
-                Vector2 worldPos = new Vector2(x, y); 
-
-                float mountainValue = GetBiomeNoiseValue(worldPos, EBiome.Mountains);
-                float volcanicValue = GetBiomeNoiseValue(worldPos, EBiome.Volcanic);
-                float desertValue = GetBiomeNoiseValue(worldPos, EBiome.Desert);
-                float plainsValue = GetBiomeNoiseValue(worldPos, EBiome.Plains);
-                
-                float finalHeight = (mountainValue * biome.MountainsWeight)
-                                    + (volcanicValue * biome.VolcanicWeight)
-                                    + (desertValue * biome.DesertWeight)
-                                    + (plainsValue * biome.PlainsWeight);
-
-                heightMap[x, y] = finalHeight;
+                float v = map[x, y];
+                if (v < min) min = v;
+                if (v > max) max = v;
             }
         }
 
-        return heightMap;
-    }
-
-    private float GetBiomeNoiseValue(Vector2 worldPos, EBiome biomeType)
-    {
-        BiomeConfig config = GetBiomeData(biomeType);
-        float noiseValue = config.Generator.GetHeightAtWorldPosition(worldPos);
-
-        return noiseValue;
-    }
-
-    private BiomeConfig GetBiomeData(EBiome biomeType)
-    {
-        if (biomeConfigMappings.ContainsKey(biomeType))
+        for (int y = 0; y < map.Height; y++)
         {
-            BiomeConfig biomeData = biomeConfigMappings[biomeType];
-
-            if (biomeData != null)
-                return biomeData;
-        }
-
-        foreach (BiomeConfig config in BiomeConfigs)
-        {
-            if (config.BiomeType == biomeType)
+            for (int x = 0; x < map.Width; x++)
             {
-                biomeConfigMappings.Add(biomeType, config);
-                return config;
+                map[x, y] = Mathf.InverseLerp(min, max, map[x, y]);
             }
         }
 
-        /// Todo: Throw error?
-        return null;
+        return map;
+    }
+
+    private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<EBiome, Map<float>> biomeTerrainMaps)
+    {
+        Map<float> biomeBlendedMap = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
+
+        for (int y = 0; y < biomeBlendedMap.Height; y++)
+        {
+            for (int x = 0; x < biomeBlendedMap.Width; x++)
+            {
+                BiomeWeights weights = biomeWeightsMap[x, y];
+
+                var topBiomes = new[]
+                {
+                (EBiome.Mountains, weights.MountainsWeight),
+                (EBiome.Volcanic, weights.VolcanicWeight),
+                (EBiome.Desert, weights.DesertWeight),
+                (EBiome.Plains, weights.PlainsWeight)
+            }
+                .OrderByDescending(b => b.Item2)
+                .Take(2)
+                .ToArray();
+
+                var (b1, w1) = topBiomes[0];
+                var (b2, w2) = topBiomes[1];
+
+
+                float h1 = biomeTerrainMaps[b1][x, y] * GetBiomeMultiplier(b1); // Multiply here?
+                float h2 = biomeTerrainMaps[b2][x, y] * GetBiomeMultiplier(b2);
+
+                float t = w2 / (w1 + w2);
+                biomeBlendedMap[x, y] = Mathf.Lerp(h1, h2, t);
+
+
+                float finalHeight = 0f;
+                foreach (var kvp in biomeTerrainMaps)
+                {
+                    EBiome biome = kvp.Key;
+                    float weight = weights.GetWeight(biome); 
+                    float h = kvp.Value[x, y] * GetBiomeMultiplier(biome);
+
+                    finalHeight += h * weight;
+                }
+
+                biomeBlendedMap[x, y] = finalHeight;
+                //biomeBlendedMap[x, y] = biomeTerrainMaps[b1][x,y]; /// No blending, debug use only.
+            }
+        }
+
+        return biomeBlendedMap;
     }
 
     private Mesh CreateMesh(float[,] heightMap)
@@ -158,7 +209,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                float vertexHeight = heightMap[x, z] * heightMultiplier;
+                float vertexHeight = heightMap[x, z];//* heightMultiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
                 if (x < mapWidth- 1 && z < mapHeight - 1)
