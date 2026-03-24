@@ -15,18 +15,114 @@ MonoBehaviour:
   <MeshMaterial>k__BackingField: {fileID: 2100000, guid: f680a2e2ec3439546ab07b3cf7e48960,
     type: 2}
   <VerticeDistance>k__BackingField: 1
+  <NoiseSettings>k__BackingField:
+    useRandomSeed: 1
+    seed: 102
+    octaves: 10
+    persistance: 0.41
+    lacunarity: 3.35
+    scale: 50
+    offset: {x: 0, y: 0}
+    useCurve: 1
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -0.0037345886
+        value: -0.010913849
+        inSlope: 2.0571465
+        outSlope: 2.0571465
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.24504647
+        value: 0.5008652
+        inSlope: 0.07184936
+        outSlope: 0.07184936
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.3319837
+      - serializedVersion: 3
+        time: 0.33584425
+        value: 0.500936
+        inSlope: 0.031378467
+        outSlope: 0.031378467
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.41249302
+        value: 0.501279
+        inSlope: 0.04214663
+        outSlope: 0.04214663
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.28741238
+      - serializedVersion: 3
+        time: 0.52357036
+        value: 0.5101481
+        inSlope: 0.4228769
+        outSlope: 0.4228769
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.7076759
+      - serializedVersion: 3
+        time: 0.57710516
+        value: 0.53532875
+        inSlope: 0.8389238
+        outSlope: 0.8389238
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0099487
+        value: 1.0098953
+        inSlope: 1.0963929
+        outSlope: 1.0963929
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   heightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: -0.011199951
+      time: 0.0037345886
+      value: -0.015594482
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 0.08036065
+      value: -0.04124348
+      inSlope: -2.2952924
+      outSlope: -2.2952924
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.08863738
+      value: -0.15997407
+      inSlope: -2.040016
+      outSlope: -2.040016
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.45206112
+      outWeight: 0.049164776
     - serializedVersion: 3
       time: 0.1855028
       value: -0.32740027
@@ -36,6 +132,33 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.08991101
+    - serializedVersion: 3
+      time: 0.54327965
+      value: 0.22198977
+      inSlope: 1.0263526
+      outSlope: 1.0263526
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.03142301
+    - serializedVersion: 3
+      time: 0.69175535
+      value: 0.5774429
+      inSlope: 2.2825549
+      outSlope: 2.2825549
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.74476254
+      value: 0.7020489
+      inSlope: 1.9126664
+      outSlope: 1.9126664
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
@@ -49,10 +172,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   randomSeed: 1
-  seed: 377
+  seed: 602
   scale: 50
-  octaves: 5
+  octaves: 10
   persistance: 0.2
-  lacunarity: 4
+  lacunarity: 6
   heightMultiplier: 56.26
-  offset: {x: 0, y: 0}
+  offset: {x: -13.97, y: 0}

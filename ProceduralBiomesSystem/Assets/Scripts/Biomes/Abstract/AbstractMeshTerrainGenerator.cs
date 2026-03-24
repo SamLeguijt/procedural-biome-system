@@ -11,6 +11,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     [field: SerializeField] public Material MeshMaterial { get; private set; }
     [field: SerializeField] public float VerticeDistance { get; private set; } = 1;
 
+    [field: SerializeField] public NoiseSettings NoiseSettings { get; private set; }
     public AnimationCurve heightCurve; 
     public bool randomSeed = false; 
     public int seed;
@@ -32,9 +33,8 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
 
         if (recentSample != null)
         {
-            var heightmap = GenerateHeightMapFromNoise(250, 250);
+            var heightmap = GenerateHeightMap(250, 250);
             Mesh mesh = CreateMesh(heightmap);
-
             recentSample.GetComponent<MeshFilter>().mesh = mesh;    
         }
     }
@@ -42,11 +42,24 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     [Button]
     protected void CreateSample()
     {
-        ClearSample();
+        GameObject go = new GameObject("TerrainSample");
+        MeshRenderer renderer = go.AddComponent<MeshRenderer>();
+        MeshFilter filter = go.AddComponent<MeshFilter>();
 
-        recentSample = new GameObject("TerrainSample");
-        MeshRenderer renderer = recentSample.AddComponent<MeshRenderer>();
-        MeshFilter filter = recentSample.AddComponent<MeshFilter>();
+        var heightmap = GenerateHeightMap(250,250);
+        Mesh mesh = CreateMesh(heightmap);
+
+        filter.mesh = mesh;
+        renderer.material = MeshMaterial;
+        recentSample = go;
+    }
+
+    [Button]
+    protected void CreateSample2()
+    {
+        GameObject go = new GameObject("TerrainSample");
+        MeshRenderer renderer = go.AddComponent<MeshRenderer>();
+        MeshFilter filter = go.AddComponent<MeshFilter>();
 
         var heightmap = GenerateHeightMapFromNoise(250,250);
         Mesh mesh = CreateMesh(heightmap);
@@ -120,12 +133,12 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     protected Map<float> GenerateHeightMap(int width, int height)
     {
         int usedSeed = seed;
-        if (randomSeed)
+        if (NoiseSettings.useRandomSeed)
             usedSeed = UnityEngine.Random.Range(0, 10000);
 
-        //var map = Utils.GenerateNoiseMap(width, height, usedSeed, scale, octaves, persistance, lacunarity, offset);
+        var map = Utils.GenerateNoiseMap(width, height, NoiseSettings);
 
-        return new Map<float>(0,0);
+        return new Map<float>(map);
     }
 
     protected virtual Mesh CreateMesh(Map<float> heightMap)
