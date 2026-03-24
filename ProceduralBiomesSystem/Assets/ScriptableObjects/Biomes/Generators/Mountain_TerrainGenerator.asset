@@ -16,20 +16,20 @@ MonoBehaviour:
     type: 2}
   <VerticeDistance>k__BackingField: 1
   <NoiseSettings>k__BackingField:
-    useRandomSeed: 1
-    seed: 407
+    useRandomSeed: 0
+    seed: 1164
     octaves: 10
     persistance: 0.15
     lacunarity: 5
-    scale: 75
+    scale: 100
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0
+        time: 0.01102829
+        value: -0.000024750829
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -37,23 +37,32 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.23045617
-        value: 0.30001575
-        inSlope: 0.06898899
-        outSlope: 0.06898899
+        time: 0.4362496
+        value: -0.0010212213
+        inSlope: -0.00066672114
+        outSlope: -0.00066672114
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.25970843
+        outWeight: 0.3581294
       - serializedVersion: 3
-        time: 0.44900596
-        value: 0.30176842
-        inSlope: 0.16001768
-        outSlope: 0.16001768
+        time: 0.6003113
+        value: 0.21281542
+        inSlope: 2.5004423
+        outSlope: 2.5004423
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.17285681
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6858196
+        value: 0.47864696
+        inSlope: 1.4116305
+        outSlope: 1.4116305
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.1449755
       - serializedVersion: 3
         time: 0.9850464
         value: 1.0082512
@@ -66,107 +75,4 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  heightCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.001206466
-      value: 0.0016113408
-      inSlope: 0.022180213
-      outSlope: 0.022180213
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.7725505
-    - serializedVersion: 3
-      time: 0.06898761
-      value: -0.00048397295
-      inSlope: -0.073923625
-      outSlope: -0.073923625
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.9484776
-      outWeight: 0.63781387
-    - serializedVersion: 3
-      time: 0.14598003
-      value: -0.0020418987
-      inSlope: -0.041102268
-      outSlope: -0.041102268
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.08734253
-    - serializedVersion: 3
-      time: 0.27693927
-      value: 0.0757229
-      inSlope: 0.063498
-      outSlope: 0.063498
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.22184378
-    - serializedVersion: 3
-      time: 0.46096945
-      value: 0.26703697
-      inSlope: 1.6772224
-      outSlope: 1.6772224
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.17850193
-    - serializedVersion: 3
-      time: 0.4762141
-      value: 0.33206365
-      inSlope: 1.9927024
-      outSlope: 1.9927024
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.62566435
-      value: 0.4744128
-      inSlope: 0.07302133
-      outSlope: 0.07302133
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.18459792
-    - serializedVersion: 3
-      time: 0.67099315
-      value: 0.544195
-      inSlope: 0.11135715
-      outSlope: 0.11135715
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.5067119
-    - serializedVersion: 3
-      time: 0.8845625
-      value: 0.7978765
-      inSlope: 0.04461427
-      outSlope: 0.04461427
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.26544207
-    - serializedVersion: 3
-      time: 0.96765137
-      value: 0.9818077
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  randomSeed: 0
-  seed: 149
-  scale: 54.25
-  octaves: 15
-  persistance: 0.2
-  lacunarity: 4
   heightMultiplier: 100
-  offset: {x: 0, y: 0}
