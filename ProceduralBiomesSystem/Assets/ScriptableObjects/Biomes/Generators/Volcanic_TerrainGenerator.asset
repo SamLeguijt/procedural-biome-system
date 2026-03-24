@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.029506683
-      value: 0.014060974
+      time: 0
+      value: -0.011199951
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -28,53 +28,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.084864795
-      value: 0.16601223
-      inSlope: 1.2508961
-      outSlope: 1.2508961
+      time: 0.1855028
+      value: -0.32740027
+      inSlope: 0.053623755
+      outSlope: 0.053623755
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.08991101
     - serializedVersion: 3
-      time: 0.23053525
-      value: 0.20441854
-      inSlope: 0.90692014
-      outSlope: 0.90692014
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 1
-    - serializedVersion: 3
-      time: 0.3393438
-      value: 0.33434826
-      inSlope: 1.0454677
-      outSlope: 1.0454677
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.59230584
-    - serializedVersion: 3
-      time: 0.5174973
-      value: 0.5008062
-      inSlope: 0.69885445
-      outSlope: 0.69885445
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6648786
-      value: 0.629503
-      inSlope: 1.7672358
-      outSlope: 1.7672358
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0075684
-      value: 0.9906006
+      time: 1
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -85,10 +49,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   randomSeed: 1
-  seed: 50
-  scale: 68.43
-  octaves: 4
-  persistance: 0.6
-  lacunarity: 3
-  heightMultiplier: 80
+  seed: 377
+  scale: 50
+  octaves: 5
+  persistance: 0.2
+  lacunarity: 4
+  heightMultiplier: 56.26
   offset: {x: 0, y: 0}

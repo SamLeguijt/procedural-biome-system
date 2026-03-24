@@ -22,13 +22,44 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     public Vector2 offset;
 
     public Action OnValueChanged;
-
+    private GameObject recentSample = null;
     public abstract void GenerateTerrain(WorldChunk chunk);
 
 
     private void OnValidate()
     {
         OnValueChanged?.Invoke();
+
+        if (recentSample != null)
+        {
+            var heightmap = GenerateHeightMapFromNoise(250, 250);
+            Mesh mesh = CreateMesh(heightmap);
+
+            recentSample.GetComponent<MeshFilter>().mesh = mesh;    
+        }
+    }
+
+    [Button]
+    protected void CreateSample()
+    {
+        ClearSample();
+
+        recentSample = new GameObject("TerrainSample");
+        MeshRenderer renderer = recentSample.AddComponent<MeshRenderer>();
+        MeshFilter filter = recentSample.AddComponent<MeshFilter>();
+
+        var heightmap = GenerateHeightMapFromNoise(250,250);
+        Mesh mesh = CreateMesh(heightmap);
+
+        filter.mesh = mesh;
+        renderer.material = MeshMaterial;
+    }
+
+    [Button]
+    protected void ClearSample()
+    {
+        if (recentSample != null)
+            DestroyImmediate(recentSample);
     }
 
     public float GetHeightAtWorldPosition(Vector2 worldPos)
@@ -76,7 +107,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         {
             for (int x = 0; x < width; x++)
             {
-                Vector2 worldPos = new Vector2(x, y); // grid space
+                Vector2 worldPos = new Vector2(x, y); 
                 float value = GetHeightAtWorldPosition(worldPos);
 
                 map[x, y] = value;
