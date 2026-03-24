@@ -12,38 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e20069c8b466641b8aefe20c271d3a, type: 3}
   m_Name: Plains_TerrainGenerator
   m_EditorClassIdentifier: 
-  <MeshMaterial>k__BackingField: {fileID: 2100000, guid: f680a2e2ec3439546ab07b3cf7e48960,
+  <MeshMaterial>k__BackingField: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9,
     type: 2}
   <VerticeDistance>k__BackingField: 1
-  heightCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.008644104
-      value: 0.0050354004
-      inSlope: -0.0022086194
-      outSlope: -0.0022086194
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0345764
-      value: 0.0027313232
-      inSlope: -0.0022086194
-      outSlope: -0.0022086194
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  randomSeed: 1
-  seed: 50
-  scale: 68.43
-  octaves: 4
-  persistance: 0.6
-  lacunarity: 3
-  heightMultiplier: 80
-  offset: {x: 0, y: 0}
+  <NoiseSettings>k__BackingField:
+    useRandomSeed: 1
+    seed: 20
+    octaves: 5
+    persistance: 0.5
+    lacunarity: 2
+    scale: 50
+    offset: {x: 0, y: 0}
+    useCurve: 1
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  heightMultiplier: 80.86

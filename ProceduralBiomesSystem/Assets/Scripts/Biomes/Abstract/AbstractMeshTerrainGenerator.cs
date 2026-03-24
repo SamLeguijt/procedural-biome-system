@@ -12,20 +12,13 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     [field: SerializeField] public float VerticeDistance { get; private set; } = 1;
 
     [field: SerializeField] public NoiseSettings NoiseSettings { get; private set; }
-    public AnimationCurve heightCurve; 
-    public bool randomSeed = false; 
-    public int seed;
-    public float scale;
-    public int octaves;
-    public float persistance;
-    public float lacunarity;
-    public float heightMultiplier = 1; 
-    public Vector2 offset;
-
+  
     public Action OnValueChanged;
     private GameObject recentSample = null;
-    public abstract void GenerateTerrain(WorldChunk chunk);
 
+    public float heightMultiplier = 1;
+    public abstract void GenerateTerrain(WorldChunk chunk);
+        
 
     private void OnValidate()
     {
@@ -82,33 +75,33 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         float amplitude = 1f;
         float frequency = 1f;
 
-        System.Random random = new System.Random(seed);
+        System.Random random = new System.Random(NoiseSettings.seed);
 
-        Vector2[] octaveOffsets = new Vector2[octaves];
+        Vector2[] octaveOffsets = new Vector2[NoiseSettings.octaves];
 
-        for (int i = 0; i < octaves; i++)
+        for (int i = 0; i < NoiseSettings.octaves; i++)
         {
-            float xOffset = random.Next(-100000, 100000) + offset.x;
-            float yOffset = random.Next(-100000, 100000) + offset.y;
+            float xOffset = random.Next(-100000, 100000) + NoiseSettings.offset.x;
+            float yOffset = random.Next(-100000, 100000) + NoiseSettings.offset.y;
             octaveOffsets[i] = new Vector2(xOffset, yOffset);
         }
 
-        for (int o = 0; o < octaves; o++)
+        for (int o = 0; o < NoiseSettings.octaves; o++)
         {
-            float sampleX = worldPos.x / scale * frequency + octaveOffsets[o].x;    
-            float sampleY = worldPos.y / scale * frequency + octaveOffsets[o].y;
+            float sampleX = worldPos.x / NoiseSettings.scale * frequency + octaveOffsets[o].x;    
+            float sampleY = worldPos.y / NoiseSettings.scale * frequency + octaveOffsets[o].y;
 
             float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
             height += perlinValue * amplitude;
 
             maxHeight += amplitude; 
-            amplitude *= persistance;
-            frequency *= lacunarity;
+            amplitude *= NoiseSettings.persistance;
+            frequency *= NoiseSettings.lacunarity;
         }
 
         float normalizedHeight = (height + maxHeight) / (2f * maxHeight);
 
-        float finalHeight = heightCurve.Evaluate(normalizedHeight);
+        float finalHeight = NoiseSettings.remapCurve.Evaluate(normalizedHeight);
         return finalHeight ;
     }
 
@@ -132,7 +125,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
 
     protected Map<float> GenerateHeightMap(int width, int height)
     {
-        int usedSeed = seed;
+        int usedSeed = NoiseSettings.seed;
         if (NoiseSettings.useRandomSeed)
             usedSeed = UnityEngine.Random.Range(0, 10000);
 
@@ -157,7 +150,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         {
             for (int x = 0; x < width; x++)
             {
-                float height = heightCurve.Evaluate(heightMap[x, z]) * heightMultiplier;
+                float height = heightMap[x, z] * heightMultiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, height, topLeftZ - z);
                 if (x < width - 1 && z < depth - 1)
                 {
