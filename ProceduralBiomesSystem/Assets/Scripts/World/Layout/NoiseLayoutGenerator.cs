@@ -73,7 +73,7 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
                 float plains = (1f - elevationValue) * humidityValue;
                 float volcanic = elevationValue * erosionValue;
 
-                float sharpness = 2.5f; // try 2–5
+                float sharpness = 10; 
 
                 mountains = Mathf.Pow(mountains, sharpness);
                 desert = Mathf.Pow(desert, sharpness);

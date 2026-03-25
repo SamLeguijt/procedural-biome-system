@@ -121,7 +121,7 @@ public struct BiomeWeights
     /// <returns></returns>
     public Color ToColor()
     {
-        //return new Color(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight); 
+        return new Color(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight); 
 
         float max = Mathf.Max(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight);
 

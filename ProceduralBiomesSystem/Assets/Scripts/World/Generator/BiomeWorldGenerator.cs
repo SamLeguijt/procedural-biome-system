@@ -25,8 +25,15 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     [SerializeField] int meshHeight = 200;
 
     public int heightMultiplier = 10;
-    [Range(0, 1)]
-    public float biomeInfluence = 1f;
+
+    [Header("Blending properties")]
+    [Range(0, 10), SerializeField]
+    private float biomeInfluence = 1f;
+    [Range(0, 1), SerializeField, Tooltip("Determines what weight a point should be in order to skip blending with other biomes")]
+    private float dominantBiomeWeightThreshold = 0.9f;
+    [Range(0, 1), SerializeField, Tooltip("Determines what minimum weight a point should be in order to be blended")]
+    private float minBiomeWeightThreshold = 0.05f;
+
 
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
@@ -39,7 +46,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         //CreateBiomeTerrainMapsDebug(biomeHeightMaps);
 
-        Map<float> finalHeightmap = blendedMap; //CombineMaps(baseHeightMap, blendedMap);
+        Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
         finalHeightmap = Normalize(finalHeightmap);
 
         Mesh terrainMesh = CreateMesh(finalHeightmap.Values);
@@ -96,7 +103,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             {
                 float baseHeight = baseMap[x, y];
                 float biomeHeight = addMap[x, y];
-                float finalHeight = baseHeight + biomeHeight * biomeInfluence;
+                float finalHeight = baseHeight + (biomeHeight * biomeInfluence);
 
                 result[x, y] = finalHeight;
             }
@@ -150,64 +157,21 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                 BiomeWeights weights = biomeWeightsMap[x, y];
                 float finalHeight = 0f;
 
-                //biomeBlendedMap[x, y] = finalHeight;
-                //biomeBlendedMap[x, y] = biomeTerrainMaps[b1][x,y]; /// No blending, debug use only.
-
-                //foreach (var biomeMap in biomeTerrainMaps)
-                //{
-                //    EBiome biome = biomeMap.Key;
-                //    float weight = weights.GetWeight(biome);
-
-                //    //Debug.Log($"Biome: {biome}, weight: {weight} " );
-
-                //    if (weight <= 0f)
-                //        continue;
-
-                //    float height = biomeMap.Value[x, y] * GetBiomeMultiplier(biome);
-
-                //    if (weight > 0.3f)
-                //        finalHeight += height * weight;
-                //}
-
+               
                 var (mainBiome, mainWeight) = weights.GetHighestWeight();
 
-                if (mainWeight > 0.9f)
+                if (mainWeight > dominantBiomeWeightThreshold)
                 {
-                    biomeBlendedMap[x, y] = biomeTerrainMaps[mainBiome][x, y]
-                                            * GetBiomeMultiplier(mainBiome);
+                    biomeBlendedMap[x, y] = biomeTerrainMaps[mainBiome][x, y] * GetBiomeMultiplier(mainBiome);
                     continue;
                 }
-
-                float sharpness = 3f;
-
-                float m = Mathf.Pow(weights.MountainsWeight, sharpness);
-                float v = Mathf.Pow(weights.VolcanicWeight, sharpness);
-                float d = Mathf.Pow(weights.DesertWeight, sharpness);
-                float p = Mathf.Pow(weights.PlainsWeight, sharpness);
-
-                float sum = m + v + d + p;
-
-                m /= sum;
-                v /= sum;
-                d /= sum;
-                p /= sum;
-
-                float minWeight = 0.05f;
 
                 foreach (var kvp in biomeTerrainMaps)
                 {
                     EBiome biome = kvp.Key;
-                    float weight = 0f;
+                    float weight = weights.GetWeight(biome);
 
-                    switch (biome)
-                    {
-                        case EBiome.Mountains: weight = m; break;
-                        case EBiome.Volcanic: weight = v; break;
-                        case EBiome.Desert: weight = d; break;
-                        case EBiome.Plains: weight = p; break;
-                    }
-
-                    if (weight < minWeight)
+                    if (weight < minBiomeWeightThreshold)
                         continue;
 
                     float height = kvp.Value[x, y] * GetBiomeMultiplier(biome);
@@ -295,6 +259,12 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return colorMap;
     }
 
+    private void ApplyBiomeMultipliers(Mesh mesh, Map<BiomeWeights> weights)
+    {
+        var vertices = mesh.vertices;
+
+
+    }
 
     private void Analyze(WorldChunk chunk)
     {

@@ -78,7 +78,7 @@ MonoBehaviour:
     octaves: 1
     persistance: -1.35
     lacunarity: 2.68
-    scale: 62.22
+    scale: 500
     offset: {x: 6.39, y: 0}
     useCurve: 0
     remapCurve:
