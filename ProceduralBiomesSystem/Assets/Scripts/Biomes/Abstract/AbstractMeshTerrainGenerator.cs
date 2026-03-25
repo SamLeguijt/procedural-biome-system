@@ -12,11 +12,12 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     [field: SerializeField] public float VerticeDistance { get; private set; } = 1;
 
     [field: SerializeField] public NoiseSettings NoiseSettings { get; private set; }
-  
+    [field: SerializeField] public float HeightBaseline { get; private set; } = 0.0f;
+    [field: SerializeField] public float HeightMultiplier { get; private set; } = 1;
+
     public Action OnValueChanged;
     private GameObject recentSample = null;
 
-    public float heightMultiplier = 1;
     public abstract void GenerateTerrain(WorldChunk chunk);
         
     private void OnValidate()
@@ -76,7 +77,7 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
         {
             for (int x = 0; x < width; x++)
             {
-                float height = heightMap[x, z] * heightMultiplier;
+                float height = heightMap[x, z] * HeightMultiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, height, topLeftZ - z);
                 if (x < width - 1 && z < depth - 1)
                 {

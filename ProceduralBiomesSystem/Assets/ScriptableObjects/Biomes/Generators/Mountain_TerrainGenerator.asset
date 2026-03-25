@@ -84,4 +84,5 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  heightMultiplier: 100
+  <HeightBaseline>k__BackingField: 0
+  <HeightMultiplier>k__BackingField: 150
