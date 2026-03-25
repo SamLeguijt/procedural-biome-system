@@ -18,5 +18,7 @@ public struct NoiseSettings
     //public int heightMultiplier;
 
     [Space] public bool useCurve;
-    public AnimationCurve remapCurve; 
+    public AnimationCurve remapCurve;
+
+    public bool applyNormalise;
 }

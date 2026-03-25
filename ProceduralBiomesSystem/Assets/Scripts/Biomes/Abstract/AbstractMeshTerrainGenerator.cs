@@ -57,7 +57,6 @@ public abstract class AbstractMeshTerrainGenerator : ScriptableObject, ITerrainG
     public Map<float> GenerateHeightMap(int width, int height)
     {
         var map = Utils.GenerateNoiseMap(width, height, NoiseSettings);
-
         return new Map<float>(map);
     }
 

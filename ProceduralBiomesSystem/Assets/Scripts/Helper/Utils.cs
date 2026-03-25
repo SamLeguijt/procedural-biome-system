@@ -25,9 +25,12 @@ public static class Utils
         );
 
         if (settings.useCurve)
-            return ApplyCurve(map, settings.remapCurve);
-        else
-            return map;
+             map = ApplyCurve(map, settings.remapCurve);
+
+        if (settings.applyNormalise)
+            map = Normalize(map);
+
+        return map;
     }
 
     private static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
@@ -108,7 +111,6 @@ public static class Utils
             }
         }
 
-        //return Normalize(result);
         return result;
     }
 

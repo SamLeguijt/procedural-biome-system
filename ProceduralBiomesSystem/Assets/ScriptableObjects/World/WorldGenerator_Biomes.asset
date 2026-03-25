@@ -20,7 +20,7 @@ MonoBehaviour:
   terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   meshWidth: 1000
   meshHeight: 1000
-  heightMultiplier: 100
+  heightMultiplier: 1
   biomeInfluence: 1
   dominantBiomeWeightThreshold: 0.9
   minBiomeWeightThreshold: 0.05
