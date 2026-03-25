@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct BiomeWeights
+public class BiomeWeights
 {
     public float MountainsWeight => mountainsWeight;
     public float VolcanicWeight => volcanicWeight;
     public float DesertWeight => desertWeight;
     public float PlainsWeight => plainsWeight;
 
-    public float Highest => Mathf.Max(mountainsWeight, volcanicWeight, desertWeight, plainsWeight); 
+    public Dictionary<EBiome, float> WeightMap { get; private set; } = new Dictionary<EBiome, float>();
+
+    public float Highest => Mathf.Max(mountainsWeight, volcanicWeight, desertWeight, plainsWeight);
+    public float Sum => mountainsWeight + volcanicWeight + desertWeight + plainsWeight;
 
     private float mountainsWeight;
     private float volcanicWeight;
@@ -25,7 +28,13 @@ public struct BiomeWeights
         desertWeight = _desertWeight;
         plainsWeight = _plainsWeight;
 
+
         Normalise();
+
+        WeightMap.Add(EBiome.Mountains, MountainsWeight);
+        WeightMap.Add(EBiome.Volcanic, VolcanicWeight);
+        WeightMap.Add(EBiome.Desert, DesertWeight);
+        WeightMap.Add(EBiome.Plains, PlainsWeight);
     }
 
     private void Normalise()
@@ -41,7 +50,7 @@ public struct BiomeWeights
         }
     }
 
-    public (EBiome, float) GetHighestWeight()
+    public (EBiome, float) GetHighest()
     {
         EBiome highestBiome = EBiome.Plains;
         float highestWeight = PlainsWeight;

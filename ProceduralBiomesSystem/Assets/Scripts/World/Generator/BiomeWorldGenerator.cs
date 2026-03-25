@@ -37,6 +37,22 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
+    private void OnValidate()
+    {
+        if (biomeConfigMappings == null || biomeConfigMappings.Count == 0)
+        {
+            biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
+
+            foreach (BiomeConfig config in BiomeConfigs)
+            {
+                if (biomeConfigMappings.ContainsKey(config.BiomeType))
+                    continue;
+
+                biomeConfigMappings[config.BiomeType] = config;
+            }
+        }
+    }
+
     public override World GenerateWorld(WorldLayout layout)
     {
         Map<float> baseHeightMap = layout.ElevationMap;
@@ -49,7 +65,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
         finalHeightmap = Normalize(finalHeightmap);
 
-        Mesh terrainMesh = CreateMesh(finalHeightmap.Values);
+        Mesh terrainMesh = CreateMesh(finalHeightmap.Values, layout.BiomeMap);
         Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
@@ -77,7 +93,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
     }
 
-
     private Dictionary<EBiome, Map<float>> GenerateBiomeTerrainMaps(int width, int height)
     {
         var maps = new Dictionary<EBiome, Map<float>>();
@@ -86,9 +101,18 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             var generator = config.Generator;
             var map = generator.GenerateHeightMap(width, height);
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    map[x, y] *= generator.heightMultiplier;
+                }
+            }
+
+            map = Normalize(map);
             maps.Add(config.BiomeType, map);
         }
-
 
         return maps;
     }
@@ -112,12 +136,20 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return result;
     }
 
-    private float GetBiomeMultiplier(EBiome biomeType)
+    private float GetBiomeConfigMultiplier(EBiome biomeType)
     {
         if (biomeConfigMappings.TryGetValue(biomeType, out var config))
             return config.Generator.heightMultiplier;
 
-        return 1f;
+        foreach (BiomeConfig biomeConfig in BiomeConfigs)
+        {
+            if (biomeType == biomeConfig.BiomeType)
+            {
+                return biomeConfig.Generator.heightMultiplier;
+            }
+        }
+
+        return 0f;
     }
 
     private Map<float> Normalize(Map<float> map)
@@ -157,15 +189,14 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                 BiomeWeights weights = biomeWeightsMap[x, y];
                 float finalHeight = 0f;
 
-               
-                var (mainBiome, mainWeight) = weights.GetHighestWeight();
+                var (mainBiome, mainWeight) = weights.GetHighest();
 
                 if (mainWeight > dominantBiomeWeightThreshold)
                 {
-                    biomeBlendedMap[x, y] = biomeTerrainMaps[mainBiome][x, y] * GetBiomeMultiplier(mainBiome);
+                    biomeBlendedMap[x, y] = biomeTerrainMaps[mainBiome][x, y];// * GetBiomeConfigMultiplier(mainBiome);
                     continue;
                 }
-
+                
                 foreach (var kvp in biomeTerrainMaps)
                 {
                     EBiome biome = kvp.Key;
@@ -174,7 +205,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                     if (weight < minBiomeWeightThreshold)
                         continue;
 
-                    float height = kvp.Value[x, y] * GetBiomeMultiplier(biome);
+                    float height = kvp.Value[x, y];//* GetBiomeConfigMultiplier(biome); 
                     finalHeight += height * weight;
                 }
 
@@ -185,7 +216,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return biomeBlendedMap;
     }
 
-    private Mesh CreateMesh(float[,] heightMap)
+    private Mesh CreateMesh(float[,] heightMap, Map<BiomeWeights> biomeWeightMap = null)
     {
         int mapWidth = heightMap.GetLength(0);
         int mapHeight = heightMap.GetLength(1);
@@ -199,11 +230,19 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         int vertexIndex = 0;
 
+        
         for (int z = 0; z < mapHeight; z++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                float vertexHeight = heightMap[x, z] * heightMultiplier;
+                float multiplier = heightMultiplier;
+
+                if (biomeWeightMap != null)
+                {
+                    multiplier = CalculateHeightMultiplier(biomeWeightMap[x,z]);
+                }
+
+                float vertexHeight = heightMap[x, z] * multiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
                 if (x < mapWidth - 1 && z < mapHeight - 1)
@@ -259,11 +298,49 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return colorMap;
     }
 
-    private void ApplyBiomeMultipliers(Mesh mesh, Map<BiomeWeights> weights)
+    //private void ApplyBiomeMultipliers(Mesh mesh, Map<BiomeWeights> biomeMap)
+    //{
+    //    var vertices = mesh.vertices;
+
+    //    int width = biomeMap.Width;
+    //    int height = biomeMap.Height;
+
+    //    for (int z = 0; z < height; z++)
+    //    {
+    //        for (int x = 0; x < width; x++)
+    //        {
+    //            int index = z * width + x;
+
+    //            var (mainBiome, mainWeight) = biomeMap[x, z].GetHighest();
+
+    //            float multiplier = GetBiomeConfigMultiplier(mainBiome);
+
+    //            vertices[index].y *= multiplier; 
+    //        }
+    //    }
+
+    //    mesh.vertices = vertices;
+    //    mesh.RecalculateNormals();
+    //    mesh.RecalculateBounds();
+
+    //}
+
+    private float CalculateHeightMultiplier(BiomeWeights weights)
     {
-        var vertices = mesh.vertices;
+        float multiplierSum = 0f;
+        float weightSum = 0f;
 
+        foreach (var kvp in weights.WeightMap) 
+        {
+            if (kvp.Value < minBiomeWeightThreshold)
+                continue; 
 
+            float weight = weights.GetWeight(kvp.Key);
+            multiplierSum += GetBiomeConfigMultiplier(kvp.Key) * weight;
+            weightSum += weight;
+        }
+
+        return multiplierSum / weightSum;
     }
 
     private void Analyze(WorldChunk chunk)

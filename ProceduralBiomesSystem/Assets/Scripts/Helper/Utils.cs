@@ -108,10 +108,11 @@ public static class Utils
             }
         }
 
-        return Normalize(result);
+        //return Normalize(result);
+        return result;
     }
 
-    private static float[,] Normalize(float[,] map)
+    public static float[,] Normalize(float[,] map)
     {
         int width = map.GetLength(0);
         int height = map.GetLength(1);

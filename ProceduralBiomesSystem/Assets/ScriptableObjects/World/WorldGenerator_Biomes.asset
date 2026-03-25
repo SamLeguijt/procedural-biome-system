@@ -21,6 +21,6 @@ MonoBehaviour:
   meshWidth: 1000
   meshHeight: 1000
   heightMultiplier: 100
-  biomeInfluence: 10
+  biomeInfluence: 1
   dominantBiomeWeightThreshold: 0.9
   minBiomeWeightThreshold: 0.05
