@@ -15,16 +15,13 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
-/// <summary>
-/// Generates a world of biomes, where each biome is responsible for generating it's own terrain. 
-/// </summary>
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
 public class BiomeWorldGenerator : AbstractWorldGenerator
 {
     [field: SerializeField] public List<BiomeConfig> BiomeConfigs { get; private set; }
 
     [field: SerializeField] private Material terrainMaterial = null;
-    [SerializeField] int meshWidth = 200;  
+    [SerializeField] int meshWidth = 200;
     [SerializeField] int meshHeight = 200;
 
     public int heightMultiplier = 10;
@@ -42,7 +39,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         //CreateBiomeTerrainMapsDebug(biomeHeightMaps);
 
-        Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
+        Map<float> finalHeightmap = blendedMap; //CombineMaps(baseHeightMap, blendedMap);
         finalHeightmap = Normalize(finalHeightmap);
 
         Mesh terrainMesh = CreateMesh(finalHeightmap.Values);
@@ -72,7 +69,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             renderer.material = terrainMaterial;
         }
     }
-   
+
 
     private Dictionary<EBiome, Map<float>> GenerateBiomeTerrainMaps(int width, int height)
     {
@@ -84,6 +81,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             var map = generator.GenerateHeightMap(width, height);
             maps.Add(config.BiomeType, map);
         }
+
 
         return maps;
     }
@@ -150,41 +148,73 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
             for (int x = 0; x < biomeBlendedMap.Width; x++)
             {
                 BiomeWeights weights = biomeWeightsMap[x, y];
-
-                var topBiomes = new[]
-                {
-                (EBiome.Mountains, weights.MountainsWeight),
-                (EBiome.Volcanic, weights.VolcanicWeight),
-                (EBiome.Desert, weights.DesertWeight),
-                (EBiome.Plains, weights.PlainsWeight)
-            }
-                .OrderByDescending(b => b.Item2)
-                .Take(2)
-                .ToArray();
-
-                var (b1, w1) = topBiomes[0];
-                var (b2, w2) = topBiomes[1];
-
-
-                float h1 = biomeTerrainMaps[b1][x, y] * GetBiomeMultiplier(b1); // Multiply here?
-                float h2 = biomeTerrainMaps[b2][x, y] * GetBiomeMultiplier(b2);
-
-                float t = w2 / (w1 + w2);
-                biomeBlendedMap[x, y] = Mathf.Lerp(h1, h2, t);
-
-
                 float finalHeight = 0f;
+
+                //biomeBlendedMap[x, y] = finalHeight;
+                //biomeBlendedMap[x, y] = biomeTerrainMaps[b1][x,y]; /// No blending, debug use only.
+
+                //foreach (var biomeMap in biomeTerrainMaps)
+                //{
+                //    EBiome biome = biomeMap.Key;
+                //    float weight = weights.GetWeight(biome);
+
+                //    //Debug.Log($"Biome: {biome}, weight: {weight} " );
+
+                //    if (weight <= 0f)
+                //        continue;
+
+                //    float height = biomeMap.Value[x, y] * GetBiomeMultiplier(biome);
+
+                //    if (weight > 0.3f)
+                //        finalHeight += height * weight;
+                //}
+
+                var (mainBiome, mainWeight) = weights.GetHighestWeight();
+
+                if (mainWeight > 0.9f)
+                {
+                    biomeBlendedMap[x, y] = biomeTerrainMaps[mainBiome][x, y]
+                                            * GetBiomeMultiplier(mainBiome);
+                    continue;
+                }
+
+                float sharpness = 3f;
+
+                float m = Mathf.Pow(weights.MountainsWeight, sharpness);
+                float v = Mathf.Pow(weights.VolcanicWeight, sharpness);
+                float d = Mathf.Pow(weights.DesertWeight, sharpness);
+                float p = Mathf.Pow(weights.PlainsWeight, sharpness);
+
+                float sum = m + v + d + p;
+
+                m /= sum;
+                v /= sum;
+                d /= sum;
+                p /= sum;
+
+                float minWeight = 0.05f;
+
                 foreach (var kvp in biomeTerrainMaps)
                 {
                     EBiome biome = kvp.Key;
-                    float weight = weights.GetWeight(biome); 
-                    float h = kvp.Value[x, y] * GetBiomeMultiplier(biome);
+                    float weight = 0f;
 
-                    finalHeight += h * weight;
+                    switch (biome)
+                    {
+                        case EBiome.Mountains: weight = m; break;
+                        case EBiome.Volcanic: weight = v; break;
+                        case EBiome.Desert: weight = d; break;
+                        case EBiome.Plains: weight = p; break;
+                    }
+
+                    if (weight < minWeight)
+                        continue;
+
+                    float height = kvp.Value[x, y] * GetBiomeMultiplier(biome);
+                    finalHeight += height * weight;
                 }
 
                 biomeBlendedMap[x, y] = finalHeight;
-                //biomeBlendedMap[x, y] = biomeTerrainMaps[b1][x,y]; /// No blending, debug use only.
             }
         }
 
@@ -205,14 +235,14 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         int vertexIndex = 0;
 
-        for (int z = 0; z < mapHeight ; z++)
+        for (int z = 0; z < mapHeight; z++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                float vertexHeight = heightMap[x, z];//* heightMultiplier;
+                float vertexHeight = heightMap[x, z] * heightMultiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
 
-                if (x < mapWidth- 1 && z < mapHeight - 1)
+                if (x < mapWidth - 1 && z < mapHeight - 1)
                 {
                     triangles.Add(vertexIndex);
                     triangles.Add(vertexIndex + mapWidth + 1);
@@ -228,7 +258,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
 
         Mesh mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32; 
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
@@ -254,18 +284,18 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
                 if (biomeMap.Contains(x, y))
                 {
-                    color = biomeMap[x,y].ToColor();
+                    color = biomeMap[x, y].ToColor();
                 }
 
                 colorMap[currentIndex] = new Color(color.r, color.g, color.b, color.a);
-                currentIndex++; 
+                currentIndex++;
             }
         }
 
         return colorMap;
     }
 
-        
+
     private void Analyze(WorldChunk chunk)
     {
 

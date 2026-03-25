@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
   elevation:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 223
     octaves: 2
     persistance: 0.2
@@ -73,7 +73,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   erosion:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 0
     octaves: 1
     persistance: -1.35
@@ -106,7 +106,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   humidity:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 350
     octaves: 1
     persistance: 0.21

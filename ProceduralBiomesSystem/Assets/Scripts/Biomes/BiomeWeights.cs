@@ -11,6 +11,8 @@ public struct BiomeWeights
     public float DesertWeight => desertWeight;
     public float PlainsWeight => plainsWeight;
 
+    public float Highest => Mathf.Max(mountainsWeight, volcanicWeight, desertWeight, plainsWeight); 
+
     private float mountainsWeight;
     private float volcanicWeight;
     private float desertWeight;
@@ -37,6 +39,58 @@ public struct BiomeWeights
             desertWeight /= sum;
             plainsWeight /= sum;
         }
+    }
+
+    public (EBiome, float) GetHighestWeight()
+    {
+        EBiome highestBiome = EBiome.Plains;
+        float highestWeight = PlainsWeight;
+
+        if (MountainsWeight > highestWeight)
+        {
+            highestBiome = EBiome.Mountains;
+            highestWeight = MountainsWeight;
+        }
+
+        if (VolcanicWeight > highestWeight)
+        {
+            highestBiome = EBiome.Volcanic;
+            highestWeight = VolcanicWeight;
+        }
+
+        if (DesertWeight > highestWeight)
+        {
+            highestBiome = EBiome.Desert;
+            highestWeight = DesertWeight;
+        }
+
+        return (highestBiome, highestWeight);
+    }
+
+    public (EBiome biome, float weight)[] GetSortedWeights()
+    {
+        var result = new (EBiome, float)[4]
+        {
+        (EBiome.Mountains, MountainsWeight),
+        (EBiome.Volcanic, VolcanicWeight),
+        (EBiome.Desert, DesertWeight),
+        (EBiome.Plains, PlainsWeight)
+        };
+
+        for (int i = 0; i < result.Length - 1; i++)
+        {
+            for (int j = i + 1; j < result.Length; j++)
+            {
+                if (result[j].Item2 > result[i].Item2)
+                {
+                    var temp = result[i];
+                    result[i] = result[j];
+                    result[j] = temp;
+                }
+            }
+        }
+
+        return result;
     }
 
     public float GetWeight(EBiome biomeType)

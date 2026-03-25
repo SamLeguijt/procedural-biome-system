@@ -67,15 +67,18 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
                 float erosionValue = erosionMap[x, y];
                 float humidityValue = humidityMap[x, y];
 
-                elevationValue = Mathf.Pow(elevationValue, 1.5f);
-                humidityValue = Mathf.Pow(humidityValue, 1.5f);
-                erosionValue = Mathf.Pow(erosionValue, 1.5f);
-
                 /// TODO: Strategy / class / Method? 
                 float desert = (1f - humidityValue) * (1f - elevationValue);
                 float mountains = elevationValue * (1f - erosionValue);
                 float plains = (1f - elevationValue) * humidityValue;
                 float volcanic = elevationValue * erosionValue;
+
+                float sharpness = 2.5f; // try 2–5
+
+                mountains = Mathf.Pow(mountains, sharpness);
+                desert = Mathf.Pow(desert, sharpness);
+                plains = Mathf.Pow(plains, sharpness);
+                volcanic = Mathf.Pow(volcanic, sharpness);
 
                 biomeMap[x, y] = new BiomeWeights(mountains, volcanic, desert, plains);
             }
