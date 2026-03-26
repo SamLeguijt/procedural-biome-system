@@ -25,7 +25,6 @@ public class WorldLayout
         WorldChunks = chunks;
     }
 
-
     public class LayoutBuilder
     {
         private Map<BiomeWeights> biomeMap = new Map<BiomeWeights>(0, 0);

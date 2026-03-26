@@ -15,7 +15,6 @@ public struct NoiseSettings
 
     [Space, Min(0.001f)] public float scale;
     public Vector2 offset;
-    //public int heightMultiplier;
 
     [Space] public bool useCurve;
     public AnimationCurve remapCurve;

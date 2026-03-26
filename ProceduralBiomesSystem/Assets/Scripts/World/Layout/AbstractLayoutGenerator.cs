@@ -6,7 +6,5 @@ using UnityEngine;
 public abstract class AbstractLayoutGenerator : ScriptableObject, IWorldLayoutGenerator
 {
     public Action<WorldLayout> OnLayoutChanged;
-
-    // TODO: Add default implementation?
     public abstract WorldLayout GenerateWorldLayout(WorldSettings settings);
 }

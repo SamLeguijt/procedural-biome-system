@@ -9,10 +9,6 @@ public enum MapDrawMode
     Humidity,
     Combined,
     Biomes, 
-    DesertSample,
-    MountainSample,
-    VolcanicSample,
-    PlainsSample
 }
 
 public class MapVisualizer : MonoBehaviour
@@ -22,16 +18,6 @@ public class MapVisualizer : MonoBehaviour
     [SerializeField] private MapDrawMode mapDrawMode;
 
     WorldLayout recentLayoutDebug;
-
-    [SerializeField] AbstractMeshTerrainGenerator MountainGenerator;
-
-    /// Should reference the generators, then subscribe to generators on value changed event, 
-    /// Then have enum option to draw those maps 
-
-    void GetDependencies()
-    {
-        MountainGenerator.OnValueChanged += Draw;
-    }
 
     public void SetRecentLayout(WorldLayout layout)
     {
@@ -69,11 +55,6 @@ public class MapVisualizer : MonoBehaviour
                      (recentLayoutDebug.ErosionMap, Color.green)
                  );
                 break;
-            case MapDrawMode.MountainSample:
-                int width = recentLayoutDebug.ElevationMap.Width;
-                int height = recentLayoutDebug.ElevationMap.Height;
-                DrawFloatMap(MountainGenerator.GenerateHeightMap(width, height), Color.green);
-                break;
         }
     }
 
@@ -83,7 +64,6 @@ public class MapVisualizer : MonoBehaviour
         if (Application.isPlaying)
             return;
 
-        GetDependencies();
         Draw();
     }
 

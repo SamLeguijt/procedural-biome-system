@@ -4,7 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Utils
-{ 
+{
+    public static GameObject CreateGameObjectFromMesh(Mesh mesh, Material material, string objectName = null)
+    {
+        string name = objectName != string.Empty ? objectName : "MeshObject";
+        GameObject go = new GameObject(objectName);
+        MeshFilter meshFilter = go.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = go.AddComponent<MeshRenderer>();
+
+        meshFilter.mesh = mesh;
+        meshRenderer.material = material;
+
+        return go;
+    }
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings)
     {
         int seed = settings.seed;
@@ -32,7 +44,6 @@ public static class Utils
 
         return map;
     }
-
     private static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];

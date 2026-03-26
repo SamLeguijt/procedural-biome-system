@@ -10,11 +10,7 @@ public class BiomeWeights
     public float VolcanicWeight => volcanicWeight;
     public float DesertWeight => desertWeight;
     public float PlainsWeight => plainsWeight;
-
     public Dictionary<EBiome, float> WeightMap { get; private set; } = new Dictionary<EBiome, float>();
-
-    public float Highest => Mathf.Max(mountainsWeight, volcanicWeight, desertWeight, plainsWeight);
-    public float Sum => mountainsWeight + volcanicWeight + desertWeight + plainsWeight;
 
     private float mountainsWeight;
     private float volcanicWeight;
@@ -27,7 +23,6 @@ public class BiomeWeights
         volcanicWeight = _volcanicWeight;
         desertWeight = _desertWeight;
         plainsWeight = _plainsWeight;
-
 
         Normalise();
 
@@ -49,59 +44,6 @@ public class BiomeWeights
             plainsWeight /= sum;
         }
     }
-
-    public (EBiome, float) GetHighest()
-    {
-        EBiome highestBiome = EBiome.Plains;
-        float highestWeight = PlainsWeight;
-
-        if (MountainsWeight > highestWeight)
-        {
-            highestBiome = EBiome.Mountains;
-            highestWeight = MountainsWeight;
-        }
-
-        if (VolcanicWeight > highestWeight)
-        {
-            highestBiome = EBiome.Volcanic;
-            highestWeight = VolcanicWeight;
-        }
-
-        if (DesertWeight > highestWeight)
-        {
-            highestBiome = EBiome.Desert;
-            highestWeight = DesertWeight;
-        }
-
-        return (highestBiome, highestWeight);
-    }
-
-    public (EBiome biome, float weight)[] GetSortedWeights()
-    {
-        var result = new (EBiome, float)[4]
-        {
-        (EBiome.Mountains, MountainsWeight),
-        (EBiome.Volcanic, VolcanicWeight),
-        (EBiome.Desert, DesertWeight),
-        (EBiome.Plains, PlainsWeight)
-        };
-
-        for (int i = 0; i < result.Length - 1; i++)
-        {
-            for (int j = i + 1; j < result.Length; j++)
-            {
-                if (result[j].Item2 > result[i].Item2)
-                {
-                    var temp = result[i];
-                    result[i] = result[j];
-                    result[j] = temp;
-                }
-            }
-        }
-
-        return result;
-    }
-
     public float GetWeight(EBiome biomeType)
     {
         switch (biomeType)
@@ -131,18 +73,5 @@ public class BiomeWeights
     public Color ToColor()
     {
         return new Color(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight); 
-
-        float max = Mathf.Max(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight);
-
-        if (max == DesertWeight)
-            return Color.yellow;
-
-        if (max == MountainsWeight)
-            return Color.green;
-
-        if (max == VolcanicWeight)
-            return Color.red;
-
-        return Color.cyan;
     }
 }

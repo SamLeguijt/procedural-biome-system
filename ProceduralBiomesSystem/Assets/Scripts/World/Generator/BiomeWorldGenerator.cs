@@ -6,7 +6,6 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
 public class BiomeWorldGenerator : AbstractWorldGenerator
 {
@@ -16,12 +15,11 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     [Header("Blending properties")]
     [Range(0, 10), SerializeField]
     private float biomeInfluence = 1f;
+
     [Range(0, 1), SerializeField, Tooltip("Determines what minimum weight a point should be in order to be blended")]
     private float minBiomeWeightThreshold = 0.05f;
 
-
     public Dictionary<EBiome, Map<float>> recentBiomeMaps;
-
     private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
     private void OnValidate()
@@ -48,7 +46,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         var blendedMap = BlendBiomeMaps(layout.BiomeMap, biomeHeightMaps);
         Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
 
-        Mesh terrainMesh = CreateMesh(finalHeightmap.Values, layout.BiomeMap);
+        Mesh terrainMesh = MeshGenerator.CreateMesh(finalHeightmap);
         Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
@@ -68,7 +66,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             var map = kvp.Value;
 
-            Mesh mesh = CreateMesh(map.Values);
+            Mesh mesh = MeshGenerator.CreateMesh(map);
 
             GameObject go = new GameObject("Biome terrain debug");
             MeshRenderer renderer = go.AddComponent<MeshRenderer>();
@@ -87,7 +85,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             var generator = config.Generator;
             var map = generator.GenerateHeightMap(width, height);
-            map = Normalize(map);
+            map = new Map<float>(Utils.Normalize(map.Values));
             maps.Add(config.BiomeType, map);
         }
 
@@ -114,64 +112,22 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return result;
     }
 
-    private float GetBiomeConfigMultiplier(EBiome biomeType)
+    private AbstractMeshTerrainGenerator GetBiomeGenerator(EBiome biomeType)
     {
         if (biomeConfigMappings.TryGetValue(biomeType, out var config))
-            return config.Generator.HeightMultiplier;
+            return config.Generator;
 
         foreach (BiomeConfig biomeConfig in BiomeConfigs)
         {
             if (biomeType == biomeConfig.BiomeType)
             {
-                return biomeConfig.Generator.HeightMultiplier;
+                biomeConfigMappings[biomeType] = biomeConfig;
+                return biomeConfig.Generator;
             }
         }
 
-        return 0f;
+        return null;
     }
-
-    private float GetBiomeConfigHeightBaseline(EBiome biomeType)
-    {
-        if (biomeConfigMappings.TryGetValue(biomeType, out var config))
-            return config.Generator.HeightBaseline;
-
-        foreach (BiomeConfig biomeConfig in BiomeConfigs)
-        {
-            if (biomeType == biomeConfig.BiomeType)
-            {
-                return biomeConfig.Generator.HeightBaseline;
-            }
-        }
-
-        return 0f;
-    }
-
-    private Map<float> Normalize(Map<float> map)
-    {
-        float min = float.MaxValue;
-        float max = float.MinValue;
-
-        for (int y = 0; y < map.Height; y++)
-        {
-            for (int x = 0; x < map.Width; x++)
-            {
-                float v = map[x, y];
-                if (v < min) min = v;
-                if (v > max) max = v;
-            }
-        }
-
-        for (int y = 0; y < map.Height; y++)
-        {
-            for (int x = 0; x < map.Width; x++)
-            {
-                map[x, y] = Mathf.InverseLerp(min, max, map[x, y]);
-            }
-        }
-
-        return map;
-    }
-
     private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<EBiome, Map<float>> biomeTerrainMaps)
     {
         Map<float> biomeBlendedMap = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
@@ -201,10 +157,11 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                 float baselineSum = 0f;
                 foreach (var kvp in weights.WeightMap)
                 {
+                    AbstractMeshTerrainGenerator generator = GetBiomeGenerator(kvp.Key);
                     float weight = kvp.Value;
                     float influence = Mathf.InverseLerp(minBiomeWeightThreshold, 1f, weight);
 
-                    baselineSum += GetBiomeConfigHeightBaseline(kvp.Key) * influence;
+                    baselineSum += generator.HeightBaseline * influence;
                 }
 
                 float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
@@ -224,54 +181,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return biomeBlendedMap;
     }
 
-    private Mesh CreateMesh(float[,] heightMap, Map<BiomeWeights> biomeWeightMap = null)
-    {
-        int mapWidth = heightMap.GetLength(0);
-        int mapHeight = heightMap.GetLength(1);
-
-        Vector3[] vertices = new Vector3[mapWidth * mapHeight];
-
-        List<int> triangles = new List<int>();
-
-        float topLeftX = (mapWidth - 1) / -2f;
-        float topLeftZ = (mapHeight - 1) / 2f;
-
-        int vertexIndex = 0;
-
-        
-        for (int z = 0; z < mapHeight; z++)
-        {
-            for (int x = 0; x < mapWidth; x++)
-            {
-                float vertexHeight = heightMap[x, z];
-                vertices[vertexIndex] = new Vector3(topLeftX + x, vertexHeight, topLeftZ - z);
-
-                if (x < mapWidth - 1 && z < mapHeight - 1)
-                {
-                    triangles.Add(vertexIndex);
-                    triangles.Add(vertexIndex + mapWidth + 1);
-                    triangles.Add(vertexIndex + mapWidth);
-
-                    triangles.Add(vertexIndex + mapWidth + 1);
-                    triangles.Add(vertexIndex);
-                    triangles.Add(vertexIndex + 1);
-                }
-
-                vertexIndex++;
-            }
-        }
-
-        Mesh mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-        mesh.vertices = vertices;
-        mesh.triangles = triangles.ToArray();
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-
-        return mesh;
-    }
-
-    Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
+    private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
     {
         Color[] colorMap = new Color[verticesCount];
 
@@ -306,8 +216,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         foreach (var kvp in weights.WeightMap) 
         {
+            AbstractMeshTerrainGenerator generator = GetBiomeGenerator(kvp.Key);
             float weight = weights.GetWeight(kvp.Key);
-            multiplierSum += GetBiomeConfigMultiplier(kvp.Key) * weight;
+            multiplierSum += generator.HeightMultiplier * weight;
             weightSum += weight;
         }
 

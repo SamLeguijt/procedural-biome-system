@@ -11,17 +11,11 @@ public class WorldManager : MonoBehaviour
     [Header("Visualization")]
     [SerializeField] private MapVisualizer visualizer;
 
-    [Header("Debug settings")]
-    [SerializeField] private bool drawLayoutGizmos = true;
-
     private IWorldGenerator worldGenerator;
     private AbstractLayoutGenerator worldLayoutGenerator;
 
-    // TODO: Make seperate visualisation script(s).
-    WorldLayout recentLayoutDebug;
     List<GameObject> recentWorlds = new List<GameObject>();
 
-    // TODO: Factory / DI.
     private void GetDependencies()
     {
         worldGenerator = worldSettings.WorldGenerator;
@@ -34,8 +28,7 @@ public class WorldManager : MonoBehaviour
         if (layout == null)
             return;
 
-        recentLayoutDebug = layout;
-        visualizer.SetRecentLayout(recentLayoutDebug);
+        visualizer.SetRecentLayout(layout);
     }
 
     [Button]
@@ -52,15 +45,13 @@ public class WorldManager : MonoBehaviour
         
         CreateWorldObject(world);
 
-        recentLayoutDebug = layout;
-        visualizer.SetRecentLayout(recentLayoutDebug);
+        visualizer.SetRecentLayout(layout);
     }
 
 
     [Button]
     private void ClearWorld()
     {
-        recentLayoutDebug = null;
         foreach (GameObject world in recentWorlds)
             DestroyImmediate(world);
     }
@@ -97,51 +88,5 @@ public class WorldManager : MonoBehaviour
         }
 
         return false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (!drawLayoutGizmos)
-            return;
-
-        if (recentLayoutDebug != null && recentLayoutDebug.BiomeMap != null)
-        {
-            int width = recentLayoutDebug.BiomeMap.Width;
-            int depth = recentLayoutDebug.BiomeMap.Height;
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < depth; y++)
-                {
-                    Color color = recentLayoutDebug.BiomeMap[x, y].ToColor();
-
-                    switch (recentLayoutDebug.BiomeMap[x, y])
-                    {
-                        //case EBiome.Desert:
-                        //    color = Color.yellow;
-                        //    break;
-                        //case EBiome.Mountains:
-                        //    color = Color.green;
-                        //    break;
-                        //case EBiome.Volcanic:
-                        //    color = Color.red;
-                        //    break;
-                        //default:
-                        //    color = Color.black;
-                        //    break;
-                    }
-
-                    Gizmos.color = color;
-
-                    float topLeftX = (width - 1) / -2f;
-                    float topLeftZ = (depth - 1) / 2f;
-
-                    Vector3 pos = new Vector3(x + topLeftX, 1 * 10, topLeftZ - y);
-                    Gizmos.DrawCube(pos, Vector3.one * 0.9f);
-                }
-            }
-
-            return;
-        }
     }
 }
