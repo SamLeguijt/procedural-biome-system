@@ -13,5 +13,40 @@ MonoBehaviour:
   m_Name: PlainsConfig
   m_EditorClassIdentifier: 
   <BiomeType>k__BackingField: 4
-  <Generator>k__BackingField: {fileID: 11400000, guid: 9e61e0280a55cdf4a8483e9cc1248428,
-    type: 2}
+  <NoiseSettings>k__BackingField:
+    useRandomSeed: 1
+    seed: 20
+    octaves: 5
+    persistance: 0.5
+    lacunarity: 2
+    scale: 50
+    offset: {x: 0, y: 0}
+    useCurve: 1
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    applyNormalise: 0
+  <HeightMultiplier>k__BackingField: 0
+  <HeightBaseline>k__BackingField: 0
+  <Generator>k__BackingField: {fileID: 0}

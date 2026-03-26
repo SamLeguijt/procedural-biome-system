@@ -42,6 +42,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         Map<float> baseHeightMap = layout.ElevationMap;
 
+        /// Use BiomeInterpreter to receive a Map<BiomeWeight>
+        /// Pass the 
+
         var biomeHeightMaps = GenerateBiomeTerrainMaps(layout.BiomeMap.Width, layout.BiomeMap.Height);
         var blendedMap = BlendBiomeMaps(layout.BiomeMap, biomeHeightMaps);
         Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
@@ -77,6 +80,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
     }
 
+    /// Creates height maps for each biome using their settings.
     private Dictionary<EBiome, Map<float>> GenerateBiomeTerrainMaps(int width, int height)
     {
         var maps = new Dictionary<EBiome, Map<float>>();
@@ -93,6 +97,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return maps;
     }
 
+    /// Adds two maps together to produce a final heightmap 
     private Map<float> CombineMaps(Map<float> baseMap, Map<float> addMap)
     {
         Map<float> result = new Map<float>(baseMap.Width, baseMap.Height);
@@ -112,6 +117,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return result;
     }
 
+    /// Gets the BiomeConfig based on enum type
     private AbstractMeshTerrainGenerator GetBiomeGenerator(EBiome biomeType)
     {
         if (biomeConfigMappings.TryGetValue(biomeType, out var config))
@@ -128,6 +134,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         return null;
     }
+
+    /// Blends all biome maps into a single heightmap using weights per biome map vertex
     private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<EBiome, Map<float>> biomeTerrainMaps)
     {
         Map<float> biomeBlendedMap = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
@@ -181,6 +189,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return biomeBlendedMap;
     }
 
+    /// Creates a Color array of the received biome map, setting the veretex colors
     private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
     {
         Color[] colorMap = new Color[verticesCount];
@@ -209,6 +218,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return colorMap;
     }
 
+    /// Calculates the heightmultiplier for the blended map based on biome weight on that vertex
     private float CalculateHeightMultiplier(BiomeWeights weights)
     {
         float multiplierSum = 0f;
