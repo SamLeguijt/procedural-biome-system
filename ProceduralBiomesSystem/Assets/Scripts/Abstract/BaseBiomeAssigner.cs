@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class BaseBiomeAssigner : ScriptableObject 
 {
-    public abstract Map<BiomeWeights> GenerateBiomeMap(WorldLayout layout, List<BiomeConfig> possibleBiomes);
+    [field: SerializeField] protected BiomeSet BiomeSet { get; private set; } 
+    public abstract Map<BiomeWeights> GenerateBiomeMap(WorldLayout layout);
 }

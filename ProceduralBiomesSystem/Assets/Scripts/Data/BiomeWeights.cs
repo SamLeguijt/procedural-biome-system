@@ -11,6 +11,7 @@ public class BiomeWeights
     public float DesertWeight => desertWeight;
     public float PlainsWeight => plainsWeight;
     public Dictionary<EBiome, float> WeightMap { get; private set; } = new Dictionary<EBiome, float>();
+    public Dictionary<BiomeConfig, float> ConfigWeights { get; private set; } = new Dictionary<BiomeConfig, float>();
 
     private float mountainsWeight;
     private float volcanicWeight;
@@ -57,6 +58,13 @@ public class BiomeWeights
             case EBiome.Plains:
                 return plainsWeight;
         }
+
+        return 0f;
+    } 
+    
+    public float GetWeight(BiomeConfig biomeType) // TODO
+    {
+
 
         return 0f;
     }

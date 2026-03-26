@@ -7,7 +7,7 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
 {
     [SerializeField] private float sharpness = 1;
 
-    public override Map<BiomeWeights> GenerateBiomeMap(WorldLayout layout, List<BiomeConfig> possibleBiomes)
+    public override Map<BiomeWeights> GenerateBiomeMap(WorldLayout layout)
     {
         Map<float> elevationMap = layout.ElevationMap;
         Map<float> erosionMap = layout.ErosionMap;
@@ -26,7 +26,7 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
                 float erosionValue = erosionMap[x, y];
                 float humidityValue = humidityMap[x, y];
 
-                /// TODO: Use possible biomes isntead somehow. 
+                /// TODO: Use 'BiomeSet' instead somehow. 
                 float desert = (1f - humidityValue) * (1f - elevationValue);
                 float mountains = elevationValue * (1f - erosionValue);
                 float plains = (1f - elevationValue) * humidityValue;

@@ -11,7 +11,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 {
     [Header("Dependencies")]
     [SerializeField] private BaseBiomeAssigner biomeAssigner;
-    [SerializeField] private List<BiomeConfig> biomeConfigs;
+    [SerializeField] private BaseBiomeTerrainGenerator biomeTerrainGenerator;
+
+    //[SerializeField] private List<BiomeConfig> biomeConfigs;
     [SerializeField] private Material terrainMaterial = null;
 
     [Header("Blending properties")]
@@ -22,35 +24,37 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     private float minBiomeWeightThreshold = 0.05f;
 
     public Dictionary<EBiome, Map<float>> recentBiomeMaps;
-    private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
+    //private Dictionary<EBiome, BiomeConfig> biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
     private void OnValidate()
     {
-        if (biomeConfigMappings == null || biomeConfigMappings.Count == 0)
-        {
-            biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
+        //if (biomeConfigMappings == null || biomeConfigMappings.Count == 0)
+        //{
+        //    biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
-            foreach (BiomeConfig config in biomeConfigs)
-            {
-                if (biomeConfigMappings.ContainsKey(config.BiomeType))
-                    continue;
+        //    foreach (BiomeConfig config in biomeConfigs)
+        //    {
+        //        if (biomeConfigMappings.ContainsKey(config.BiomeType))
+        //            continue;
 
-                biomeConfigMappings[config.BiomeType] = config;
-            }
-        }
+        //        biomeConfigMappings[config.BiomeType] = config;
+        //    }
+        //}
     }
 
     public override WorldData GenerateWorld(WorldLayout layout)
     {
         Map<float> baseHeightMap = layout.ElevationMap;
-        Map<BiomeWeights> biomeMap = biomeAssigner.GenerateBiomeMap(layout, biomeConfigs);
+        Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeMap(layout);
+        Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap);
 
-        var biomeTerrainMaps = GenerateBiomeTerrainMaps(biomeMap.Width, biomeMap.Height);
-        var blendedMap = BlendBiomeMaps(biomeMap, biomeTerrainMaps);
-        Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
 
-        Mesh terrainMesh = MeshGenerator.CreateMesh(finalHeightmap);
-        Color[] colorMap = BiomeToColorMap(biomeMap, terrainMesh.vertices.Length);
+        //var biomeTerrainMaps = GenerateBiomeTerrainMaps(rawBiomeMap.Width, rawBiomeMap.Height);
+        //var blendedMap = BlendBiomeMaps(rawBiomeMap, biomeTerrainMaps);
+        //Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
+
+        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
+        Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
 
@@ -79,23 +83,23 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
     }
 
-    /// Creates height maps for each biome using their settings.
+    /// Deprecated
     private Dictionary<EBiome, Map<float>> GenerateBiomeTerrainMaps(int width, int height)
     {
         var maps = new Dictionary<EBiome, Map<float>>();
 
-        foreach (var config in biomeConfigs)
-        {
-            var mapRaw = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
-            Map<float> map = new Map<float>(NoiseGenerator.Normalize(mapRaw));
-            maps.Add(config.BiomeType, map);
-        }
+        //foreach (var config in biomeConfigs)
+        //{
+        //    var mapRaw = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
+        //    Map<float> map = new Map<float>(NoiseGenerator.Normalize(mapRaw));
+        //    maps.Add(config.BiomeType, map);
+        //}
 
-        recentBiomeMaps = maps;
+        //recentBiomeMaps = maps;
         return maps;
     }
 
-    /// Adds two maps together to produce a final heightmap 
+    /// Deprecated
     private Map<float> CombineMaps(Map<float> baseMap, Map<float> addMap)
     {
         Map<float> result = new Map<float>(baseMap.Width, baseMap.Height);
@@ -115,25 +119,25 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return result;
     }
 
-    /// Gets the BiomeConfig based on enum type
+    /// Deprecated
     private BiomeConfig GetBiomeConfig(EBiome biomeType)
     {
-        if (biomeConfigMappings.TryGetValue(biomeType, out var config))
-            return config;
+        //if (biomeConfigMappings.TryGetValue(biomeType, out var config))
+        //    return config;
 
-        foreach (BiomeConfig biomeConfig in biomeConfigs)
-        {
-            if (biomeType == biomeConfig.BiomeType)
-            {
-                biomeConfigMappings[biomeType] = biomeConfig;
-                return biomeConfig;
-            }
-        }
+        //foreach (BiomeConfig biomeConfig in biomeConfigs)
+        //{
+        //    if (biomeType == biomeConfig.BiomeType)
+        //    {
+        //        biomeConfigMappings[biomeType] = biomeConfig;
+        //        return biomeConfig;
+        //    }
+        //}
 
         return null;
     }
 
-    /// Blends all biome maps into a single heightmap using weights per biome map vertex
+    /// Deprecated
     private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<EBiome, Map<float>> biomeTerrainMaps)
     {
         Map<float> biomeBlendedMap = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
@@ -216,7 +220,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return colorMap;
     }
 
-    /// Calculates the heightmultiplier for the blended map based on biome weight on that vertex
+    /// Deprecated
     private float CalculateHeightMultiplier(BiomeWeights weights)
     {
         float multiplierSum = 0f;
