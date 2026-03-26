@@ -46,7 +46,7 @@ public class MapVisualizer : MonoBehaviour
                 DrawFloatMap(recentLayoutDebug.HumidityMap, Color.red);
                 break;
             case MapDrawMode.Biomes:
-                DrawBiomeMap(recentLayoutDebug.BiomeMap);
+                //DrawBiomeMap(recentLayoutDebug.BiomeMap);
                 break;
             case MapDrawMode.Combined:
                 DrawCombinedMap(

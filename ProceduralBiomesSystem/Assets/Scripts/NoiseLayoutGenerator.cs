@@ -42,48 +42,11 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
         Map<float> elevationMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, elevation));
         Map<float> erosionMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, erosion));
         Map<float> humidityMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, humidity));
-        Map<BiomeWeights> biomeMap = GenerateBiomeMap(elevationMap, erosionMap, humidityMap);
 
         return new WorldLayout.LayoutBuilder()
             .WithElevationMap(elevationMap)
             .WithErosionMap(erosionMap)
             .WithHumidityMap(humidityMap)
-            .WithBiomeMap(biomeMap)
             .Build();
-    }
-
-    private Map<BiomeWeights> GenerateBiomeMap(Map<float> elevationMap, Map<float> erosionMap, Map<float> humidityMap)
-    {
-        int width = elevationMap.Width;
-        int height = elevationMap.Height;
-
-        Map<BiomeWeights> biomeMap = new Map<BiomeWeights> (width, height);
-
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                float elevationValue = elevationMap[x, y];
-                float erosionValue = erosionMap[x, y];
-                float humidityValue = humidityMap[x, y];
-
-                /// TODO: Strategy / class / Method? 
-                float desert = (1f - humidityValue) * (1f - elevationValue);
-                float mountains = elevationValue * (1f - erosionValue);
-                float plains = (1f - elevationValue) * humidityValue;
-                float volcanic = elevationValue * erosionValue;
-
-                float sharpness = 10; 
-
-                mountains = Mathf.Pow(mountains, sharpness);
-                desert = Mathf.Pow(desert, sharpness);
-                plains = Mathf.Pow(plains, sharpness);
-                volcanic = Mathf.Pow(volcanic, sharpness);
-
-                biomeMap[x, y] = new BiomeWeights(mountains, volcanic, desert, plains);
-            }
-        }
-
-        return biomeMap;
     }
 }

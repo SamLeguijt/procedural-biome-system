@@ -9,8 +9,10 @@ using Vector3 = UnityEngine.Vector3;
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
 public class BiomeWorldGenerator : AbstractWorldGenerator
 {
-    [field: SerializeField] public List<BiomeConfig> BiomeConfigs { get; private set; }
-    [field: SerializeField] private Material terrainMaterial = null;
+    [Header("Dependencies")]
+    [SerializeField] private BaseBiomeAssigner biomeAssigner;
+    [SerializeField] private List<BiomeConfig> biomeConfigs;
+    [SerializeField] private Material terrainMaterial = null;
 
     [Header("Blending properties")]
     [Range(0, 10), SerializeField]
@@ -28,7 +30,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             biomeConfigMappings = new Dictionary<EBiome, BiomeConfig>();
 
-            foreach (BiomeConfig config in BiomeConfigs)
+            foreach (BiomeConfig config in biomeConfigs)
             {
                 if (biomeConfigMappings.ContainsKey(config.BiomeType))
                     continue;
@@ -41,21 +43,21 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     public override WorldData GenerateWorld(WorldLayout layout)
     {
         Map<float> baseHeightMap = layout.ElevationMap;
+        Map<BiomeWeights> biomeMap = biomeAssigner.GenerateBiomeMap(layout, biomeConfigs);
 
-        var biomeHeightMaps = GenerateBiomeTerrainMaps(layout.BiomeMap.Width, layout.BiomeMap.Height);
-        var blendedMap = BlendBiomeMaps(layout.BiomeMap, biomeHeightMaps);
+        var biomeTerrainMaps = GenerateBiomeTerrainMaps(biomeMap.Width, biomeMap.Height);
+        var blendedMap = BlendBiomeMaps(biomeMap, biomeTerrainMaps);
         Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
 
         Mesh terrainMesh = MeshGenerator.CreateMesh(finalHeightmap);
-        Color[] colorMap = BiomeToColorMap(layout.BiomeMap, terrainMesh.vertices.Length);
+        Color[] colorMap = BiomeToColorMap(biomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
 
-        // Analyze... (in generator?)
-        // Populate... (in generator?)
+        //Analyze... (in generator ?)
+        // Populate... (in generator ?)
 
-        // TODO: Store these so we can display them elsewhere?
-        //CreateBiomeTerrainMapsDebug(biomeHeightMaps);
+        //CreateBiomeTerrainMapsDebug(biomeTerrainMaps);
 
         return new WorldData(terrainMesh, terrainMaterial);
     }
@@ -82,7 +84,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         var maps = new Dictionary<EBiome, Map<float>>();
 
-        foreach (var config in BiomeConfigs)
+        foreach (var config in biomeConfigs)
         {
             var mapRaw = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
             Map<float> map = new Map<float>(NoiseGenerator.Normalize(mapRaw));
@@ -119,7 +121,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         if (biomeConfigMappings.TryGetValue(biomeType, out var config))
             return config;
 
-        foreach (BiomeConfig biomeConfig in BiomeConfigs)
+        foreach (BiomeConfig biomeConfig in biomeConfigs)
         {
             if (biomeType == biomeConfig.BiomeType)
             {

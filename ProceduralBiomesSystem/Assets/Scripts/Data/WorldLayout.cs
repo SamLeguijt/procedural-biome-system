@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class WorldLayout 
 {
-    public Map<BiomeWeights> BiomeMap { get; private set; }
     public Map<float> ElevationMap { get; private set; }
     public Map<float> ErosionMap { get; private set; }
     public Map<float> HumidityMap { get; private set; }
 
     public List<WorldChunk> WorldChunks { get; private set; }
     
-    private WorldLayout(Map<BiomeWeights> biomeMap, Map<float> elevation, Map<float> erosion, Map<float> humidity, List<WorldChunk> chunks)
+    private WorldLayout(Map<float> elevation, Map<float> erosion, Map<float> humidity, List<WorldChunk> chunks)
     {
-        BiomeMap = biomeMap;
         ElevationMap = elevation;
         ErosionMap = erosion;
         HumidityMap = humidity;
@@ -27,7 +25,6 @@ public class WorldLayout
 
     public class LayoutBuilder
     {
-        private Map<BiomeWeights> biomeMap = new Map<BiomeWeights>(0, 0);
         private Map<float> elevationMap = new Map<float>(0, 0);
         private Map<float> erosionMap = new Map<float>(0, 0);
         private Map<float> humidityMap = new Map<float>(0, 0);
@@ -36,12 +33,6 @@ public class WorldLayout
         public LayoutBuilder WithChunks(List<WorldChunk> chunkList)
         {
             chunks = chunkList;
-            return this;
-        }
-
-        public LayoutBuilder WithBiomeMap(Map<BiomeWeights> map)
-        {
-            biomeMap = map;
             return this;
         }
 
@@ -65,7 +56,7 @@ public class WorldLayout
 
         public WorldLayout Build()
         {
-            return new WorldLayout(biomeMap, elevationMap, erosionMap, humidityMap, chunks);
+            return new WorldLayout(elevationMap, erosionMap, humidityMap, chunks);
         }
     }
 }
