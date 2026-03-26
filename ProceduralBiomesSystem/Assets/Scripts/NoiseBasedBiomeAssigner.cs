@@ -5,13 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NoiseBased_BiomeAssigner", menuName = "ScriptableObjects/Biomes/new NoiseBasedBiomeAssigner")]
 public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
 {
-    [SerializeField] private float sharpness = 1;
+    [SerializeField] private float blendFactor = 1;
 
     public override Map<BiomeWeights> GenerateBiomeMap(WorldLayout layout)
     {
         Map<float> elevationMap = layout.ElevationMap;
         Map<float> erosionMap = layout.ErosionMap;
         Map<float> humidityMap = layout.HumidityMap;
+        Map<float> temperatureMap = layout.TemperatureMap;
 
         int width = elevationMap.Width;
         int height = elevationMap.Height;
@@ -26,33 +27,22 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
                 float elevationValue = elevationMap[x, y];
                 float erosionValue = erosionMap[x, y];
                 float humidityValue = humidityMap[x, y];
+                float temperatureValue = temperatureMap[x, y];
 
                 foreach (var config in BiomeSet.Collection)
                 {
                     float weight = 0f;
-
-                    switch (config.BiomeType)
+                    foreach (AbstractBiomeRule rule in config.BiomeRules)
                     {
-                        case EBiome.Desert:
-                            weight = (1f - humidityValue) * (1f - elevationValue);
-                            break;
-
-                        case EBiome.Mountains:
-                            weight = elevationValue * (1f - erosionValue);
-                            break;
-
-                        case EBiome.Plains:
-                            weight = (1f - elevationValue) * humidityValue;
-                            break;
-
-                        case EBiome.Volcanic:
-                            weight = elevationValue * erosionValue;
-                            break;
+                        /// TODO: Turn this into some context Dictionary that maps string to Map<float> instead.
+                        weight += rule.Evaluate(config, elevationValue, humidityValue, erosionValue, temperatureValue);
                     }
 
-                    weight = Mathf.Pow(weight, sharpness);
+                    weight = Mathf.Pow(weight, blendFactor); 
                     weights[config] = weight;
                 }
+
+
 
                 biomeMap[x, y] = new BiomeWeights(weights);
             }

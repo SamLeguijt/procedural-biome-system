@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
   m_Name: VolcanicConfig
   m_EditorClassIdentifier: 
-  <BiomeType>k__BackingField: 3
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
     seed: 163
@@ -111,7 +110,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 85
-  <HeightBaseline>k__BackingField: 0
+  <HeightBaseline>k__BackingField: -0.5
+  <BiomeRules>k__BackingField:
+  - {fileID: 11400000, guid: c9b2c481ee89af84a8732f382a9104b5, type: 2}
   terrainMaterial: {fileID: 2100000, guid: f680a2e2ec3439546ab07b3cf7e48960, type: 2}
   debugColor: {r: 0.6132076, g: 0.049172312, b: 0.049172312, a: 1}
   sampleSize: {x: 1, y: 1}

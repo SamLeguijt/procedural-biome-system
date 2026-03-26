@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
   m_Name: DesertConfig
   m_EditorClassIdentifier: 
-  <BiomeType>k__BackingField: 1
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
     seed: 682
@@ -112,6 +111,8 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 45
   <HeightBaseline>k__BackingField: 0
+  <BiomeRules>k__BackingField:
+  - {fileID: 11400000, guid: 6c50a6c846799bc4b83830ece35197fa, type: 2}
   terrainMaterial: {fileID: 2100000, guid: 7edc004d0e5447c4c9d13a4f7e0ecaaf, type: 2}
   debugColor: {r: 0.7264151, g: 0.5615983, b: 0, a: 1}
   sampleSize: {x: 1, y: 1}

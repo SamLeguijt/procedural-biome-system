@@ -7,15 +7,16 @@ public class WorldLayout
     public Map<float> ElevationMap { get; private set; }
     public Map<float> ErosionMap { get; private set; }
     public Map<float> HumidityMap { get; private set; }
-
+    public Map<float> TemperatureMap { get; private set; }
     public List<WorldChunk> WorldChunks { get; private set; }
     
-    private WorldLayout(Map<float> elevation, Map<float> erosion, Map<float> humidity, List<WorldChunk> chunks)
+    private WorldLayout(Map<float> elevation, Map<float> erosion, Map<float> humidity, List<WorldChunk> chunks, Map<float> temperature)
     {
         ElevationMap = elevation;
         ErosionMap = erosion;
         HumidityMap = humidity;
         WorldChunks = chunks;
+        TemperatureMap = temperature;
     }
 
     public WorldLayout(List<WorldChunk> chunks)
@@ -28,6 +29,7 @@ public class WorldLayout
         private Map<float> elevationMap = new Map<float>(0, 0);
         private Map<float> erosionMap = new Map<float>(0, 0);
         private Map<float> humidityMap = new Map<float>(0, 0);
+        private Map<float> temperatureMap = new Map<float>(0, 0);
         private List<WorldChunk> chunks = new List<WorldChunk>();
 
         public LayoutBuilder WithChunks(List<WorldChunk> chunkList)
@@ -52,11 +54,17 @@ public class WorldLayout
         {
             humidityMap = map;
             return this;
+        }     
+        
+        public LayoutBuilder WithTemperatureMap(Map<float> map)
+        {
+            temperatureMap = map;
+            return this;
         }
 
         public WorldLayout Build()
         {
-            return new WorldLayout(elevationMap, erosionMap, humidityMap, chunks);
+            return new WorldLayout(elevationMap, erosionMap, humidityMap, chunks, temperatureMap);
         }
     }
 }

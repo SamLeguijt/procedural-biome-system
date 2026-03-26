@@ -11,6 +11,7 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
     [SerializeField] private NoiseSettings elevation; 
     [SerializeField] private NoiseSettings erosion; 
     [SerializeField] private NoiseSettings humidity; 
+    [SerializeField] private NoiseSettings temperature; 
 
     private int recentWidth = 0; 
     private int recentHeight = 0;
@@ -42,11 +43,13 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
         Map<float> elevationMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, elevation));
         Map<float> erosionMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, erosion));
         Map<float> humidityMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, humidity));
+        Map<float> temperatureMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, temperature));
 
         return new WorldLayout.LayoutBuilder()
             .WithElevationMap(elevationMap)
             .WithErosionMap(erosionMap)
             .WithHumidityMap(humidityMap)
+            .WithTemperatureMap(temperatureMap)
             .Build();
     }
 }

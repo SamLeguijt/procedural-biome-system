@@ -7,6 +7,7 @@ public enum MapDrawMode
     Elevation, 
     Erosion,
     Humidity,
+    Temperature,
     Combined,
     Biomes, 
 }
@@ -39,11 +40,13 @@ public class MapVisualizer : MonoBehaviour
                 break;
 
             case MapDrawMode.Erosion:
-                DrawFloatMap(recentLayoutDebug.ErosionMap, Color.green);
+                DrawFloatMap(recentLayoutDebug.ErosionMap, Color.cyan);
                 break;
-
             case MapDrawMode.Humidity:
-                DrawFloatMap(recentLayoutDebug.HumidityMap, Color.red);
+                DrawFloatMap(recentLayoutDebug.HumidityMap, Color.green);
+                break;
+            case MapDrawMode.Temperature:
+                DrawFloatMap(recentLayoutDebug.TemperatureMap, Color.red);
                 break;
             case MapDrawMode.Biomes:
                 //DrawBiomeMap(recentLayoutDebug.BiomeMap);
@@ -51,8 +54,9 @@ public class MapVisualizer : MonoBehaviour
             case MapDrawMode.Combined:
                 DrawCombinedMap(
                      (recentLayoutDebug.ElevationMap, Color.blue),
-                     (recentLayoutDebug.HumidityMap, Color.red),
-                     (recentLayoutDebug.ErosionMap, Color.green)
+                     (recentLayoutDebug.HumidityMap, Color.green),
+                     (recentLayoutDebug.ErosionMap, Color.cyan),
+                     (recentLayoutDebug.TemperatureMap, Color.red)
                  );
                 break;
         }
@@ -111,7 +115,7 @@ public class MapVisualizer : MonoBehaviour
         targetRenderer.sharedMaterial.mainTexture = texture;
     }
 
-    public void DrawCombinedMap((Map<float>, Color) mapA, (Map<float>, Color) mapB, (Map<float>, Color) mapC)
+    public void DrawCombinedMap((Map<float>, Color) mapA, (Map<float>, Color) mapB, (Map<float>, Color) mapC, (Map<float>, Color) mapD)
     {
         int width = mapA.Item1.Width;
         int height = mapA.Item1.Height;
@@ -126,12 +130,14 @@ public class MapVisualizer : MonoBehaviour
                 float a = mapA.Item1[x, y];
                 float b = mapB.Item1[x, y];
                 float c = mapC.Item1[x, y];
+                float d = mapD.Item1[x, y];
 
                 Color colorA = mapA.Item2 * a;
                 Color colorB = mapB.Item2 * b;
                 Color colorC = mapC.Item2 * c;
+                Color colorD = mapD.Item2 * d;
 
-                Color pixelColor = colorA + colorB + colorC;
+                Color pixelColor = colorA + colorB + colorC + colorD;
 
                 texture.SetPixel(x, y, pixelColor);
             }

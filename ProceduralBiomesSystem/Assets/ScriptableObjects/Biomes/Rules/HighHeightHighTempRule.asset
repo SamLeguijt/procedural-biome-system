@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8d8dde92c81c5641b5dadc94ed8b4df, type: 3}
-  m_Name: NoiseBased_BiomeAssigner
+  m_Script: {fileID: 11500000, guid: 19ac395a278722542a430db5d902ede2, type: 3}
+  m_Name: HighHeightHighTempRule
   m_EditorClassIdentifier: 
-  <BiomeSet>k__BackingField: {fileID: 11400000, guid: 99bff43f312e5084ab566365c5c3d13e,
-    type: 2}
-  blendFactor: 10

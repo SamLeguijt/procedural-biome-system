@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
   m_Name: PlainsConfig
   m_EditorClassIdentifier: 
-  <BiomeType>k__BackingField: 4
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
     seed: 20
@@ -49,6 +48,8 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 0
   <HeightBaseline>k__BackingField: 0
+  <BiomeRules>k__BackingField:
+  - {fileID: 11400000, guid: 724b7ba8f5048c849b9fe12e41603058, type: 2}
   terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
   debugColor: {r: 0.47137347, g: 0.62352943, b: 0.019607829, a: 1}
   sampleSize: {x: 1, y: 1}
