@@ -38,7 +38,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         }
     }
 
-    public override World GenerateWorld(WorldLayout layout)
+    public override WorldData GenerateWorld(WorldLayout layout)
     {
         Map<float> baseHeightMap = layout.ElevationMap;
 
@@ -57,7 +57,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         // TODO: Store these so we can display them elsewhere?
         //CreateBiomeTerrainMapsDebug(biomeHeightMaps);
 
-        return new World(terrainMesh, terrainMaterial);
+        return new WorldData(terrainMesh, terrainMaterial);
     }
 
     private void CreateBiomeTerrainMapsDebug(Dictionary<EBiome, Map<float>> maps)

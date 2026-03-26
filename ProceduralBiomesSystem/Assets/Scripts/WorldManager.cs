@@ -41,7 +41,7 @@ public class WorldManager : MonoBehaviour
         }
 
         WorldLayout layout = GenerateLayout(worldSettings);
-        World world = GenerateWorld(layout);
+        WorldData world = GenerateWorld(layout);
         
         CreateWorldObject(world);
 
@@ -61,13 +61,13 @@ public class WorldManager : MonoBehaviour
         return worldLayoutGenerator.GenerateWorldLayout(settings);
     }
 
-    private World GenerateWorld(WorldLayout layout)
+    private WorldData GenerateWorld(WorldLayout layout)
     {
         return worldGenerator.GenerateWorld(layout);
     }
 
 
-    private void CreateWorldObject(World worldData)
+    private void CreateWorldObject(WorldData worldData)
     {
         GameObject world = new GameObject("World");
         MeshFilter meshFilter = world.AddComponent<MeshFilter>();

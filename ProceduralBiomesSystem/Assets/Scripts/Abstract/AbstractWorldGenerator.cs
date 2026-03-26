@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class AbstractWorldGenerator : ScriptableObject, IWorldGenerator
 {
-    public abstract World GenerateWorld(WorldLayout layout);
+    public abstract WorldData GenerateWorld(WorldLayout layout);
 }

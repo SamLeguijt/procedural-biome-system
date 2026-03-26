@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface IWorldGenerator 
 {
-    World GenerateWorld(WorldLayout layout); 
+    WorldData GenerateWorld(WorldLayout layout); 
 }

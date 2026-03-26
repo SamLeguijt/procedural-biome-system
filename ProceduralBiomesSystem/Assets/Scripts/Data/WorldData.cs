@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class World 
+public class WorldData 
 {
     public Mesh Mesh { get; private set; }
     public Material Material { get; private set; }
 
-    public World(Mesh mesh, Material material)
+    public WorldData(Mesh mesh, Material material)
     {
         Mesh = mesh;
         Material = material;
