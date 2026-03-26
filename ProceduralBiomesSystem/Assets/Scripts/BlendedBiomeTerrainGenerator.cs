@@ -8,8 +8,10 @@ using UnityEngine;
 public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
 {
     [SerializeField] private BiomeSet biomes;
-    [SerializeField] private float minBiomeWeightBlendThreshold;
-    [SerializeField] private float biomeMapsInfluence;
+    [SerializeField, Range(0, 1)] private float minBiomeWeightBlendThreshold;
+    [SerializeField, Min(1)] private float biomeMapsInfluence;
+    [SerializeField, Min(1)] private float peakSharpness = 5f;
+    [SerializeField, Min(1)] private float baseHeightMultiplier = 1;
 
     public override Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap)
     {
@@ -39,6 +41,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
                     float weight = weights.GetWeight(config);
 
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
+
                     blendedHeight += biomeMapPair.Value[x, y] * influence;
                     totalWeight += influence;
                 }
@@ -51,8 +54,8 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
                 {
                     BiomeConfig config = kvp.Key;
                     float weight = kvp.Value;
-                    float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
 
+                    float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
                     baselineSum += config.HeightBaseline * influence;
                 }
 
@@ -60,7 +63,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
 
                 float delta = blendedHeight - baseline;
 
-                float peakInfluence = Mathf.Clamp01(delta * 5f);
+                float peakInfluence = Mathf.Clamp01(delta * peakSharpness);
                 float multiplier = CalculateHeightMultiplier(weights);
                 float adjustedDelta = delta * Mathf.Lerp(1f, multiplier, peakInfluence);
 
@@ -83,7 +86,9 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
         {
             var mapRaw = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
             Map<float> map = new Map<float>(NoiseGenerator.Normalize(mapRaw));
-            result.Add(config, map);
+            
+            if (!result.ContainsKey(config))
+                result.Add(config, map);
         }
 
         return result;
@@ -99,7 +104,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
             {
                 float baseHeight = baseMap[x, y];
                 float biomeHeight = addMap[x, y];
-                float finalHeight = baseHeight + (biomeHeight * biomeMapsInfluence);
+                float finalHeight = (baseHeight * baseHeightMultiplier) + (biomeHeight * biomeMapsInfluence);
 
                 result[x, y] = finalHeight;
             }

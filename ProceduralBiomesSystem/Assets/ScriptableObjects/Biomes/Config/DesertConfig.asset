@@ -113,4 +113,5 @@ MonoBehaviour:
   <HeightMultiplier>k__BackingField: 45
   <HeightBaseline>k__BackingField: 0
   terrainMaterial: {fileID: 2100000, guid: 7edc004d0e5447c4c9d13a4f7e0ecaaf, type: 2}
+  debugColor: {r: 0.7264151, g: 0.5615983, b: 0, a: 1}
   sampleSize: {x: 1, y: 1}

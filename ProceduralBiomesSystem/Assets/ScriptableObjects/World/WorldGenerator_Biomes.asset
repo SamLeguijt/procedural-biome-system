@@ -12,15 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7354a11a4c4f39c4aae488d89dbcd7dd, type: 3}
   m_Name: WorldGenerator_Biomes
   m_EditorClassIdentifier: 
-  <BiomeConfigs>k__BackingField:
-  - {fileID: 11400000, guid: a5d04e795879f12498bf61e7dd222cb4, type: 2}
-  - {fileID: 11400000, guid: 0bdc3f6866608124fa94fee514057dc1, type: 2}
-  - {fileID: 11400000, guid: ae776c4f5e86bcd40bc5a56834121ced, type: 2}
-  - {fileID: 11400000, guid: d70a03f6395700344a017c15a63c9d1b, type: 2}
+  biomeAssigner: {fileID: 11400000, guid: 5533cf7b2b9970f42abdb314a51c1ce5, type: 2}
+  biomeTerrainGenerator: {fileID: 11400000, guid: cb80b2cfa581a614bbfb9881bc8eb262,
+    type: 2}
   terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
-  meshWidth: 1000
-  meshHeight: 1000
-  heightMultiplier: 1
-  biomeInfluence: 1
-  dominantBiomeWeightThreshold: 0.9
-  minBiomeWeightThreshold: 0.05

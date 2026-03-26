@@ -33,7 +33,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         return new WorldData(terrainMesh, terrainMaterial);
     }
 
-    /// Creates a Color array of the received biome map, setting the veretex colors
     private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
     {
         Color[] colorMap = new Color[verticesCount];
