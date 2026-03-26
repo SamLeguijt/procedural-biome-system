@@ -87,9 +87,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         foreach (var config in BiomeConfigs)
         {
-            var generator = config.Generator;
-            var map = generator.GenerateHeightMap(width, height);
-            map = new Map<float>(Utils.Normalize(map.Values));
+            var mapRaw = Utils.GenerateNoiseMap(width, height, config.NoiseSettings);
+            Map<float> map = new Map<float>(Utils.Normalize(mapRaw));
             maps.Add(config.BiomeType, map);
         }
 
@@ -118,17 +117,17 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     }
 
     /// Gets the BiomeConfig based on enum type
-    private AbstractMeshTerrainGenerator GetBiomeGenerator(EBiome biomeType)
+    private BiomeConfig GetBiomeConfig(EBiome biomeType)
     {
         if (biomeConfigMappings.TryGetValue(biomeType, out var config))
-            return config.Generator;
+            return config;
 
         foreach (BiomeConfig biomeConfig in BiomeConfigs)
         {
             if (biomeType == biomeConfig.BiomeType)
             {
                 biomeConfigMappings[biomeType] = biomeConfig;
-                return biomeConfig.Generator;
+                return biomeConfig;
             }
         }
 
@@ -165,11 +164,11 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                 float baselineSum = 0f;
                 foreach (var kvp in weights.WeightMap)
                 {
-                    AbstractMeshTerrainGenerator generator = GetBiomeGenerator(kvp.Key);
+                    BiomeConfig config = GetBiomeConfig(kvp.Key);
                     float weight = kvp.Value;
                     float influence = Mathf.InverseLerp(minBiomeWeightThreshold, 1f, weight);
 
-                    baselineSum += generator.HeightBaseline * influence;
+                    baselineSum += config.HeightBaseline * influence;
                 }
 
                 float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
@@ -226,9 +225,9 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         foreach (var kvp in weights.WeightMap) 
         {
-            AbstractMeshTerrainGenerator generator = GetBiomeGenerator(kvp.Key);
+            BiomeConfig config = GetBiomeConfig(kvp.Key);
             float weight = weights.GetWeight(kvp.Key);
-            multiplierSum += generator.HeightMultiplier * weight;
+            multiplierSum += config.HeightMultiplier * weight;
             weightSum += weight;
         }
 
