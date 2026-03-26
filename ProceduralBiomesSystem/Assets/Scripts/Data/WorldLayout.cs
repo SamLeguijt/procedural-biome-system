@@ -32,6 +32,10 @@ public class WorldLayout
         private Map<float> temperatureMap = new Map<float>(0, 0);
         private List<WorldChunk> chunks = new List<WorldChunk>();
 
+        public WorldLayout Build()
+        {
+            return new WorldLayout(elevationMap, erosionMap, humidityMap, chunks, temperatureMap);
+        }
         public LayoutBuilder WithChunks(List<WorldChunk> chunkList)
         {
             chunks = chunkList;
@@ -62,9 +66,5 @@ public class WorldLayout
             return this;
         }
 
-        public WorldLayout Build()
-        {
-            return new WorldLayout(elevationMap, erosionMap, humidityMap, chunks, temperatureMap);
-        }
     }
 }

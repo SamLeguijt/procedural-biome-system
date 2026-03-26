@@ -126,10 +126,10 @@ MonoBehaviour:
   temperature:
     useRandomSeed: 1
     seed: 0
-    octaves: 1
+    octaves: 7
     persistance: 0.5
     lacunarity: 2
-    scale: 300
+    scale: 1000
     offset: {x: 0, y: 0}
     useCurve: 0
     remapCurve:
