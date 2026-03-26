@@ -138,58 +138,58 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     }
 
     /// Deprecated
-    private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<EBiome, Map<float>> biomeTerrainMaps)
-    {
-        Map<float> biomeBlendedMap = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
+    //private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<EBiome, Map<float>> biomeTerrainMaps)
+    //{
+    //    Map<float> biomeBlendedMap = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
 
-        for (int y = 0; y < biomeBlendedMap.Height; y++)
-        {
-            for (int x = 0; x < biomeBlendedMap.Width; x++)
-            {
-                BiomeWeights weights = biomeWeightsMap[x, y];
+    //    for (int y = 0; y < biomeBlendedMap.Height; y++)
+    //    {
+    //        for (int x = 0; x < biomeBlendedMap.Width; x++)
+    //        {
+    //            BiomeWeights weights = biomeWeightsMap[x, y];
 
-                float blendedHeight = 0f;
-                float totalWeight = 0f;
+    //            float blendedHeight = 0f;
+    //            float totalWeight = 0f;
 
-                foreach (var biomeMapPair in biomeTerrainMaps)
-                {
-                    EBiome biome = biomeMapPair.Key;
-                    float weight = weights.GetWeight(biome);
+    //            foreach (var biomeMapPair in biomeTerrainMaps)
+    //            {
+    //                EBiome biome = biomeMapPair.Key;
+    //                float weight = weights.GetWeight(biome);
 
-                    float influence = Mathf.InverseLerp(minBiomeWeightThreshold, 1f, weight);
-                    blendedHeight += biomeMapPair.Value[x, y] * influence;
-                    totalWeight += influence;
-                }
+    //                float influence = Mathf.InverseLerp(minBiomeWeightThreshold, 1f, weight);
+    //                blendedHeight += biomeMapPair.Value[x, y] * influence;
+    //                totalWeight += influence;
+    //            }
 
-                if (totalWeight > 0f)
-                    blendedHeight /= totalWeight;
+    //            if (totalWeight > 0f)
+    //                blendedHeight /= totalWeight;
 
-                float baselineSum = 0f;
-                foreach (var kvp in weights.WeightMap)
-                {
-                    BiomeConfig config = GetBiomeConfig(kvp.Key);
-                    float weight = kvp.Value;
-                    float influence = Mathf.InverseLerp(minBiomeWeightThreshold, 1f, weight);
+    //            float baselineSum = 0f;
+    //            foreach (var kvp in weights.WeightMap)
+    //            {
+    //                BiomeConfig config = GetBiomeConfig(kvp.Key);
+    //                float weight = kvp.Value;
+    //                float influence = Mathf.InverseLerp(minBiomeWeightThreshold, 1f, weight);
 
-                    baselineSum += config.HeightBaseline * influence;
-                }
+    //                baselineSum += config.HeightBaseline * influence;
+    //            }
 
-                float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
+    //            float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
 
-                float delta = blendedHeight - baseline;
+    //            float delta = blendedHeight - baseline;
 
-                float peakInfluence = Mathf.Clamp01(delta * 5f);
-                float multiplier = CalculateHeightMultiplier(weights);
-                float adjustedDelta = delta * Mathf.Lerp(1f, multiplier, peakInfluence);
+    //            float peakInfluence = Mathf.Clamp01(delta * 5f);
+    //            float multiplier = CalculateHeightMultiplier(weights);
+    //            float adjustedDelta = delta * Mathf.Lerp(1f, multiplier, peakInfluence);
 
-                float finalHeight = baseline + adjustedDelta;
+    //            float finalHeight = baseline + adjustedDelta;
 
-                biomeBlendedMap[x, y] = finalHeight;
-            }
-        }
+    //            biomeBlendedMap[x, y] = finalHeight;
+    //        }
+    //    }
 
-        return biomeBlendedMap;
-    }
+    //    return biomeBlendedMap;
+    //}
 
     /// Creates a Color array of the received biome map, setting the veretex colors
     private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
@@ -221,21 +221,21 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     }
 
     /// Deprecated
-    private float CalculateHeightMultiplier(BiomeWeights weights)
-    {
-        float multiplierSum = 0f;
-        float weightSum = 0f;
+    //private float CalculateHeightMultiplier(BiomeWeights weights)
+    //{
+    //    float multiplierSum = 0f;
+    //    float weightSum = 0f;
 
-        foreach (var kvp in weights.WeightMap) 
-        {
-            BiomeConfig config = GetBiomeConfig(kvp.Key);
-            float weight = weights.GetWeight(kvp.Key);
-            multiplierSum += config.HeightMultiplier * weight;
-            weightSum += weight;
-        }
+    //    foreach (var kvp in weights.WeightMap) 
+    //    {
+    //        BiomeConfig config = GetBiomeConfig(kvp.Key);
+    //        float weight = weights.GetWeight(kvp.Key);
+    //        multiplierSum += config.HeightMultiplier * weight;
+    //        weightSum += weight;
+    //    }
 
-        return multiplierSum / weightSum;
-    }
+    //    return multiplierSum / weightSum;
+    //}
 
     private void Analyze(WorldChunk chunk)
     {

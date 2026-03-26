@@ -17,6 +17,7 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
         int height = elevationMap.Height;
 
         Map<BiomeWeights> biomeMap = new Map<BiomeWeights>(width, height);
+        Dictionary<BiomeConfig, float> weights = new Dictionary<BiomeConfig, float>();
 
         for (int y = 0; y < height; y++)
         {
@@ -26,18 +27,34 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
                 float erosionValue = erosionMap[x, y];
                 float humidityValue = humidityMap[x, y];
 
-                /// TODO: Use 'BiomeSet' instead somehow. 
-                float desert = (1f - humidityValue) * (1f - elevationValue);
-                float mountains = elevationValue * (1f - erosionValue);
-                float plains = (1f - elevationValue) * humidityValue;
-                float volcanic = elevationValue * erosionValue;
+                foreach (var config in BiomeSet.Collection)
+                {
+                    float weight = 0f;
 
-                mountains = Mathf.Pow(mountains, sharpness);
-                desert = Mathf.Pow(desert, sharpness);
-                plains = Mathf.Pow(plains, sharpness);
-                volcanic = Mathf.Pow(volcanic, sharpness);
+                    switch (config.BiomeType)
+                    {
+                        case EBiome.Desert:
+                            weight = (1f - humidityValue) * (1f - elevationValue);
+                            break;
 
-                biomeMap[x, y] = new BiomeWeights(mountains, volcanic, desert, plains);
+                        case EBiome.Mountains:
+                            weight = elevationValue * (1f - erosionValue);
+                            break;
+
+                        case EBiome.Plains:
+                            weight = (1f - elevationValue) * humidityValue;
+                            break;
+
+                        case EBiome.Volcanic:
+                            weight = elevationValue * erosionValue;
+                            break;
+                    }
+
+                    weight = Mathf.Pow(weight, sharpness);
+                    weights[config] = weight;
+                }
+
+                biomeMap[x, y] = new BiomeWeights(weights);
             }
         }
 
