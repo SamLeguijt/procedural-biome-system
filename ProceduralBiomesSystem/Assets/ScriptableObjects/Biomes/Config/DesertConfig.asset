@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
+  m_Name: DesertConfig
+  m_EditorClassIdentifier: 
+  <BiomeType>k__BackingField: 1
+  <NoiseSettings>k__BackingField:
+    useRandomSeed: 1
+    seed: 682
+    octaves: 2
+    persistance: 0.35
+    lacunarity: 1.47
+    scale: 125
+    offset: {x: 0, y: 0}
+    useCurve: 1
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.06503084
+        value: -0.000039713457
+        inSlope: 0.06499959
+        outSlope: 0.06499959
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.35285464
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.11094524
+        value: 0.00037497282
+        inSlope: 0.29391837
+        outSlope: 0.29391837
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.14835282
+        value: 0.013098339
+        inSlope: 0.38838512
+        outSlope: 0.38838512
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.32741958
+        value: 0.16570129
+        inSlope: 1.5345935
+        outSlope: 1.5345935
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.38245085
+        value: 0.33188117
+        inSlope: 0.48296076
+        outSlope: 0.48296076
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.17753376
+        outWeight: 0.24982916
+      - serializedVersion: 3
+        time: 0.7300159
+        value: 0.7827906
+        inSlope: 1.2280014
+        outSlope: 1.2280014
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8398176
+        value: 0.8566003
+        inSlope: 0.37725616
+        outSlope: 0.37725616
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.90960044
+        value: 0.8887653
+        inSlope: 0.6499591
+        outSlope: 0.6499591
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.34332955
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    applyNormalise: 0
+  <HeightMultiplier>k__BackingField: 45
+  <HeightBaseline>k__BackingField: 0
+  <Generator>k__BackingField: {fileID: 11400000, guid: 9436a73e14be99b47b9a3bf112e3c84d,
+    type: 2}
