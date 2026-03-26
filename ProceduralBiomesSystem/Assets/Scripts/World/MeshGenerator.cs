@@ -5,11 +5,12 @@ using UnityEngine;
 
 public static class MeshGenerator 
 {
-    public static Mesh CreateMesh(Map<float> heightMap)
+    public static Mesh CreateMesh(Map<float> heightMap, float heightMultiplier = 1)
     {
-        return CreateMesh(heightMap.Values);
-    } 
-    public static Mesh CreateMesh(float[,] heightMap)
+        return CreateMesh(heightMap.Values, heightMultiplier);
+    }
+
+    public static Mesh CreateMesh(float[,] heightMap, float heightMultiplier = 1)
     {
         int width = heightMap.GetLength(0);
         int depth = heightMap.GetLength(1);
@@ -25,7 +26,7 @@ public static class MeshGenerator
         {
             for (int x = 0; x < width; x++)
             {
-                float height = heightMap[x, z];
+                float height = heightMap[x, z] * heightMultiplier;
                 vertices[vertexIndex] = new Vector3(topLeftX + x, height, topLeftZ - z);
                 if (x < width - 1 && z < depth - 1)
                 {

@@ -49,4 +49,5 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 0
   <HeightBaseline>k__BackingField: 0
-  <Generator>k__BackingField: {fileID: 0}
+  terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
+  sampleSize: {x: 1, y: 1}

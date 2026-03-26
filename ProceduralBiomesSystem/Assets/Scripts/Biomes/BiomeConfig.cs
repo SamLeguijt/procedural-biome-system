@@ -9,4 +9,26 @@ public class BiomeConfig : ScriptableObject
     [field: SerializeField] public NoiseSettings NoiseSettings { get; private set; }
     [field: SerializeField] public float HeightMultiplier { get; private set; }
     [field: SerializeField] public float HeightBaseline {  get; private set; }
+
+    [Space, Header("Terrain sample settings")]
+    public Material terrainMaterial;
+    public Vector2 sampleSize = Vector2.one;
+    private GameObject recentTerrainSample = null;
+
+    [Button]
+    protected void TerrainSample()
+    {
+        var heightmap = Utils.GenerateNoiseMap((int)sampleSize.x, (int)sampleSize.y, NoiseSettings);
+        Mesh mesh = MeshGenerator.CreateMesh(heightmap, HeightMultiplier);
+
+        GameObject go = Utils.CreateGameObjectFromMesh(mesh, terrainMaterial, "TerrainSample");
+        recentTerrainSample = go;
+    }
+
+    [Button]
+    protected void DestroySample()
+    {
+        if (recentTerrainSample != null)
+            DestroyImmediate(recentTerrainSample);
+    }
 }

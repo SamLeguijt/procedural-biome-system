@@ -15,7 +15,7 @@ MonoBehaviour:
   <BiomeType>k__BackingField: 2
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
-    seed: 1553
+    seed: 1560
     octaves: 10
     persistance: 0.15
     lacunarity: 5
@@ -85,4 +85,5 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 125
   <HeightBaseline>k__BackingField: 0
-  <Generator>k__BackingField: {fileID: 0}
+  terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}
+  sampleSize: {x: 1, y: 1}
