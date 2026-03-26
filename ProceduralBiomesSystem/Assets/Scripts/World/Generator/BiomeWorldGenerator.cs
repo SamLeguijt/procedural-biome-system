@@ -42,9 +42,6 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
     {
         Map<float> baseHeightMap = layout.ElevationMap;
 
-        /// Use BiomeInterpreter to receive a Map<BiomeWeight>
-        /// Pass the 
-
         var biomeHeightMaps = GenerateBiomeTerrainMaps(layout.BiomeMap.Width, layout.BiomeMap.Height);
         var blendedMap = BlendBiomeMaps(layout.BiomeMap, biomeHeightMaps);
         Map<float> finalHeightmap = CombineMaps(baseHeightMap, blendedMap);
@@ -87,8 +84,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         foreach (var config in BiomeConfigs)
         {
-            var mapRaw = Utils.GenerateNoiseMap(width, height, config.NoiseSettings);
-            Map<float> map = new Map<float>(Utils.Normalize(mapRaw));
+            var mapRaw = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
+            Map<float> map = new Map<float>(NoiseGenerator.Normalize(mapRaw));
             maps.Add(config.BiomeType, map);
         }
 

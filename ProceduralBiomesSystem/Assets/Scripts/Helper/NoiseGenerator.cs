@@ -3,20 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Utils
+public static class NoiseGenerator
 {
-    public static GameObject CreateGameObjectFromMesh(Mesh mesh, Material material, string objectName = null)
-    {
-        string name = objectName != string.Empty ? objectName : "MeshObject";
-        GameObject go = new GameObject(objectName);
-        MeshFilter meshFilter = go.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = go.AddComponent<MeshRenderer>();
-
-        meshFilter.mesh = mesh;
-        meshRenderer.material = material;
-
-        return go;
-    }
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings)
     {
         int seed = settings.seed;

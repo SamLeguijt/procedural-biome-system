@@ -18,10 +18,10 @@ public class BiomeConfig : ScriptableObject
     [Button]
     protected void TerrainSample()
     {
-        var heightmap = Utils.GenerateNoiseMap((int)sampleSize.x, (int)sampleSize.y, NoiseSettings);
+        var heightmap = NoiseGenerator.GenerateNoiseMap((int)sampleSize.x, (int)sampleSize.y, NoiseSettings);
         Mesh mesh = MeshGenerator.CreateMesh(heightmap, HeightMultiplier);
 
-        GameObject go = Utils.CreateGameObjectFromMesh(mesh, terrainMaterial, "TerrainSample");
+        GameObject go = MeshGenerator.CreateGameObjectFromMesh(mesh, terrainMaterial, "TerrainSample");
         recentTerrainSample = go;
     }
 

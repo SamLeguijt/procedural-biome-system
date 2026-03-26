@@ -39,9 +39,9 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
         recentWidth = mapWidth;
         recentHeight = mapHeight;
 
-        Map<float> elevationMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, elevation));
-        Map<float> erosionMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, erosion));
-        Map<float> humidityMap = new Map<float>(Utils.GenerateNoiseMap(mapWidth, mapHeight, humidity));
+        Map<float> elevationMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, elevation));
+        Map<float> erosionMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, erosion));
+        Map<float> humidityMap = new Map<float>(NoiseGenerator.GenerateNoiseMap(mapWidth, mapHeight, humidity));
         Map<BiomeWeights> biomeMap = GenerateBiomeMap(elevationMap, erosionMap, humidityMap);
 
         return new WorldLayout.LayoutBuilder()

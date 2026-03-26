@@ -6,7 +6,7 @@ public static class TerrainGenerator
 {
     public static Map<float> GenerateTerrainMap(int width, int height, NoiseSettings settings)
     {
-        var map = Utils.GenerateNoiseMap(width, height, settings);
+        var map = NoiseGenerator.GenerateNoiseMap(width, height, settings);
         return new Map<float>(map);
     }
 }

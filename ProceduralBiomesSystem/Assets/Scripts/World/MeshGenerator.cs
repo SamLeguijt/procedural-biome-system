@@ -50,4 +50,16 @@ public static class MeshGenerator
         mesh.RecalculateBounds();
         return mesh;
     }
+
+    public static GameObject CreateGameObjectFromMesh(Mesh mesh, Material material, string objectName = "MeshObject")
+    {
+        GameObject go = new GameObject(objectName);
+        MeshFilter meshFilter = go.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = go.AddComponent<MeshRenderer>();
+
+        meshFilter.mesh = mesh;
+        meshRenderer.material = material;
+
+        return go;
+    }
 }
