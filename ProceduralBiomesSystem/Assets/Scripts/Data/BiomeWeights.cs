@@ -33,8 +33,21 @@ public class BiomeWeights
 
     public Color ToColor()
     {
-        var color = new Color();
-        return color;
-        //return new Color(DesertWeight, MountainsWeight, VolcanicWeight, PlainsWeight); 
+        Color result = Color.black;
+        float totalWeight = 0f;
+
+        foreach (var kvp in ConfigWeights)
+        {
+            BiomeConfig config = kvp.Key;
+            float weight = kvp.Value;
+
+            result += config.debugColor * weight;
+            totalWeight += weight;
+        }
+
+        if (totalWeight > 0f)
+            result /= totalWeight;
+
+        return result;
     }
 }

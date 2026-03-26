@@ -12,6 +12,7 @@ public class BiomeConfig : ScriptableObject
 
     [Space, Header("Terrain sample settings")]
     public Material terrainMaterial;
+    public Color debugColor;
     public Vector2 sampleSize = Vector2.one;
     private GameObject recentTerrainSample = null;
 
