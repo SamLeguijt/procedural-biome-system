@@ -30,7 +30,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         // Populate... (in generator ?)
 
 
-        return new WorldData(terrainMesh, terrainMaterial);
+        return new WorldData(terrainMesh, terrainMaterial, terrainMap);
     }
 
     private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
