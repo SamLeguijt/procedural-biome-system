@@ -10,6 +10,7 @@ public enum MapDrawMode
     Temperature,
     Combined,
     Biomes, 
+    Terrain
 }
 
 public class MapVisualizer : MonoBehaviour
@@ -20,10 +21,23 @@ public class MapVisualizer : MonoBehaviour
 
     WorldLayout recentLayoutDebug;
 
+    WorldData recentWorldData; 
+
     public void SetRecentLayout(WorldLayout layout)
     {
         if (layout != null)
             recentLayoutDebug = layout;
+
+
+        Draw();
+    }
+
+    public void SetRecentWorld(WorldData data)
+    {
+        if (data.TerrainMap != null)
+        {
+            recentWorldData = data;
+        }
 
         Draw();
     }
@@ -59,6 +73,13 @@ public class MapVisualizer : MonoBehaviour
                      (recentLayoutDebug.TemperatureMap, Color.red)
                  );
                 break;
+
+            case MapDrawMode.Terrain:
+                if (recentWorldData != null)
+                {
+                    DrawFloatMapWithVertexColors(recentWorldData.TerrainMap, recentWorldData.Mesh.colors);
+                }
+                break;
         }
     }
 
@@ -87,6 +108,37 @@ public class MapVisualizer : MonoBehaviour
                 Color color = Color.Lerp(Color.white, mapColor, value);
 
                 texture.SetPixel(x, y, color);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    public void DrawFloatMapWithVertexColors(Map<float> map, Color[] vertexColors)
+    {
+        int width = map.Width;
+        int height = map.Height;
+
+        if (vertexColors.Length != width * height)
+        {
+            Debug.LogError("Vertex color array length does not match map dimensions!");
+            return;
+        }
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int index = x + y * width;
+                Color vertexColor = vertexColors[index];
+
+                // Optionally scale by height value if needed
+                float value = map[x, y];
+                texture.SetPixel(x, y, vertexColor );
             }
         }
 

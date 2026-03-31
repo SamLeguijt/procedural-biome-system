@@ -46,6 +46,7 @@ public class WorldManager : MonoBehaviour
         CreateWorldObject(world);
 
         visualizer.SetRecentLayout(layout);
+        visualizer.SetRecentWorld(world);
     }
 
 
