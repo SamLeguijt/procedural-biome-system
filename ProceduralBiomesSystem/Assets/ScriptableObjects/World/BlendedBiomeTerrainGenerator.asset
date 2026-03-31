@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27033f7d3c926f43aaa81da3fd6e8d6, type: 3}
   m_Name: BlendedBiomeTerrainGenerator
   m_EditorClassIdentifier: 
-  biomes: {fileID: 11400000, guid: 99bff43f312e5084ab566365c5c3d13e, type: 2}
+  biomes: {fileID: 11400000, guid: b0e74b9b0b413df438c98ba48fdabf50, type: 2}
   minBiomeWeightBlendThreshold: 0
   biomeMapsInfluence: 1
   peakSharpness: 5

@@ -111,8 +111,8 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 85
   <HeightBaseline>k__BackingField: -0.5
+  <debugColor>k__BackingField: {r: 1, g: 0, b: 0, a: 0}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: c9b2c481ee89af84a8732f382a9104b5, type: 2}
   terrainMaterial: {fileID: 2100000, guid: f680a2e2ec3439546ab07b3cf7e48960, type: 2}
-  debugColor: {r: 0.6132076, g: 0.049172312, b: 0.049172312, a: 1}
   sampleSize: {x: 250, y: 250}

@@ -58,7 +58,7 @@ public static class MeshGenerator
         mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
-        //mesh.RecalculateNormals();
+        mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
         return mesh;

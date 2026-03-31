@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
   elevation:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 223
-    octaves: 2
+    octaves: 1
     persistance: 0.2
     lacunarity: 3
     scale: 800
@@ -74,10 +74,10 @@ MonoBehaviour:
       m_RotationOrder: 4
     applyNormalise: 0
   erosion:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 0
     octaves: 1
-    persistance: -1.35
+    persistance: 0.5
     lacunarity: 2.68
     scale: 500
     offset: {x: 6.39, y: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     applyNormalise: 0
   humidity:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 350
     octaves: 1
     persistance: 0.21
@@ -124,12 +124,12 @@ MonoBehaviour:
       m_RotationOrder: 4
     applyNormalise: 0
   temperature:
-    useRandomSeed: 1
+    useRandomSeed: 0
     seed: 0
-    octaves: 7
-    persistance: 0.5
-    lacunarity: 2
-    scale: 1000
+    octaves: 5
+    persistance: 0.25
+    lacunarity: 10
+    scale: 977.47
     offset: {x: 0, y: 0}
     useCurve: 0
     remapCurve:

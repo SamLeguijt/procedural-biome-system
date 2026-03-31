@@ -20,7 +20,7 @@ MonoBehaviour:
     lacunarity: 5
     scale: 100
     offset: {x: 0, y: 0}
-    useCurve: 1
+    useCurve: 0
     remapCurve:
       serializedVersion: 2
       m_Curve:
@@ -84,8 +84,9 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 125
   <HeightBaseline>k__BackingField: -0.5
+  <debugColor>k__BackingField: {r: 0, g: 1, b: 0.32530117, a: 0}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
-  terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}
-  debugColor: {r: 0, g: 0.4056604, b: 0.09417119, a: 1}
+  terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
+    type: 3}
   sampleSize: {x: 1, y: 1}

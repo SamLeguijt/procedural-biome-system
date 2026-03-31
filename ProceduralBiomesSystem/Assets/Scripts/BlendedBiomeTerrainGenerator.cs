@@ -41,35 +41,41 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
                     float weight = weights.GetWeight(config);
 
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
+                    float biomeHeight = biomeMapPair.Value[x, y];
 
-                    blendedHeight += biomeMapPair.Value[x, y] * influence;
+
+                    //float delta = biomeHeight - config.HeightBaseline;
+                    //blendedHeight += config.HeightBaseline * influence + delta * influence;
+                    blendedHeight += biomeHeight * influence;
+
                     totalWeight += influence;
                 }
 
                 if (totalWeight > 0f)
                     blendedHeight /= totalWeight;
 
-                float baselineSum = 0f;
-                foreach (var kvp in weights.ConfigWeights)
-                {
-                    BiomeConfig config = kvp.Key;
-                    float weight = kvp.Value;
+                //float baselineSum = 0f;
+                //foreach (var kvp in weights.ConfigWeights)
+                //{
+                //    BiomeConfig config = kvp.Key;
+                //    float weight = kvp.Value;
 
-                    float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
-                    baselineSum += config.HeightBaseline * influence;
-                }
+                //    float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
+                //    baselineSum += config.HeightBaseline * influence;
+                //}
 
-                float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
+                //float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
+                //float delta2 = blendedHeight - baseline;
 
-                float delta = blendedHeight - baseline;
+                //float peakInfluence = (delta2 * peakSharpness);
+                //float multiplier = CalculateHeightMultiplier(weights);
+                //float adjustedDelta = delta2 * Mathf.Lerp(1f, multiplier, peakInfluence);
 
-                float peakInfluence = Mathf.Clamp01(delta * peakSharpness);
-                float multiplier = CalculateHeightMultiplier(weights);
-                float adjustedDelta = delta * Mathf.Lerp(1f, multiplier, peakInfluence);
+                //float finalHeight = baseline + adjustedDelta;
 
-                float finalHeight = baseline + adjustedDelta;
+                float finalHeight = blendedHeight;
 
-                result[x, y] = finalHeight;
+                result[x,y] = finalHeight;
             }
         }
 
@@ -84,11 +90,21 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
 
         foreach (BiomeConfig config in biomes.Collection)
         {
-            var mapRaw = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
-            Map<float> map = new Map<float>(NoiseGenerator.Normalize(mapRaw));
-            
+            var noiseMap = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
+            Map<float> mapResult = new Map<float>(width, height);
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    float noiseValue = noiseMap[x, y];
+                    float finalHeight = config.HeightBaseline + noiseValue * config.HeightMultiplier;
+                    mapResult[x, y] = finalHeight;
+                }
+            }
+
             if (!result.ContainsKey(config))
-                result.Add(config, map);
+                result.Add(config, mapResult);
         }
 
         return result;

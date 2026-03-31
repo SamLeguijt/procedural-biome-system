@@ -46,8 +46,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     applyNormalise: 0
-  <HeightMultiplier>k__BackingField: 0
-  <HeightBaseline>k__BackingField: 0
+  <HeightMultiplier>k__BackingField: 125
+  <HeightBaseline>k__BackingField: -0.5
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: 724b7ba8f5048c849b9fe12e41603058, type: 2}
   terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}

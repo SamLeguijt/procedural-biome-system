@@ -88,4 +88,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
   terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}
   debugColor: {r: 0, g: 0.4056604, b: 0.09417119, a: 1}
-  sampleSize: {x: 1, y: 1}
+  sampleSize: {x: 255, y: 255}
