@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427bce23bb254444b960f012f21a9f6e, type: 3}
+  m_Name: BiomeSet_Testing
+  m_EditorClassIdentifier: 
+  <Collection>k__BackingField:
+  - {fileID: 11400000, guid: f54bab0045e297545a587fa9017754d6, type: 2}
+  - {fileID: 11400000, guid: 4850dcfe4bcbab340beda7c8184af974, type: 2}
+  - {fileID: 11400000, guid: 71b73a79346069b46b6eee21da909fcc, type: 2}
+  - {fileID: 11400000, guid: 080a799af9b1a0442a0609898275679c, type: 2}
