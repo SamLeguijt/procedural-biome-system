@@ -19,7 +19,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
         var blendedMap = BlendBiomeMaps(biomeWeightsMap, biomeTerrainMaps);
         var result = CombineMaps(baseHeightMap, blendedMap);
 
-        //return baseHeightMap;
+        return blendedMap;
         return result;
     }
 

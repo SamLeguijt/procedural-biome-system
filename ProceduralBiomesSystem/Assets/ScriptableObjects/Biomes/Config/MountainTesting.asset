@@ -15,10 +15,10 @@ MonoBehaviour:
   <NoiseSettings>k__BackingField:
     useRandomSeed: 0
     seed: 1560
-    octaves: 10
+    octaves: 5
     persistance: 0.15
     lacunarity: 5
-    scale: 100
+    scale: 25
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:

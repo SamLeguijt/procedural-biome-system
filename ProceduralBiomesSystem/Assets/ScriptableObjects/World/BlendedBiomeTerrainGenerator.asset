@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BlendedBiomeTerrainGenerator
   m_EditorClassIdentifier: 
   biomes: {fileID: 11400000, guid: b0e74b9b0b413df438c98ba48fdabf50, type: 2}
-  minBiomeWeightBlendThreshold: 0
+  minBiomeWeightBlendThreshold: 0.15
   biomeMapsInfluence: 1
   peakSharpness: 5
   baseHeightMultiplier: 10
