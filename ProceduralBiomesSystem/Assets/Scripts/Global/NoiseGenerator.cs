@@ -14,7 +14,8 @@ public static class NoiseGenerator
             seed = random.Next(-10000, 10000);
         }
 
-        float[,] map = GenerateNoiseMap(mapWidth, 
+        float[,] map = GenerateNoiseMap(
+            mapWidth, 
             mapHeight,
             seed, 
             settings.scale, 

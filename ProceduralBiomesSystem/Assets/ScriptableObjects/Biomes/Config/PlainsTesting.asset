@@ -109,7 +109,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     applyNormalise: 1
-  <HeightMultiplier>k__BackingField: 0
+  <HeightMultiplier>k__BackingField: -1.6
   <HeightBaseline>k__BackingField: -0.5
   <debugColor>k__BackingField: {r: 0.4812795, g: 0.2783019, b: 1, a: 0.6666667}
   <BiomeRules>k__BackingField:

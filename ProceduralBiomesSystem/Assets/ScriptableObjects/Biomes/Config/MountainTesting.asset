@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NoiseSettings>k__BackingField:
     useRandomSeed: 0
-    seed: 1560
-    octaves: 5
-    persistance: 0.15
-    lacunarity: 5
-    scale: 25
+    seed: 1580
+    octaves: 10
+    persistance: 0.39
+    lacunarity: 2.1
+    scale: 148.6
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -34,59 +34,58 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.2342155
-        value: -0.0005230243
-        inSlope: -0.003357566
-        outSlope: -0.003357566
+        time: 0.43663496
+        value: 0.0063738907
+        inSlope: 0.00015703731
+        outSlope: 0.00015703731
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 1
       - serializedVersion: 3
-        time: 0.30768183
-        value: 0.004743375
-        inSlope: -0.00066672114
-        outSlope: -0.00066672114
+        time: 0.5914136
+        value: 0.3055877
+        inSlope: 3.3036883
+        outSlope: 3.3036883
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.17042698
+        outWeight: 0.073522925
+      - serializedVersion: 3
+        time: 0.8205789
+        value: 1.060272
+        inSlope: 3.1290128
+        outSlope: 3.1290128
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.3581294
+        outWeight: 0.16716929
       - serializedVersion: 3
-        time: 0.4947825
-        value: 0.21964206
-        inSlope: 2.5004423
-        outSlope: 2.5004423
+        time: 0.95574296
+        value: 1.8670278
+        inSlope: 2.1351614
+        outSlope: 2.1351614
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.8020154
       - serializedVersion: 3
-        time: 0.6858196
-        value: 0.47864696
-        inSlope: 1.4116305
-        outSlope: 1.4116305
+        time: 0.96435547
+        value: 2.011303
+        inSlope: 3.1706438
+        outSlope: 3.1706438
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.1449755
-      - serializedVersion: 3
-        time: 0.9850464
-        value: 1.0082512
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
+        inWeight: 0.119022734
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     applyNormalise: 0
-  <HeightMultiplier>k__BackingField: 125
+  <HeightMultiplier>k__BackingField: 77.3
   <HeightBaseline>k__BackingField: -0.5
   <debugColor>k__BackingField: {r: 0, g: 1, b: 0.32530117, a: 0}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
-  terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
-    type: 3}
+  terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}
   sampleSize: {x: 255, y: 255}

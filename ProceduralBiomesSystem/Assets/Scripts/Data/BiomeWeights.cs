@@ -20,6 +20,23 @@ public class BiomeWeights
         return ConfigWeights.TryGetValue(config, out var w) ? w : 0f;
     }
 
+    public (BiomeConfig, float) GetHighest()
+    {
+        BiomeConfig highest = null;
+        float max = 0;
+
+        foreach (var kvp in ConfigWeights)
+        {
+            if (kvp.Value > max)
+            {
+                max = kvp.Value;
+                highest = kvp.Key;
+            }
+        }
+
+        return (highest, max);
+    }
+
     private void Normalise()
     {
         float sum = ConfigWeights.Values.Sum();

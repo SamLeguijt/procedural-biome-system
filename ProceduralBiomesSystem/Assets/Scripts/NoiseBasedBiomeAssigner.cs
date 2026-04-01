@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NoiseBased_BiomeAssigner", menuName = "ScriptableObjects/Biomes/new NoiseBasedBiomeAssigner")]
@@ -19,7 +20,6 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
         int height = elevationMap.Height;
 
         Map<BiomeWeights> biomeMap = new Map<BiomeWeights>(width, height);
-        Dictionary<BiomeConfig, float> weights = new Dictionary<BiomeConfig, float>();
 
         for (int y = 0; y < height; y++)
         {
@@ -29,6 +29,7 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
                 float erosionValue = erosionMap[x, y];
                 float humidityValue = humidityMap[x, y];
                 float temperatureValue = temperatureMap[x, y];
+                Dictionary<BiomeConfig, float> weights = new Dictionary<BiomeConfig, float>();
 
                 foreach (var config in BiomeSet.Collection)
                 {
@@ -41,8 +42,17 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
 
                     weight = Mathf.Pow(weight, blendFactor); 
                     weights[config] = weight;
-                }
 
+                    float totalWeight = 0f;
+
+                    foreach (var kvp in weights)
+                        totalWeight += kvp.Value;
+
+                    foreach (var key in weights.Keys.ToList())
+                    {
+                        weights[key] /= Mathf.Max(totalWeight, 0.0001f);
+                    }
+                }
 
 
                 biomeMap[x, y] = new BiomeWeights(weights);

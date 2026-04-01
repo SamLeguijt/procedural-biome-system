@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BiomeSet>k__BackingField: {fileID: 11400000, guid: b0e74b9b0b413df438c98ba48fdabf50,
     type: 2}
-  blendFactor: 10
+  blendFactor: 3

@@ -12,6 +12,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
     [SerializeField, Min(1)] private float biomeMapsInfluence;
     [SerializeField, Min(1)] private float peakSharpness = 5f;
     [SerializeField, Min(1)] private float baseHeightMultiplier = 1;
+    [SerializeField] private AnimationCurve borderFalloffCurve; 
 
     public override Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap)
     {
@@ -40,55 +41,27 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
                 {
                     BiomeConfig config = biomeMapPair.Key;
                     float weight = weights.GetWeight(config);
+                    float biomeHeight = biomeMapPair.Value[x, y];
 
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
-                    float biomeHeight = biomeMapPair.Value[x, y];
-                    blendedHeight += biomeHeight * influence;
+                    float delta = biomeHeight - config.HeightBaseline;
+
+                    blendedHeight += config.HeightBaseline * influence + delta * influence;
                     totalWeight += influence;
-
-
-                    //float delta = biomeHeight - config.HeightBaseline;
-                    //blendedHeight += config.HeightBaseline * influence + delta * influence;
-
-
-                    //float falloff = EvaluateFalloff(weight);
-                    //float biomeHeight = biomeMapPair.Value[x, y];
-
-                    //// Separate baseline + noise
-                    //float baseline = config.HeightBaseline;
-                    //float noise = biomeHeight - baseline;
-
-                    //// Apply falloff ONLY to noise
-                    //float maskedHeight = baseline + (noise * falloff);
-
-                    //blendedHeight += maskedHeight;
-                    //totalWeight += falloff;
                 }
 
                 if (totalWeight > 0f)
                     blendedHeight /= totalWeight;
 
-                //float baselineSum = 0f;
-                //foreach (var kvp in weights.ConfigWeights)
-                //{
-                //    BiomeConfig config = kvp.Key;
-                //    float weight = kvp.Value;
+                float border = GetBorderFactor(weights);
+                float falloff = borderFalloffCurve.Evaluate(border);
 
-                //    float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
-                //    baselineSum += config.HeightBaseline * influence;
-                //}
+                float baseline = weights.GetHighest().Item1.HeightBaseline;
+                float diff = blendedHeight - baseline;
 
-                //float baseline = baselineSum / Mathf.Max(totalWeight, 0.0001f);
-                //float delta2 = blendedHeight - baseline;
+                float finalHeight = baseline + diff * (1f - falloff);
 
-                //float peakInfluence = (delta2 * peakSharpness);
-                //float multiplier = CalculateHeightMultiplier(weights);
-                //float adjustedDelta = delta2 * Mathf.Lerp(1f, multiplier, peakInfluence);
-
-                //float finalHeight = baseline + adjustedDelta;
-
-                float finalHeight = blendedHeight;
-
+                //float finalHeight = blendedHeight;
                 result[x,y] = finalHeight;
             }
         }
@@ -163,5 +136,32 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
     {
         float t = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
         return Mathf.SmoothStep(0f, 1f, t);
+    }
+
+    private float GetBorderFactor(BiomeWeights weights)
+    {
+        float maxWeight = 0f;
+        float secondMax = 0f;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            float w = kvp.Value;
+
+            if (w > maxWeight)
+            {
+                secondMax = maxWeight;
+                maxWeight = w;
+            }
+            else if (w > secondMax)
+            {
+                secondMax = w;
+            }
+        }
+
+        float diff = maxWeight - secondMax;
+
+        float border = 1f - Mathf.Clamp01(diff * 5f); 
+
+        return border;
     }
 }

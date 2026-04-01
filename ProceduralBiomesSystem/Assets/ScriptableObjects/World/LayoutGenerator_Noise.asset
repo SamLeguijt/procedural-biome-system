@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevation:
     useRandomSeed: 0
-    seed: 223
+    seed: 513
     octaves: 1
-    persistance: 0.5
-    lacunarity: 2
-    scale: 10
+    persistance: 1
+    lacunarity: 1
+    scale: 800
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -27,20 +27,29 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
+        inSlope: 1.0750643
+        outSlope: 1.0750643
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.46452463
+        value: 0.49939382
+        inSlope: 4.108563
+        outSlope: 4.108563
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.4155704
+        outWeight: 0.032528266
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
+        inSlope: 0.9348818
+        outSlope: 0.9348818
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -52,7 +61,7 @@ MonoBehaviour:
     octaves: 1
     persistance: 0.5
     lacunarity: 2.68
-    scale: 500
+    scale: 466.7
     offset: {x: 6.39, y: 0}
     useCurve: 0
     remapCurve:
@@ -86,12 +95,39 @@ MonoBehaviour:
     octaves: 1
     persistance: 0.21
     lacunarity: 2
-    scale: 100
+    scale: 112.67
     offset: {x: 0, y: 0}
-    useCurve: 0
+    useCurve: 1
     remapCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.98013306
+        outSlope: 0.98013306
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5030201
+        value: 0.49302664
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1.0201085
+        outSlope: 1.0201085
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -99,15 +135,42 @@ MonoBehaviour:
   temperature:
     useRandomSeed: 0
     seed: 0
-    octaves: 1
-    persistance: 0.25
-    lacunarity: 28.46
-    scale: 977.47
+    octaves: 10
+    persistance: 0.3
+    lacunarity: 3
+    scale: 850
     offset: {x: 0, y: 0}
-    useCurve: 0
+    useCurve: 1
     remapCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1.0693038
+        outSlope: 1.0693038
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.46702707
+        value: 0.49939382
+        inSlope: 8.499706
+        outSlope: 8.499706
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.01605965
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.93927133
+        outSlope: 0.93927133
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
