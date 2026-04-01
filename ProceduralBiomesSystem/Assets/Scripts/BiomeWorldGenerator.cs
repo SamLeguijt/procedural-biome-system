@@ -21,10 +21,10 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeMap(layout);
         Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap);
 
-        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
-        Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
+        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap, 1);
+        //Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
 
-        terrainMesh.colors = colorMap;
+        //terrainMesh.colors = colorMap;
 
         //Analyze... (in generator ?)
         // Populate... (in generator ?)

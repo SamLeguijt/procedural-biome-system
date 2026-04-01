@@ -16,55 +16,28 @@ MonoBehaviour:
     useRandomSeed: 0
     seed: 223
     octaves: 1
-    persistance: 0.2
-    lacunarity: 3
-    scale: 800
+    persistance: 0.5
+    lacunarity: 10
+    scale: 1500
     offset: {x: 0, y: 0}
     useCurve: 0
     remapCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -0.022071362
-        value: 0.0069293976
-        inSlope: 1.3230667
-        outSlope: 1.3230667
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.02721426
-        value: 0.00891492
-        inSlope: 0.11608877
-        outSlope: 0.11608877
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.1344783
-        value: 0.009222925
-        inSlope: 0.25425103
-        outSlope: 0.25425103
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.38582632
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.49061537
-        value: 0.0011831522
-        inSlope: 0.391853
-        outSlope: 0.391853
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.05658476
+        outWeight: 0
       - serializedVersion: 3
-        time: 0.8970642
-        value: 0.9964905
-        inSlope: 0
-        outSlope: 0
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -126,9 +99,9 @@ MonoBehaviour:
   temperature:
     useRandomSeed: 0
     seed: 0
-    octaves: 5
+    octaves: 1
     persistance: 0.25
-    lacunarity: 10
+    lacunarity: 28.46
     scale: 977.47
     offset: {x: 0, y: 0}
     useCurve: 0

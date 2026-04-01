@@ -35,4 +35,15 @@ public class BiomeConfig : ScriptableObject
         if (recentTerrainSample != null)
             DestroyImmediate(recentTerrainSample);
     }
+
+    private void OnValidate()
+    {
+        if (recentTerrainSample != null)
+        {
+            var heightmap = NoiseGenerator.GenerateNoiseMap((int)sampleSize.x, (int)sampleSize.y, NoiseSettings);
+            Mesh mesh = MeshGenerator.CreateMesh(heightmap, HeightMultiplier);
+            
+            recentTerrainSample.GetComponent<MeshFilter>().mesh = mesh;
+        }
+    }
 }

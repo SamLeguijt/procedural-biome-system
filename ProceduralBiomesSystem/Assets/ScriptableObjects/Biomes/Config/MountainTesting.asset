@@ -20,7 +20,7 @@ MonoBehaviour:
     lacunarity: 5
     scale: 100
     offset: {x: 0, y: 0}
-    useCurve: 0
+    useCurve: 1
     remapCurve:
       serializedVersion: 2
       m_Curve:
@@ -89,4 +89,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
   terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
     type: 3}
-  sampleSize: {x: 1, y: 1}
+  sampleSize: {x: 255, y: 255}

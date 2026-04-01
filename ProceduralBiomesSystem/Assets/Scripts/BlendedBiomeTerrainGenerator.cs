@@ -19,6 +19,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
         var blendedMap = BlendBiomeMaps(biomeWeightsMap, biomeTerrainMaps);
         var result = CombineMaps(baseHeightMap, blendedMap);
 
+        //return baseHeightMap;
         return result;
     }
 
@@ -42,13 +43,26 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
 
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
                     float biomeHeight = biomeMapPair.Value[x, y];
+                    blendedHeight += biomeHeight * influence;
+                    totalWeight += influence;
 
 
                     //float delta = biomeHeight - config.HeightBaseline;
                     //blendedHeight += config.HeightBaseline * influence + delta * influence;
-                    blendedHeight += biomeHeight * influence;
 
-                    totalWeight += influence;
+
+                    //float falloff = EvaluateFalloff(weight);
+                    //float biomeHeight = biomeMapPair.Value[x, y];
+
+                    //// Separate baseline + noise
+                    //float baseline = config.HeightBaseline;
+                    //float noise = biomeHeight - baseline;
+
+                    //// Apply falloff ONLY to noise
+                    //float maskedHeight = baseline + (noise * falloff);
+
+                    //blendedHeight += maskedHeight;
+                    //totalWeight += falloff;
                 }
 
                 if (totalWeight > 0f)
@@ -143,5 +157,11 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
         }
 
         return multiplierSum / weightSum;
+    }
+
+    private float EvaluateFalloff(float weight)
+    {
+        float t = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
+        return Mathf.SmoothStep(0f, 1f, t);
     }
 }

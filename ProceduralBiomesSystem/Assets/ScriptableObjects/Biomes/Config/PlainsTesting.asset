@@ -15,12 +15,12 @@ MonoBehaviour:
   <NoiseSettings>k__BackingField:
     useRandomSeed: 0
     seed: 682
-    octaves: 10
-    persistance: 0.15
-    lacunarity: 5
-    scale: 100
-    offset: {x: 0, y: 0}
-    useCurve: 0
+    octaves: 2
+    persistance: 0.76
+    lacunarity: 8.02
+    scale: 78.4
+    offset: {x: -0.27, y: 0}
+    useCurve: 1
     remapCurve:
       serializedVersion: 2
       m_Curve:
@@ -108,11 +108,12 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    applyNormalise: 0
-  <HeightMultiplier>k__BackingField: 10
+    applyNormalise: 1
+  <HeightMultiplier>k__BackingField: 0
   <HeightBaseline>k__BackingField: -0.5
-  <debugColor>k__BackingField: {r: 0.4812795, g: 0.2783019, b: 1, a: 0}
+  <debugColor>k__BackingField: {r: 0.4812795, g: 0.2783019, b: 1, a: 0.6666667}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: 724b7ba8f5048c849b9fe12e41603058, type: 2}
-  terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
-  sampleSize: {x: 1, y: 1}
+  terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
+    type: 3}
+  sampleSize: {x: 255, y: 255}
