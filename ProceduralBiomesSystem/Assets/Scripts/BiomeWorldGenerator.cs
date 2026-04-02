@@ -22,7 +22,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeMap(layout);
         Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap);
 
-        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap, 1);
+        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
         Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
 
         terrainMesh.colors = colorMap;
@@ -31,7 +31,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         // Populate... (in generator ?)
 
 
-        return new WorldData(terrainMesh, terrainMaterial, terrainMap);
+        return new WorldData(terrainMesh, terrainMaterial, terrainMap, rawBiomeMap);
     }
 
     private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
@@ -56,34 +56,44 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
                     float maxWeight = 0f;
                     Color dominantColor = Color.white;
 
+                    //    foreach (var kvp in weights.ConfigWeights)
+                    //    {
+                    //        float weight = kvp.Value;
+
+                    //        if (weight > maxWeight)
+                    //        {
+                    //            maxWeight = weight;
+                    //            dominantColor = kvp.Key.debugColor;
+                    //        }
+                    //    }
+
+                    //    if (maxWeight >= biomeVisualizationThreshold)
+                    //    {
+                    //        finalColor = dominantColor;
+                    //    }
+                    //    else
+                    //    {
+                    //        finalColor = Color.white;
+                    //    }
+                    //}
+
                     foreach (var kvp in weights.ConfigWeights)
                     {
-                        float weight = kvp.Value;
-
-                        if (weight > maxWeight)
-                        {
-                            maxWeight = weight;
-                            dominantColor = kvp.Key.debugColor;
-                        }
+                        if (kvp.Value > maxWeight)
+                            maxWeight = kvp.Value;
                     }
 
-                    if (maxWeight >= biomeVisualizationThreshold)
-                    {
-                        finalColor = dominantColor;
-                    }
-                    else
-                    {
-                        finalColor = Color.white;
-                    }
+                    // show how strong the dominant biome is
+                    finalColor = Color.Lerp(Color.white, Color.black, maxWeight);
+
+
+                    colorMap[index] = finalColor;
+                    index++;
                 }
-
-                colorMap[index] = finalColor;
-                index++;
             }
         }
-
-        return colorMap;
-
+            return colorMap;
+    }
         /// Biome colors with white near blended areas
         //Color[] colorMap = new Color[verticesCount];
 
@@ -247,7 +257,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         //}
 
         //return colorMap;
-    }
+    
 
     private void Analyze(WorldChunk chunk)
     {

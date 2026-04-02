@@ -8,10 +8,12 @@ public class WorldData
     public Material Material { get; private set; }
         
     public Map<float> TerrainMap { get; private set;  }
-    public WorldData(Mesh mesh, Material material, Map<float> terrainMap)
+    public Map<BiomeWeights> BiomeMap { get; private set; }
+    public WorldData(Mesh mesh, Material material, Map<float> terrainMap, Map<BiomeWeights> biomeMap = null)
     {
         Mesh = mesh;
         Material = material;
         TerrainMap = terrainMap;
+        BiomeMap = biomeMap;
     }
 }

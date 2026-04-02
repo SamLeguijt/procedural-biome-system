@@ -10,9 +10,7 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
     [SerializeField] private BiomeSet biomes;
     [SerializeField, Range(0, 1)] private float minBiomeWeightBlendThreshold;
     [SerializeField, Min(1)] private float biomeMapsInfluence;
-    [SerializeField, Min(1)] private float peakSharpness = 5f;
     [SerializeField, Min(1)] private float baseHeightMultiplier = 1;
-    [SerializeField] private AnimationCurve borderFalloffCurve; 
 
     public override Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap)
     {
@@ -46,22 +44,14 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
                     float delta = biomeHeight - config.HeightBaseline;
 
-                    blendedHeight += config.HeightBaseline * influence + delta * influence;
+                    blendedHeight +=  delta * influence;
                     totalWeight += influence;
                 }
 
                 if (totalWeight > 0f)
                     blendedHeight /= totalWeight;
 
-                float border = GetBorderFactor(weights);
-                float falloff = borderFalloffCurve.Evaluate(border);
-
-                float baseline = weights.GetHighest().Item1.HeightBaseline;
-                float diff = blendedHeight - baseline;
-
-                float finalHeight = baseline + diff * (1f - falloff);
-
-                //float finalHeight = blendedHeight;
+                float finalHeight = blendedHeight;
                 result[x,y] = finalHeight;
             }
         }
@@ -159,7 +149,6 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
         }
 
         float diff = maxWeight - secondMax;
-
         float border = 1f - Mathf.Clamp01(diff * 5f); 
 
         return border;

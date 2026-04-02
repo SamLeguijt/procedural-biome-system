@@ -10,18 +10,20 @@ public enum MapDrawMode
     Temperature,
     Combined,
     Biomes, 
-    Terrain
+    Terrain,
+    BiomeBorder,
+    BiomeDominance,
+    Weights
 }
 
 public class MapVisualizer : MonoBehaviour
 {
     [SerializeField] private Renderer targetRenderer;
-
     [SerializeField] private MapDrawMode mapDrawMode;
 
     WorldLayout recentLayoutDebug;
-
-    WorldData recentWorldData; 
+    WorldData recentWorldData;
+        
 
     public void SetRecentLayout(WorldLayout layout)
     {
@@ -63,7 +65,8 @@ public class MapVisualizer : MonoBehaviour
                 DrawFloatMap(recentLayoutDebug.TemperatureMap, Color.red);
                 break;
             case MapDrawMode.Biomes:
-                //DrawBiomeMap(recentLayoutDebug.BiomeMap);
+                if (recentWorldData != null)
+                    DrawBiomeMap(recentWorldData.BiomeMap);
                 break;
             case MapDrawMode.Combined:
                 DrawCombinedMap(
@@ -79,6 +82,16 @@ public class MapVisualizer : MonoBehaviour
                 {
                     DrawFloatMapWithVertexColors(recentWorldData.TerrainMap, recentWorldData.Mesh.colors);
                 }
+                break;
+
+            case MapDrawMode.BiomeBorder:
+                if (recentWorldData != null)
+                    DrawBiomeBorderMap(recentWorldData.BiomeMap);
+                break;
+
+            case MapDrawMode.BiomeDominance:
+                if (recentWorldData != null)
+                    DrawBiomeDominanceMap(recentWorldData.BiomeMap);
                 break;
         }
     }
@@ -98,14 +111,14 @@ public class MapVisualizer : MonoBehaviour
         int height = map.Height;
 
         Texture2D texture = new Texture2D(width, height);
-        texture.filterMode = FilterMode.Point;
+        texture.filterMode = FilterMode.Bilinear;
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 float value = map[x, y];
-                Color color = Color.Lerp(Color.white, mapColor, value);
+                Color color = Color.Lerp(Color.black, mapColor, value);
 
                 texture.SetPixel(x, y, color);
             }
@@ -135,8 +148,6 @@ public class MapVisualizer : MonoBehaviour
             {
                 int index = x + y * width;
                 Color vertexColor = vertexColors[index];
-
-                // Optionally scale by height value if needed
                 float value = map[x, y];
                 texture.SetPixel(x, y, vertexColor );
             }
@@ -167,6 +178,85 @@ public class MapVisualizer : MonoBehaviour
         targetRenderer.sharedMaterial.mainTexture = texture;
     }
 
+    private void DrawBiomeBorderMap(Map<BiomeWeights> map)
+    {
+        int width = map.Width;
+        int height = map.Height;
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                BiomeWeights weights = map[x, y];
+                float border = GetBorderFactor(weights);
+
+                // black = center, white = border
+                Color color = Color.Lerp(Color.black, Color.white, border);
+
+                texture.SetPixel(x, y, color);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+    private void DrawBiomeDominanceMap(Map<BiomeWeights> map)
+    {
+        int width = map.Width;
+        int height = map.Height;
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                BiomeWeights weights = map[x, y];
+
+                float maxWeight = 0f;
+
+                foreach (var kvp in weights.ConfigWeights)
+                    if (kvp.Value > maxWeight)
+                        maxWeight = kvp.Value;
+
+                // white = strong biome, black = weak
+                Color color = Color.Lerp(Color.black, Color.white, maxWeight);
+
+                texture.SetPixel(x, y, color);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+    private float GetBorderFactor(BiomeWeights weights)
+    {
+        float maxWeight = 0f;
+        float secondMax = 0f;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            float w = kvp.Value;
+
+            if (w > maxWeight)
+            {
+                secondMax = maxWeight;
+                maxWeight = w;
+            }
+            else if (w > secondMax)
+            {
+                secondMax = w;
+            }
+        }
+
+        float diff = maxWeight - secondMax;
+
+        return 1f - Mathf.Clamp01(diff * 5f);
+    }
     public void DrawCombinedMap((Map<float>, Color) mapA, (Map<float>, Color) mapB, (Map<float>, Color) mapC, (Map<float>, Color) mapD)
     {
         int width = mapA.Item1.Width;
@@ -192,6 +282,55 @@ public class MapVisualizer : MonoBehaviour
                 Color pixelColor = colorA + colorB + colorC + colorD;
 
                 texture.SetPixel(x, y, pixelColor);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    public void DrawSingleBiomeWeight(Map<BiomeWeights> map, BiomeConfig targetBiome)
+    {
+        int width = map.Width;
+        int height = map.Height;
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float weight = map[x, y].GetWeight(targetBiome);
+
+                Color color = Color.Lerp(Color.black, Color.white, weight);
+
+                texture.SetPixel(x, y, color);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    public void DrawBorderFactorMap(Map<BiomeWeights> map)
+    {
+        int width = map.Width;
+        int height = map.Height;
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float border = GetBorderFactor(map[x, y]);
+
+                // black = no blend, white = strong blend
+                Color color = Color.Lerp(Color.black, Color.white, border);
+
+                texture.SetPixel(x, y, color);
             }
         }
 

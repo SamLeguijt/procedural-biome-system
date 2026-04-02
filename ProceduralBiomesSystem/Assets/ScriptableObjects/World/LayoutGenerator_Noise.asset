@@ -15,9 +15,9 @@ MonoBehaviour:
   elevation:
     useRandomSeed: 0
     seed: 513
-    octaves: 1
+    octaves: 5
     persistance: 1
-    lacunarity: 1
+    lacunarity: 1.24
     scale: 800
     offset: {x: 0, y: 0}
     useCurve: 1
@@ -135,9 +135,9 @@ MonoBehaviour:
   temperature:
     useRandomSeed: 0
     seed: 0
-    octaves: 10
-    persistance: 0.3
-    lacunarity: 3
+    octaves: 5
+    persistance: 0.24
+    lacunarity: 2.05
     scale: 850
     offset: {x: 0, y: 0}
     useCurve: 1
