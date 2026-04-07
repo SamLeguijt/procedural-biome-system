@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
-    seed: 163
+    seed: 1721
     octaves: 10
     persistance: 0.32
     lacunarity: 3.5
-    scale: 51.03
+    scale: 95.04
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -52,17 +52,17 @@ MonoBehaviour:
         inWeight: 0.22780758
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.44434753
-        value: 0.00014951639
-        inSlope: 2.669212
-        outSlope: 2.669212
+        time: 0.43931466
+        value: -0.0034943
+        inSlope: 0.25057244
+        outSlope: 0.25057244
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.91490966
       - serializedVersion: 3
-        time: 0.4996568
-        value: 0.047222063
+        time: 0.50215924
+        value: 0.0052909106
         inSlope: 0.5978079
         outSlope: 0.5978079
         tangentMode: 0
@@ -72,12 +72,12 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0.5165961
         value: 0.08484279
-        inSlope: 0.6237362
-        outSlope: 0.6237362
+        inSlope: 0.84512633
+        outSlope: 0.84512633
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.19810063
       - serializedVersion: 3
         time: 0.7205116
         value: 0.3995936
@@ -111,7 +111,7 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 85
   <HeightBaseline>k__BackingField: -0.5
-  <debugColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <debugColor>k__BackingField: {r: 1, g: 0, b: 0.6060066, a: 1}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: c9b2c481ee89af84a8732f382a9104b5, type: 2}
   terrainMaterial: {fileID: 2100000, guid: f680a2e2ec3439546ab07b3cf7e48960, type: 2}

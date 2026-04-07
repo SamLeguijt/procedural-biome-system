@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MountainTesting
   m_EditorClassIdentifier: 
   <NoiseSettings>k__BackingField:
-    useRandomSeed: 0
-    seed: 1580
+    useRandomSeed: 1
+    seed: 1939
     octaves: 10
     persistance: 0.39
     lacunarity: 2.1
@@ -84,7 +84,7 @@ MonoBehaviour:
     applyNormalise: 0
   <HeightMultiplier>k__BackingField: 77.3
   <HeightBaseline>k__BackingField: -0.5
-  <debugColor>k__BackingField: {r: 0, g: 1, b: 0.32530117, a: 0}
+  <debugColor>k__BackingField: {r: 0, g: 0.49056602, b: 0.16352196, a: 0}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
   terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}

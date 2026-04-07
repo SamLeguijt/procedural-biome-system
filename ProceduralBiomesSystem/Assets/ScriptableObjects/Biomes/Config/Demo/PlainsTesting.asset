@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlainsTesting
   m_EditorClassIdentifier: 
   <NoiseSettings>k__BackingField:
-    useRandomSeed: 0
+    useRandomSeed: 1
     seed: 682
     octaves: 1
     persistance: 0.76
@@ -111,7 +111,7 @@ MonoBehaviour:
     applyNormalise: 1
   <HeightMultiplier>k__BackingField: 1
   <HeightBaseline>k__BackingField: -0.5
-  <debugColor>k__BackingField: {r: 0.4812795, g: 0.2783019, b: 1, a: 0.6666667}
+  <debugColor>k__BackingField: {r: 0.4811321, g: 0.21226414, b: 0, a: 0.6666667}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: 724b7ba8f5048c849b9fe12e41603058, type: 2}
   terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,

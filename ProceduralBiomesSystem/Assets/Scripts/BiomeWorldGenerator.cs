@@ -9,13 +9,30 @@ using Vector3 = UnityEngine.Vector3;
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
 public class BiomeWorldGenerator : AbstractWorldGenerator
 {
+    public enum TerrainColorMode
+    {
+        DominantThreshold,
+        DominantStrengthGrayscale,
+        DominantWithBlend,
+        DominantScaled,
+        ColorBlend
+    }
+
+
     [Header("Dependencies")]
     [SerializeField] private BaseBiomeAssigner biomeAssigner;
     [SerializeField] private BaseBiomeTerrainGenerator biomeTerrainGenerator;
 
     [SerializeField] private Material terrainMaterial = null;
+
+    [Header("Terrain visuals")]
+    [SerializeField] private TerrainColorMode colorMode;
     [SerializeField, Range(0f, 1f)]
     private float biomeVisualizationThreshold = 0.6f;
+
+
+    private WorldData recentWorldData = null;
+
     public override WorldData GenerateWorld(WorldLayout layout)
     {
         Map<float> baseHeightMap = layout.ElevationMap;
@@ -27,11 +44,25 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         terrainMesh.colors = colorMap;
 
-        //Analyze... (in generator ?)
-        // Populate... (in generator ?)
+        recentWorldData = new WorldData(terrainMesh, terrainMaterial, terrainMap, rawBiomeMap);
+        return recentWorldData;
+    }
 
+    private void OnValidate()
+    {
+        if (recentWorldData != null)
+        {
+            ApplyBiomeToColorMap();
+        }
+    }
 
-        return new WorldData(terrainMesh, terrainMaterial, terrainMap, rawBiomeMap);
+    private void ApplyBiomeToColorMap()
+    {
+        if (recentWorldData != null)
+        {
+            Color[] colorMap = BiomeToColorMap(recentWorldData.BiomeMap, recentWorldData.Mesh.vertices.Length);
+            recentWorldData.Mesh.colors = colorMap;
+        }
     }
 
     private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
@@ -51,221 +82,116 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
                 if (biomeMap.Contains(x, y))
                 {
-                    BiomeWeights weights = biomeMap[x, y];
-
-                    float maxWeight = 0f;
-                    Color dominantColor = Color.white;
-
-                    //    foreach (var kvp in weights.ConfigWeights)
-                    //    {
-                    //        float weight = kvp.Value;
-
-                    //        if (weight > maxWeight)
-                    //        {
-                    //            maxWeight = weight;
-                    //            dominantColor = kvp.Key.debugColor;
-                    //        }
-                    //    }
-
-                    //    if (maxWeight >= biomeVisualizationThreshold)
-                    //    {
-                    //        finalColor = dominantColor;
-                    //    }
-                    //    else
-                    //    {
-                    //        finalColor = Color.white;
-                    //    }
-                    //}
-
-                    foreach (var kvp in weights.ConfigWeights)
-                    {
-                        if (kvp.Value > maxWeight)
-                            maxWeight = kvp.Value;
-                    }
-
-                    // show how strong the dominant biome is
-                    finalColor = Color.Lerp(Color.white, Color.black, maxWeight);
-
-
-                    colorMap[index] = finalColor;
-                    index++;
+                    finalColor = EvaluateColor(biomeMap[x, y]);
                 }
+
+                colorMap[index] = finalColor;
+                index++;
             }
         }
-            return colorMap;
+
+        return colorMap;
     }
-        /// Biome colors with white near blended areas
-        //Color[] colorMap = new Color[verticesCount];
 
-        //int width = biomeMap.Width;
-        //int height = biomeMap.Height;
-
-        //int index = 0;
-
-        //for (int y = 0; y < height; y++)
-        //{
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        Color finalColor = Color.white;
-
-        //        if (biomeMap.Contains(x, y))
-        //        {
-        //            BiomeWeights weights = biomeMap[x, y];
-
-        //            // Find dominant biome
-        //            float maxWeight = 0f;
-        //            Color dominantColor = Color.white;
-
-        //            float totalWeight = 0f;
-
-        //            foreach (var kvp in weights.ConfigWeights)
-        //                totalWeight += kvp.Value;
-
-        //            foreach (var kvp in weights.ConfigWeights)
-        //            {
-        //                float weight = kvp.Value;
-        //                if (weight > maxWeight)
-        //                {
-        //                    maxWeight = weight;
-        //                    dominantColor = kvp.Key.debugColor;
-        //                }
-        //            }
-
-        //            // Purity = fraction of dominant biome vs all other biomes
-        //            float purity = maxWeight / Mathf.Max(totalWeight, 0.0001f);
-        //            // Optional: boost visibility curve
-        //            float intensity = Mathf.Pow(purity, 1.8f);
-
-        //            finalColor = Color.Lerp(Color.white, dominantColor, intensity);
-        //        }
-
-        //        colorMap[index] = finalColor;
-        //        index++;
-        //    }
-        //}
-
-        //return colorMap;
-        //Color[] colorMap = new Color[verticesCount];
-
-        //int width = biomeMap.Width;
-        //int height = biomeMap.Height;
-
-        //int index = 0;
-
-        //for (int y = 0; y < height; y++)
-        //{
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        Color finalColor = Color.white;
-
-        //        if (biomeMap.Contains(x, y))
-        //        {
-        //            BiomeWeights weights = biomeMap[x, y];
-
-        //            float maxWeight = 0f;
-        //            Color dominantColor = Color.white;
-
-        //            foreach (var kvp in weights.ConfigWeights)
-        //            {
-        //                float weight = kvp.Value;
-
-        //                if (weight > maxWeight)
-        //                {
-        //                    maxWeight = weight;
-        //                    dominantColor = kvp.Key.debugColor;
-        //                }
-        //            }
-
-        //            // Optional: boost visibility
-        //            float intensity = Mathf.Pow(maxWeight, 0.5f);
-
-        //            finalColor = Color.Lerp(Color.white, dominantColor, intensity);
-        //        }
-
-        //        colorMap[index] = finalColor;
-        //        index++;
-        //    }
-        //}
-
-        //return colorMap;
-
-        /// Debug color intensity blend influence
-        //Color[] colorMap = new Color[verticesCount];
-
-        //int width = biomeMap.Width;
-        //int height = biomeMap.Height;
-
-        //int index = 0;
-
-        //for (int y = 0; y < height; y++)
-        //{
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        Color finalColor = Color.black;
-
-        //        if (biomeMap.Contains(x, y))
-        //        {
-        //            BiomeWeights weights = biomeMap[x, y];
-
-        //            foreach (var kvp in weights.ConfigWeights)
-        //            {
-        //                BiomeConfig config = kvp.Key;
-        //                float weight = kvp.Value;
-
-        //                // Optional: boost visibility
-        //                weight = Mathf.Pow(weight, 0.5f);
-
-        //                finalColor += config.debugColor * weight;
-        //            }
-        //        }
-
-        //        // Clamp to valid color range
-        //        finalColor.r = Mathf.Clamp01(finalColor.r);
-        //        finalColor.g = Mathf.Clamp01(finalColor.g);
-        //        finalColor.b = Mathf.Clamp01(finalColor.b);
-
-        //        colorMap[index] = finalColor;
-        //        index++;
-        //    }
-        //}
-
-        //return colorMap;
-
-
-        /// BIOME COLORS: 
-        //Color[] colorMap = new Color[verticesCount];
-
-        //int currentIndex = 0;
-
-        //int width = biomeMap.Width;
-        //int height = biomeMap.Height;
-
-        //for (int y = 0; y < height; y++)
-        //{
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        Color color = Color.white;
-
-        //        if (biomeMap.Contains(x, y))
-        //        {
-        //            color = biomeMap[x, y].ToColor();
-        //        }
-
-        //        colorMap[currentIndex] = new Color(color.r, color.g, color.b, color.a);
-        //        currentIndex++;
-        //    }
-        //}
-
-        //return colorMap;
-    
-
-    private void Analyze(WorldChunk chunk)
+    private Color EvaluateColor(BiomeWeights weights)
     {
+        switch (colorMode)
+        {
+            case TerrainColorMode.DominantThreshold:
+                return GetDominantThreshold(weights);
+
+            case TerrainColorMode.DominantStrengthGrayscale:
+                return GetDominantStrengthGrayscale(weights);
+
+            case TerrainColorMode.DominantWithBlend:
+                return GetDominantWithBlend(weights);
+
+            case TerrainColorMode.DominantScaled:
+                return GetDominantScaled(weights);
+
+            case TerrainColorMode.ColorBlend:
+                return weights.ToColor();
+
+            default:
+                return Color.magenta;
+        }
+    }
+
+    private Color GetDominantThreshold(BiomeWeights weights)
+    {
+        float maxWeight = 0f;
+        Color dominantColor = Color.white;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            if (kvp.Value > maxWeight)
+            {
+                maxWeight = kvp.Value;
+                dominantColor = kvp.Key.debugColor;
+            }
+        }
+
+        return maxWeight >= biomeVisualizationThreshold
+            ? dominantColor
+            : Color.white;
+    }
+
+    private Color GetDominantStrengthGrayscale(BiomeWeights weights)
+    {
+        float maxWeight = 0f;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            if (kvp.Value > maxWeight)
+                maxWeight = kvp.Value;
+        }
+
+        Color color = Color.Lerp(Color.white, Color.black, maxWeight);
+
+        return maxWeight >= biomeVisualizationThreshold
+    ? color
+    : Color.white;
 
     }
 
-    private void Populate(WorldChunk chunk)
+    private Color GetDominantWithBlend(BiomeWeights weights)
     {
+        float maxWeight = 0f;
+        float totalWeight = 0f;
+        Color dominantColor = Color.white;
 
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            totalWeight += kvp.Value;
+
+            if (kvp.Value > maxWeight)
+            {
+                maxWeight = kvp.Value;
+                dominantColor = kvp.Key.debugColor;
+            }
+        }
+
+        float purity = maxWeight / Mathf.Max(totalWeight, 0.0001f);
+        float intensity = Mathf.Pow(purity, 1.8f);
+
+        return Color.Lerp(Color.white, dominantColor, intensity);
+    }
+
+    private Color GetDominantScaled(BiomeWeights weights)
+    {
+        float maxWeight = 0f;
+        Color dominantColor = Color.white;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            if (kvp.Value > maxWeight)
+            {
+                maxWeight = kvp.Value;
+                dominantColor = kvp.Key.debugColor;
+            }
+        }
+
+        float intensity = Mathf.Pow(maxWeight, 0.5f);
+        return Color.Lerp(Color.white, dominantColor, intensity);
     }
 }

@@ -8,7 +8,7 @@ public static class NoiseGenerator
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings)
     {
         int seed = settings.seed;
-        if (settings.useRandomSeed)
+        if (settings.useRandomSeed && WorldManager.AllowRandomSeeds) /// TODO: Remove global 
         {
             System.Random random = new System.Random();
             seed = random.Next(-10000, 10000);

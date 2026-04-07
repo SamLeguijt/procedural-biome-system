@@ -43,17 +43,18 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
                     weight = Mathf.Pow(weight, blendFactor); 
                     weights[config] = weight;
 
-                    float totalWeight = 0f;
 
-                    foreach (var kvp in weights)
-                        totalWeight += kvp.Value;
-
-                    foreach (var key in weights.Keys.ToList())
-                    {
-                        weights[key] /= Mathf.Max(totalWeight, 0.0001f);
-                    }
                 }
 
+                float totalWeight = 0f;
+
+                foreach (var kvp in weights)
+                    totalWeight += kvp.Value;
+
+                foreach (var key in weights.Keys.ToList())
+                {
+                    weights[key] /= Mathf.Max(totalWeight, 0.0001f);
+                }
 
                 biomeMap[x, y] = new BiomeWeights(weights);
             }

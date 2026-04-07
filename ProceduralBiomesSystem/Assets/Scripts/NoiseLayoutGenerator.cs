@@ -24,6 +24,7 @@ public class NoiseLayoutGenerator : AbstractLayoutGenerator
         WorldLayout layout = GenerateWorldLayout(recentWidth, recentHeight); 
         OnLayoutChanged?.Invoke(layout);
     }
+
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {
         int mapWidth = settings.WorldSize.x;

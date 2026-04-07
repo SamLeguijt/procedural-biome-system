@@ -40,7 +40,7 @@ public static class MeshGenerator
                 int heightMapX = Mathf.FloorToInt(percentX * (width - 1));
                 int heightMapZ = Mathf.FloorToInt(percentZ * (depth - 1));
 
-                float height = heightMap[heightMapX, heightMapZ] * heightMultiplier;
+                float height = heightMap[heightMapX, heightMapZ];
 
                 vertices[vertexIndex] = new Vector3(topLeftX + x, height * heightMultiplier, topLeftZ - z);
 

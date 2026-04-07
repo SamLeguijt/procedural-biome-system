@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
-  m_Name: PlainsConfig
+  m_Name: DesertTesting
   m_EditorClassIdentifier: 
   <NoiseSettings>k__BackingField:
     useRandomSeed: 1
-    seed: 20
-    octaves: 5
-    persistance: 0.5
-    lacunarity: 2
-    scale: 50
+    seed: 919
+    octaves: 3
+    persistance: 0.51
+    lacunarity: 0.94
+    scale: 56.05
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -26,19 +26,19 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -46,10 +46,10 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     applyNormalise: 0
-  <HeightMultiplier>k__BackingField: 125
+  <HeightMultiplier>k__BackingField: 30
   <HeightBaseline>k__BackingField: -0.5
-  <debugColor>k__BackingField: {r: 1, g: 0.3254717, b: 0.3254717, a: 0}
+  <debugColor>k__BackingField: {r: 0.8396226, g: 0.6785107, b: 0, a: 0}
   <BiomeRules>k__BackingField:
-  - {fileID: 11400000, guid: 724b7ba8f5048c849b9fe12e41603058, type: 2}
-  terrainMaterial: {fileID: 2100000, guid: a7bf24893971c354da80b10be75e0dff, type: 2}
+  - {fileID: 11400000, guid: 6c50a6c846799bc4b83830ece35197fa, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: 7edc004d0e5447c4c9d13a4f7e0ecaaf, type: 2}
   sampleSize: {x: 255, y: 255}

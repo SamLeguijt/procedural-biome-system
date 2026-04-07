@@ -11,5 +11,6 @@ public class WorldSettings : ScriptableObject
     [field: SerializeField] public AbstractLayoutGenerator LayoutGenerator { get; private set; }
 
     [field: SerializeField] public Vector2Int WorldSize { get; private set; }
-    [field: SerializeField]public Vector2Int ChunkQuads {  get; private set; }
+    [field: SerializeField] public Vector2Int ChunkQuads {  get; private set; }
+
 }

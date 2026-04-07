@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+public enum SeedMode
+{
+    Random,
+    Manual
+}
+
 public class WorldManager : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] private WorldSettings worldSettings;
+    [SerializeField] private DependencyContainer demoContainer;
+
+    [SerializeField] private SeedMode seedMode;
+    public static bool AllowRandomSeeds = true;
 
     [Header("Visualization")]
     [SerializeField] private MapVisualizer visualizer;
@@ -21,6 +31,11 @@ public class WorldManager : MonoBehaviour
         worldGenerator = worldSettings.WorldGenerator;
         worldLayoutGenerator = worldSettings.LayoutGenerator;
         worldLayoutGenerator.OnLayoutChanged += VisualiseMaps; 
+    }
+
+    private void OnValidate()
+    {
+        AllowRandomSeeds = seedMode == SeedMode.Random ? true : false;
     }
 
     private void VisualiseMaps(WorldLayout layout)

@@ -18,7 +18,6 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
         var blendedMap = BlendBiomeMaps(biomeWeightsMap, biomeTerrainMaps);
         var result = CombineMaps(baseHeightMap, blendedMap);
 
-        return blendedMap;
         return result;
     }
 
@@ -39,10 +38,10 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
                 {
                     BiomeConfig config = biomeMapPair.Key;
                     float weight = weights.GetWeight(config);
-                    float biomeHeight = biomeMapPair.Value[x, y];
+                    float terrainMapHeight = biomeMapPair.Value[x, y];
 
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
-                    float delta = biomeHeight - config.HeightBaseline;
+                    float delta = terrainMapHeight - config.HeightBaseline;
 
                     blendedHeight +=  delta * influence;
                     totalWeight += influence;
@@ -96,61 +95,13 @@ public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
             for (int x = 0; x < result.Width; x++)
             {
                 float baseHeight = baseMap[x, y];
-                float biomeHeight = addMap[x, y];
-                float finalHeight = (baseHeight * baseHeightMultiplier) + (biomeHeight * biomeMapsInfluence);
+                float addHeight = addMap[x, y];
+                float finalHeight = (baseHeight * baseHeightMultiplier) + (addHeight * biomeMapsInfluence);
 
                 result[x, y] = finalHeight;
             }
         }
 
         return result;
-    }
-
-    private float CalculateHeightMultiplier(BiomeWeights weights)
-    {
-        float multiplierSum = 0f;
-        float weightSum = 0f;
-
-        foreach (var kvp in weights.ConfigWeights)
-        {
-            BiomeConfig config = kvp.Key;
-            float weight = weights.GetWeight(kvp.Key);
-            multiplierSum += config.HeightMultiplier * weight;
-            weightSum += weight;
-        }
-
-        return multiplierSum / weightSum;
-    }
-
-    private float EvaluateFalloff(float weight)
-    {
-        float t = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
-        return Mathf.SmoothStep(0f, 1f, t);
-    }
-
-    private float GetBorderFactor(BiomeWeights weights)
-    {
-        float maxWeight = 0f;
-        float secondMax = 0f;
-
-        foreach (var kvp in weights.ConfigWeights)
-        {
-            float w = kvp.Value;
-
-            if (w > maxWeight)
-            {
-                secondMax = maxWeight;
-                maxWeight = w;
-            }
-            else if (w > secondMax)
-            {
-                secondMax = w;
-            }
-        }
-
-        float diff = maxWeight - secondMax;
-        float border = 1f - Mathf.Clamp01(diff * 5f); 
-
-        return border;
     }
 }

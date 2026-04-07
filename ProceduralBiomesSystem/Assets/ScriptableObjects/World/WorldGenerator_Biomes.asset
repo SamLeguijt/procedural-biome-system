@@ -17,4 +17,5 @@ MonoBehaviour:
     type: 2}
   terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
     type: 3}
-  biomeVisualizationThreshold: 0.885
+  colorMode: 4
+  biomeVisualizationThreshold: 0

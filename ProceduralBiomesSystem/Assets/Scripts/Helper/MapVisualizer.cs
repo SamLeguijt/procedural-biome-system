@@ -10,10 +10,9 @@ public enum MapDrawMode
     Temperature,
     Combined,
     Biomes, 
-    Terrain,
-    BiomeBorder,
+    Borders,
     BiomeDominance,
-    Weights
+    ElevationTemperature
 }
 
 public class MapVisualizer : MonoBehaviour
@@ -66,7 +65,7 @@ public class MapVisualizer : MonoBehaviour
                 break;
             case MapDrawMode.Biomes:
                 if (recentWorldData != null)
-                    DrawBiomeMap(recentWorldData.BiomeMap);
+                    DrawBiomeWeightColorsMap(recentWorldData.BiomeMap);
                 break;
             case MapDrawMode.Combined:
                 DrawCombinedMap(
@@ -76,22 +75,21 @@ public class MapVisualizer : MonoBehaviour
                      (recentLayoutDebug.TemperatureMap, Color.red)
                  );
                 break;
-
-            case MapDrawMode.Terrain:
+            case MapDrawMode.Borders:
                 if (recentWorldData != null)
-                {
-                    DrawFloatMapWithVertexColors(recentWorldData.TerrainMap, recentWorldData.Mesh.colors);
-                }
-                break;
-
-            case MapDrawMode.BiomeBorder:
-                if (recentWorldData != null)
-                    DrawBiomeBorderMap(recentWorldData.BiomeMap);
+                    DrawBiomeBlendMap(recentWorldData.BiomeMap);
                 break;
 
             case MapDrawMode.BiomeDominance:
                 if (recentWorldData != null)
                     DrawBiomeDominanceMap(recentWorldData.BiomeMap);
+                break;
+
+            case MapDrawMode.ElevationTemperature:
+                DrawElevationTemperatureMap(
+                    recentLayoutDebug.ElevationMap,
+                    recentLayoutDebug.TemperatureMap
+                );
                 break;
         }
     }
@@ -135,7 +133,6 @@ public class MapVisualizer : MonoBehaviour
 
         if (vertexColors.Length != width * height)
         {
-            Debug.LogError("Vertex color array length does not match map dimensions!");
             return;
         }
 
@@ -157,7 +154,7 @@ public class MapVisualizer : MonoBehaviour
         targetRenderer.sharedMaterial.mainTexture = texture;
     }
 
-    public void DrawBiomeMap(Map<BiomeWeights> map)
+    public void DrawBiomeWeightColorsMap(Map<BiomeWeights> map)
     {
         int width = map.Width;
         int height = map.Height;
@@ -178,7 +175,7 @@ public class MapVisualizer : MonoBehaviour
         targetRenderer.sharedMaterial.mainTexture = texture;
     }
 
-    private void DrawBiomeBorderMap(Map<BiomeWeights> map)
+    private void DrawBiomeBlendMap(Map<BiomeWeights> map)
     {
         int width = map.Width;
         int height = map.Height;
@@ -193,7 +190,6 @@ public class MapVisualizer : MonoBehaviour
                 BiomeWeights weights = map[x, y];
                 float border = GetBorderFactor(weights);
 
-                // black = center, white = border
                 Color color = Color.Lerp(Color.black, Color.white, border);
 
                 texture.SetPixel(x, y, color);
@@ -331,6 +327,33 @@ public class MapVisualizer : MonoBehaviour
                 Color color = Color.Lerp(Color.black, Color.white, border);
 
                 texture.SetPixel(x, y, color);
+            }
+        }
+
+        texture.Apply();
+        targetRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    private void DrawElevationTemperatureMap(Map<float> elevation, Map<float> temperature)
+    {
+        int width = elevation.Width;
+        int height = elevation.Height;
+
+        Texture2D texture = new Texture2D(width, height);
+        texture.filterMode = FilterMode.Point;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float e = elevation[x, y];      
+                float t = temperature[x, y];  
+
+                Color baseColor = Color.Lerp(Color.black, Color.white, e);
+                Color tempColor = Color.Lerp(Color.blue, Color.red, t);
+                Color finalColor = baseColor * tempColor;
+
+                texture.SetPixel(x, y, finalColor);
             }
         }
 

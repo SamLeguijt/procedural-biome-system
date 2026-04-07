@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LayoutGenerator_Noise
   m_EditorClassIdentifier: 
   elevation:
-    useRandomSeed: 0
+    useRandomSeed: 1
     seed: 513
     octaves: 5
     persistance: 1
@@ -56,14 +56,14 @@ MonoBehaviour:
       m_RotationOrder: 4
     applyNormalise: 0
   erosion:
-    useRandomSeed: 0
+    useRandomSeed: 1
     seed: 0
     octaves: 1
     persistance: 0.5
     lacunarity: 2.68
     scale: 466.7
     offset: {x: 6.39, y: 0}
-    useCurve: 0
+    useCurve: 1
     remapCurve:
       serializedVersion: 2
       m_Curve:
@@ -90,12 +90,12 @@ MonoBehaviour:
       m_RotationOrder: 4
     applyNormalise: 0
   humidity:
-    useRandomSeed: 0
-    seed: 350
+    useRandomSeed: 1
+    seed: 334
     octaves: 1
     persistance: 0.21
     lacunarity: 2
-    scale: 112.67
+    scale: 500
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -104,36 +104,27 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0.98013306
-        outSlope: 0.98013306
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.5030201
-        value: 0.49302664
-        inSlope: Infinity
-        outSlope: Infinity
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1.0201085
-        outSlope: 1.0201085
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     applyNormalise: 0
   temperature:
-    useRandomSeed: 0
+    useRandomSeed: 1
     seed: 0
     octaves: 5
     persistance: 0.24
