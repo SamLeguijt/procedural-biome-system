@@ -87,5 +87,6 @@ MonoBehaviour:
   <debugColor>k__BackingField: {r: 0, g: 0.49056602, b: 0.16352196, a: 0}
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
-  terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}
+  terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
+    type: 3}
   sampleSize: {x: 255, y: 255}

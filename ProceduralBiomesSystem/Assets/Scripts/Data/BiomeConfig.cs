@@ -24,7 +24,7 @@ public class BiomeConfig : ScriptableObject
     {
         var heightmap = NoiseGenerator.GenerateNoiseMap((int)sampleSize.x, (int)sampleSize.y, NoiseSettings);
         Mesh mesh = MeshGenerator.CreateMesh(heightmap, HeightMultiplier);
-
+        ApplyDebugColorToMesh(mesh);
         GameObject go = MeshGenerator.CreateGameObjectFromMesh(mesh, terrainMaterial, "TerrainSample");
         recentTerrainSample = go;
     }
@@ -36,13 +36,26 @@ public class BiomeConfig : ScriptableObject
             DestroyImmediate(recentTerrainSample);
     }
 
+    private void ApplyDebugColorToMesh(Mesh mesh)
+    {
+        Color[] colors = new Color[mesh.vertexCount];
+
+        for (int i = 0; i < colors.Length; i++)
+        {
+            colors[i] = debugColor;
+        }
+
+        mesh.colors = colors;
+    }
+
     private void OnValidate()
     {
         if (recentTerrainSample != null)
         {
             var heightmap = NoiseGenerator.GenerateNoiseMap((int)sampleSize.x, (int)sampleSize.y, NoiseSettings);
             Mesh mesh = MeshGenerator.CreateMesh(heightmap, HeightMultiplier);
-            
+            ApplyDebugColorToMesh(mesh);
+
             recentTerrainSample.GetComponent<MeshFilter>().mesh = mesh;
         }
     }
