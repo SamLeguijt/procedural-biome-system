@@ -12,7 +12,10 @@ public class BiomeConfig : ScriptableObject
     [field: SerializeField] public Color debugColor {  get; private set; }
 
     [field: Space, Header("Biome rules")]
-    [field: SerializeField] public List<AbstractBiomeRule> BiomeRules { get; private set; } 
+    [field: SerializeField] public List<AbstractBiomeRule> BiomeRules { get; private set; }
+
+    [field: Space, Header("Population rules")]
+    [field: SerializeField] public List<BasePopulationRule> PopulationRules { get; private set; }
 
     [Space, Header("Terrain sample settings")]
     public Material terrainMaterial;
