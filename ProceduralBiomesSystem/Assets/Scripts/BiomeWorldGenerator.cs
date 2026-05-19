@@ -33,6 +33,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
     private WorldData recentWorldData = null;
 
+    
+
     public override WorldData GenerateWorld(WorldLayout layout)
     {
         Map<float> baseHeightMap = layout.ElevationMap;
@@ -41,7 +43,7 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
         Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
         Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
-
+            
         terrainMesh.colors = colorMap;
 
         recentWorldData = new WorldData(terrainMesh, terrainMaterial, terrainMap, rawBiomeMap);
@@ -54,6 +56,11 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
         {
             ApplyBiomeToColorMap();
         }
+    }
+
+    private void Populate()
+    {
+
     }
 
     private void ApplyBiomeToColorMap()

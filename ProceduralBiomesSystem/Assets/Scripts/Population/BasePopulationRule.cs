@@ -35,33 +35,4 @@ public class BasePopulationRule : ScriptableObject
     }
 }
 
-[System.Serializable]
-public class BasePopulateCondition
-{
-    /// <summary>
-    /// TEMP IMPLEMENTATION
-    /// 
-    /// Returns if value < threshold
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="threshold"></param>
-    /// <returns></returns>
-    public bool Evaluate(float value, float threshold)
-    {
-        return value < threshold;
-    }
-}
 
-public struct PlacementResult
-{
-    public bool IsValid => Prefab != null;
-
-    public GameObject Prefab { get; private set; }
-    public Vector3 Position { get; private set; }
-
-    public PlacementResult(GameObject prefab, Vector3 position)
-    {
-        Prefab = prefab;
-        Position = position;
-    }
-}
