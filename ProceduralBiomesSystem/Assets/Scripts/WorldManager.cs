@@ -14,6 +14,7 @@ public class WorldManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private WorldSettings worldSettings;
     [SerializeField] private DependencyContainer demoContainer;
+    [SerializeField] private WorldAnalyzer worldAnalyzer;
 
     [SerializeField] private SeedMode seedMode;
     public static bool AllowRandomSeeds = true;
@@ -58,6 +59,11 @@ public class WorldManager : MonoBehaviour
         WorldLayout layout = GenerateLayout(worldSettings);
         WorldData world = GenerateWorld(layout);
         
+        // TODO: 
+        // Analyse and Populate steps
+        WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
+
+
         CreateWorldObject(world);
 
         visualizer.SetRecentLayout(layout);

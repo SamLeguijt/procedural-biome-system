@@ -11,5 +11,5 @@ public class PlacementContext
     // Coordinates
     public int X {  get; private set; }
     public int Y {  get; private set; }
-    public TerrainAnalyseData AnalyseData { get; private set; }
+    public TerrainAnalysisData AnalyseData { get; private set; }
 }
