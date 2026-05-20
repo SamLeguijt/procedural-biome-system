@@ -15,6 +15,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private WorldSettings worldSettings;
     [SerializeField] private DependencyContainer demoContainer;
     [SerializeField] private WorldAnalyzer worldAnalyzer;
+    [SerializeField] private WorldPopulator worldPopulator;
 
     [SerializeField] private SeedMode seedMode;
     public static bool AllowRandomSeeds = true;
@@ -62,7 +63,7 @@ public class WorldManager : MonoBehaviour
         // TODO: 
         // Analyse and Populate steps
         WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
-
+        var populations = worldPopulator.PopulateWorld(worldAnalysis);
 
         CreateWorldObject(world);
 
