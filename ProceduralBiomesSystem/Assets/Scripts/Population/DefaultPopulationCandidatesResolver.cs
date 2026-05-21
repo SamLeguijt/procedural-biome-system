@@ -9,6 +9,34 @@ public class DefaultPopulationCandidatesResolver : APopulationCandidatesResolver
     public override List<PopulationCandidate> Resolve(List<PopulationCandidate> candidates)
     {
 
-        return candidates;
+        List<PopulationCandidate> result = new List<PopulationCandidate>();
+
+        // already placed candidates (used for spatial checks)
+        List<PopulationCandidate> accepted = new List<PopulationCandidate>();
+
+        foreach (var candidate in candidates)
+        {
+            if (IsValid(candidate, accepted))
+            {
+                result.Add(candidate);
+                accepted.Add(candidate);
+            }
+        }
+
+        return result;
+    }
+
+    private bool IsValid(PopulationCandidate candidate, List<PopulationCandidate> accepted)
+    {
+        foreach (var other in accepted)
+        {
+            float minDistance = candidate.radius + other.radius;
+            float sqrDistance = (candidate.worldPos - other.worldPos).sqrMagnitude;
+
+            if (sqrDistance < minDistance * minDistance)
+                return false;
+        }
+
+        return true;
     }
 }

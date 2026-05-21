@@ -13,7 +13,8 @@ public class PopulationCandidate
 
     public float radius; 
 
-    public PopulationCandidate(GameObject prefab, Vector3 worldPos, Quaternion rotation, float radius = 0)
+
+    public PopulationCandidate(GameObject prefab, Vector3 worldPos, Quaternion rotation, float radius)
     {
         this.prefab = prefab;
         this.worldPos = worldPos;

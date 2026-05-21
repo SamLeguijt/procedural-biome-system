@@ -51,7 +51,7 @@ public class WorldPopulator : ScriptableObject
                                 rule.objectToPlace,
                                 worldPosition,
                                 Quaternion.identity,
-                                0
+                                rule.radius
                             );
 
                         result.Add(candidate);

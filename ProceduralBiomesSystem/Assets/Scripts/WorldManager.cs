@@ -73,7 +73,9 @@ public class WorldManager : MonoBehaviour
 
         GameObject populationParent = new GameObject("PopulationParent");
         CreatePopulation(populations, populationParent);
-        CreateWorldObject(world);
+
+        GameObject worldObject = CreateWorldObject(world);
+        populationParent.transform.SetParent(worldObject.transform, false);
 
         visualizer.SetRecentLayout(layout);
         visualizer.SetRecentWorld(world);
@@ -99,7 +101,7 @@ public class WorldManager : MonoBehaviour
     }
 
 
-    private void CreateWorldObject(WorldData worldData)
+    private GameObject CreateWorldObject(WorldData worldData)
     {
         GameObject world = new GameObject("World");
         MeshFilter meshFilter = world.AddComponent<MeshFilter>();
@@ -110,6 +112,7 @@ public class WorldManager : MonoBehaviour
 
         world.transform.parent = transform;
         recentWorlds.Add(world);
+        return world;
     }
 
     private void CreatePopulation(List<PopulationCandidate> population, GameObject parent)
