@@ -12,11 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd056f1264bd6347a38cbe4e89411b7, type: 3}
   m_Name: WorldSettings_Default
   m_EditorClassIdentifier: 
-  <ChunkPrefab>k__BackingField: {fileID: 6011080805577089550, guid: fdf602edf8cf96643be28378eaff4377,
-    type: 3}
-  <WorldGenerator>k__BackingField: {fileID: 11400000, guid: 7c7a105b6cbce9043ad706b215876113,
-    type: 2}
-  <LayoutGenerator>k__BackingField: {fileID: 11400000, guid: c2dc9ce4ac476304a84761bf3c058aa7,
-    type: 2}
   <WorldSize>k__BackingField: {x: 1000, y: 1000}
   <ChunkQuads>k__BackingField: {x: 200, y: 200}
+  <TerrainMaterial>k__BackingField: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
+    type: 3}
