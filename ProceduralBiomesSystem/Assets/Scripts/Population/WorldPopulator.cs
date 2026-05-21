@@ -48,10 +48,10 @@ public class WorldPopulator : ScriptableObject
                     {
                         PopulationCandidate candidate = new PopulationCandidate
                             (
-                                rule.objectToPlace,
+                                rule.Prefab,
                                 worldPosition,
                                 Quaternion.identity,
-                                rule.radius
+                                rule.OccupationRadius
                             );
 
                         result.Add(candidate);

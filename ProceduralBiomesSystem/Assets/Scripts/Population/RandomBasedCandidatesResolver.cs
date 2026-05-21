@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CandidatesResolver_Random", menuName = "ScriptableObjects/Population/CandidatesResolver/New Random_CandidatesResolver")]
-public class RandomPopulationCandidatesResolver : APopulationCandidatesResolver
+public class RandomBasedCandidatesResolver : APopulationCandidatesResolver
 {
-    public int maxAllowedInstances; 
+    [SerializeField] private int maxAllowedInstances; 
 
     public override List<PopulationCandidate> Resolve(List<PopulationCandidate> candidates)
     {

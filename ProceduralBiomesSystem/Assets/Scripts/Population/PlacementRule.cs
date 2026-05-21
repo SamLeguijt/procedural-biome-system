@@ -5,16 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlacementRule_", menuName = "ScriptableObjects/PlacementRules")]
 public class PlacementRule : ScriptableObject
 {
-    public GameObject objectToPlace;
-    public float radius; 
-    public List<APopulateCondition> conditions = new List<APopulateCondition>();
+    public GameObject Prefab { get; private set; } = null; 
+    public float OccupationRadius { get; private set; } = 0f;
+    public List<APopulateCondition> Conditions { get; private set; } = new List<APopulateCondition>();
+
 
     public bool Evaluate(PlacementContext context)
     {
-        if (objectToPlace == null || conditions == null || conditions.Count == 0)
+        if (Prefab == null || Conditions == null || Conditions.Count == 0)
             return false;
 
-        foreach (APopulateCondition condition in conditions)
+        foreach (APopulateCondition condition in Conditions)
         {
             bool isMet = condition.Evaluate(context);
 

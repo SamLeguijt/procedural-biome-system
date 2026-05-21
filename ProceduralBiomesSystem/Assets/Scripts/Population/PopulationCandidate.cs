@@ -2,23 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class represents a possible candidate to procedurally place. 
-// Gets created by the population rules, resolved by a populate strategy to decide final PopulateInstances.
-// Todo: Seperate PopulateCandidate and PopulateInstance classes?
 public class PopulationCandidate 
 {
-    public GameObject prefab;
-    public Vector3 worldPos; 
-    public Quaternion rotation;
+    public GameObject Prefab {  get; private set; }
+    public Vector3 WorldPosition {  get; private set; }
+    public Quaternion Rotation {  get; private set; }
 
-    public float radius; 
+    public float OccupationRadius {  get; private set; } 
 
 
     public PopulationCandidate(GameObject prefab, Vector3 worldPos, Quaternion rotation, float radius)
     {
-        this.prefab = prefab;
-        this.worldPos = worldPos;
-        this.rotation = rotation;
-        this.radius = radius;
+        this.Prefab = prefab;
+        this.WorldPosition = worldPos;
+        this.Rotation = rotation;
+        this.OccupationRadius = radius;
     }
 }

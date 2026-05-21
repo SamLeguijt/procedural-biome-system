@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DefaultCandidatesResolver", menuName = "ScriptableObjects/Population/CandidatesResolver/new Default CandidatesResolver")]
-public class DefaultPopulationCandidatesResolver : APopulationCandidatesResolver
+public class RadiusBasedCandidatesResolver : APopulationCandidatesResolver
 {
-    // This class defaults to returning all candidates.
     public override List<PopulationCandidate> Resolve(List<PopulationCandidate> candidates)
     {
-
         List<PopulationCandidate> result = new List<PopulationCandidate>();
-
-        // already placed candidates (used for spatial checks)
         List<PopulationCandidate> accepted = new List<PopulationCandidate>();
 
         foreach (var candidate in candidates)
@@ -30,8 +26,8 @@ public class DefaultPopulationCandidatesResolver : APopulationCandidatesResolver
     {
         foreach (var other in accepted)
         {
-            float minDistance = candidate.radius + other.radius;
-            float sqrDistance = (candidate.worldPos - other.worldPos).sqrMagnitude;
+            float minDistance = candidate.OccupationRadius + other.OccupationRadius;
+            float sqrDistance = (candidate.WorldPosition - other.WorldPosition).sqrMagnitude;
 
             if (sqrDistance < minDistance * minDistance)
                 return false;

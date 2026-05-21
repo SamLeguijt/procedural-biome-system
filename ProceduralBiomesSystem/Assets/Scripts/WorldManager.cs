@@ -66,8 +66,6 @@ public class WorldManager : MonoBehaviour
         WorldLayout layout = GenerateLayout(worldSettings);
         WorldData world = GenerateWorld(layout);
         
-        // TODO: 
-        // Analyse and Populate steps
         WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
         var populations = worldPopulator.PopulateWorld(worldAnalysis);
 
@@ -119,7 +117,7 @@ public class WorldManager : MonoBehaviour
     {
         foreach (PopulationCandidate candidate in population)
         {
-            spawner.SpawnGameObject(candidate.prefab, candidate.worldPos, candidate.rotation, parent);
+            spawner.SpawnGameObject(candidate.Prefab, candidate.WorldPosition, candidate.Rotation, parent);
         }
     }
 
