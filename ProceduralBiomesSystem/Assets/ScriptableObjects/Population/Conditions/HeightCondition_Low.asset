@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9427c3c6b8966b42bfa07f83283b87e, type: 3}
   m_Name: HeightCondition_Low
   m_EditorClassIdentifier: 
-  minHeight: 0
-  maxHeight: 10
+  minWorldHeight: 0
+  maxWorldHeight: 50

@@ -37,7 +37,7 @@ public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
                     foreach (AbstractBiomeRule rule in config.BiomeRules)
                     {
                         /// TODO: Turn this into some context Dictionary that maps string to Map<float> instead.
-                        weight += rule.Evaluate(config, elevationValue, humidityValue, erosionValue, temperatureValue);
+                        weight += Mathf.Max(0f, rule.Evaluate(config, elevationValue, humidityValue, erosionValue, temperatureValue));
                     }
 
                     weight = Mathf.Pow(weight, blendFactor); 

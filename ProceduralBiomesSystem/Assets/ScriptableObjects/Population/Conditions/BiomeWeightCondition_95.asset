@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BiomeWeightCondition_95
   m_EditorClassIdentifier: 
   minWeight: 0.95
-  maxWeight: 1
+  maxWeight: 1.01

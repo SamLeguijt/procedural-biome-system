@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ac167a64f68ff4489517f3f04512c8, type: 3}
   m_Name: PlacementRule_Test 1
   m_EditorClassIdentifier: 
+  <Prefab>k__BackingField: {fileID: 7938280706281378111, guid: 48cf491004f941e41a8ac70725ab25ee,
+    type: 3}
+  <OccupationRadius>k__BackingField: 5
+  <Conditions>k__BackingField:
+  - {fileID: 11400000, guid: 91cfb8410be6d3640a74aef3502473ee, type: 2}
+  - {fileID: 11400000, guid: 83e23f79baa97fc45b0b92316b0580b8, type: 2}
+  - {fileID: 11400000, guid: 0342803be6ed5fc44af66114325d195d, type: 2}

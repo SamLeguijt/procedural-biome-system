@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be0d4a766dc8714fb4cd4ceab0932d6, type: 3}
   m_Name: SlopeCondition_Flat
   m_EditorClassIdentifier: 
-  minSlope: -0.1
-  maxSlope: 0.1
+  minSlope: -0.25
+  maxSlope: 0.25
