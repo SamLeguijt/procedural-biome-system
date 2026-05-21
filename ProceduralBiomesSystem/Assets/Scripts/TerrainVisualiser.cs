@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,10 +16,35 @@ public class TerrainVisualiser : MonoBehaviour
 
     [Header("Terrain visuals")]
     [SerializeField] private TerrainColorMode colorMode;
-    [SerializeField, Range(0f, 1f)]
-    private float biomeVisualizationThreshold = 0.6f;
+    [SerializeField, Range(0f, 1f)] private float biomeVisualizationThreshold = 0.6f;
 
-    public Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
+
+    WorldData worldData = null;
+
+    private void OnValidate()
+    {
+        if (worldData != null)
+        {
+            ApplyBiomeToColorMap();
+        }
+    }
+
+    public void SetWorldData(WorldData data)
+    {
+        worldData = data;
+        ApplyBiomeToColorMap();
+    }
+
+    private void ApplyBiomeToColorMap()
+    {
+        if (worldData != null)
+        {
+            Color[] colorMap = BiomeToColorMap(worldData.BiomeMap, worldData.Mesh.vertices.Length);
+            worldData.Mesh.colors = colorMap;
+        }
+    }
+
+    private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
     {
         Color[] colorMap = new Color[verticesCount];
 
