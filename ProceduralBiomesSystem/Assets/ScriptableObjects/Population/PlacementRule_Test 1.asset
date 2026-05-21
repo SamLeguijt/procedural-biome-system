@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToPlace: {fileID: 7938280706281378111, guid: 48cf491004f941e41a8ac70725ab25ee,
     type: 3}
+  radius: 0
+  conditions:
+  - {fileID: 11400000, guid: 83e23f79baa97fc45b0b92316b0580b8, type: 2}

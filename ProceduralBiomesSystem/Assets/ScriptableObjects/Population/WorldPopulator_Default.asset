@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba553ca3bd50b24469020f56542beddd, type: 3}
   m_Name: WorldPopulator_Default
   m_EditorClassIdentifier: 
-  <populationCandidatesResolver>k__BackingField: {fileID: 11400000, guid: d88a734599704174fa8e1e629bf29861,
+  <populationCandidatesResolver>k__BackingField: {fileID: 11400000, guid: 41235e2de48160143a4d74a8517b058d,
     type: 2}
