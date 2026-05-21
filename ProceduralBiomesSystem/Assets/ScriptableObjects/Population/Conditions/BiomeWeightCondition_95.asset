@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ac167a64f68ff4489517f3f04512c8, type: 3}
-  m_Name: PlacementRule_Test 1
+  m_Script: {fileID: 11500000, guid: 2fd25e05fb840904c8252536af2361eb, type: 3}
+  m_Name: BiomeWeightCondition_95
   m_EditorClassIdentifier: 
+  minWeight: 0.95
+  maxWeight: 1

@@ -136,18 +136,27 @@ public class WorldManager : MonoBehaviour
         if (recentAnalysisData != null)
         {
             var heightMap = recentAnalysisData.TerrainData.HeightMap;
+            var slopeMap = recentAnalysisData.TerrainData.SlopeMap;
 
             for (int y = 0; y < heightMap.Height; y++)
             {
                 for (int x = 0; x < heightMap.Width; x++) 
                 {
                     float height = heightMap[x, y];
+                    float slope = slopeMap[x, y];
+                    
+                    Vector3 worldPosition = TerrainSpaceUtils.GridToTerrainWorld(x, y, heightMap.Width, heightMap.Height, heightMap[x, y]);
+
                     if (height > 150)
                     {
-                        Vector3 worldPosition = TerrainSpaceUtils.GridToTerrainWorld(x, y, heightMap.Width, heightMap.Height, heightMap[x, y]);
+                        //Gizmos.color = Color.blue;
+                        //Gizmos.DrawSphere(worldPosition, 0.5f);
+                    }
 
-                        Gizmos.color = Color.blue;
-                        Gizmos.DrawSphere(worldPosition, 0.5f);
+                    if (slope >= -0.1 && slope < 0.1f)
+                    {
+                        Gizmos.color = Color.green;
+                        Gizmos.DrawWireCube(worldPosition, new Vector3(0.5f, 0.1f, 0.5f));
                     }
                 }
             }
