@@ -27,7 +27,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private MapVisualizer visualizer;
 
     private IWorldGenerator worldGenerator;
-    private AbstractLayoutGenerator worldLayoutGenerator;
+    private ALayoutGenerator worldLayoutGenerator;
 
     List<GameObject> recentWorlds = new List<GameObject>();
     private WorldAnalysisData recentAnalysisData = null;
@@ -131,6 +131,7 @@ public class WorldManager : MonoBehaviour
         return false;
     }
 
+    // TEMP
     private void OnDrawGizmosSelected()
     {
         if (recentAnalysisData != null)

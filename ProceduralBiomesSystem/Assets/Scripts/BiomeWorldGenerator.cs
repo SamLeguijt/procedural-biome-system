@@ -7,7 +7,7 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 [CreateAssetMenu(fileName = "WorldGenerator_", menuName = "ScriptableObjects/World/new WorldGenerator")]
-public class BiomeWorldGenerator : AbstractWorldGenerator
+public class BiomeWorldGenerator : AWorldGenerator
 {
     public enum TerrainColorMode
     {
@@ -20,8 +20,8 @@ public class BiomeWorldGenerator : AbstractWorldGenerator
 
 
     [Header("Dependencies")]
-    [SerializeField] private BaseBiomeAssigner biomeAssigner;
-    [SerializeField] private BaseBiomeTerrainGenerator biomeTerrainGenerator;
+    [SerializeField] private ABiomeAssigner biomeAssigner;
+    [SerializeField] private ABiomeTerrainGenerator biomeTerrainGenerator;
 
     [SerializeField] private Material terrainMaterial = null;
 

@@ -5,7 +5,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BlendedBiomeTerrainGenerator", menuName = "ScriptableObjects/Biomes/new BlendedBiomeTerrainGenerator")]
-public class BlendedBiomeTerrainGenerator : BaseBiomeTerrainGenerator
+public class BlendedBiomeTerrainGenerator : ABiomeTerrainGenerator
 {
     [SerializeField] private BiomeSet biomes;
     [SerializeField, Range(0, 1)] private float minBiomeWeightBlendThreshold;

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LayoutGenerator_", menuName = "ScriptableObjects/World/new LayoutGenerator")]
-public class NoiseLayoutGenerator : AbstractLayoutGenerator
+public class NoiseLayoutGenerator : ALayoutGenerator
 {
     [Header("Noise Settings")]
     [SerializeField] private NoiseSettings elevation; 

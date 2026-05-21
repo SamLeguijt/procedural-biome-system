@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NoiseBased_BiomeAssigner", menuName = "ScriptableObjects/Biomes/new NoiseBasedBiomeAssigner")]
-public class NoiseBasedBiomeAssigner : BaseBiomeAssigner
+public class NoiseBasedBiomeAssigner : ABiomeAssigner
 {
     [SerializeField] private float blendFactor = 1;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LayoutGenerator_", menuName = "ScriptableObjects/World/new LayoutGenerator")]
-public class GridLayoutGenerator : AbstractLayoutGenerator
+public class GridLayoutGenerator : ALayoutGenerator
 {
     public override WorldLayout GenerateWorldLayout(WorldSettings settings)
     {

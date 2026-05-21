@@ -9,17 +9,17 @@ public class DependencyContainer : ScriptableObject
     [SerializeField] private WorldSettings worldSettings;
 
     [Header("Adjust layout noise maps: ")]
-    [SerializeField] private AbstractLayoutGenerator layoutGenerator;
+    [SerializeField] private ALayoutGenerator layoutGenerator;
 
     [Header("Adjust terrain color mode: ")]
     [SerializeField] private BiomeWorldGenerator worldGenerator;
 
     [Header("Adjust border blending factor: ")]
-    [SerializeField] private BaseBiomeAssigner biomeAssigner;
+    [SerializeField] private ABiomeAssigner biomeAssigner;
 
     [Header("Adjust base height and biome height additions: ")]
-    [SerializeField] private BaseBiomeTerrainGenerator terrainGenerator;
+    [SerializeField] private ABiomeTerrainGenerator terrainGenerator;
 
     [Header("Adjust biome specifics: ")]
-    [SerializeField] private BiomeSet biomeSet; 
+    [SerializeField] private BiomeSet biomeSet;
 }
