@@ -17,6 +17,9 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private WorldAnalyzer worldAnalyzer;
     [SerializeField] private WorldPopulator worldPopulator;
 
+    // TODO: Polymorphism
+    [SerializeField] private ObjectSpawner spawner; 
+
     [SerializeField] private SeedMode seedMode;
     public static bool AllowRandomSeeds = true;
 
@@ -27,12 +30,15 @@ public class WorldManager : MonoBehaviour
     private AbstractLayoutGenerator worldLayoutGenerator;
 
     List<GameObject> recentWorlds = new List<GameObject>();
+    private WorldAnalysisData recentAnalysisData = null;
 
     private void GetDependencies()
     {
         worldGenerator = worldSettings.WorldGenerator;
         worldLayoutGenerator = worldSettings.LayoutGenerator;
-        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps; 
+        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps;
+
+        spawner = new ObjectSpawner();
     }
 
     private void OnValidate()
@@ -65,10 +71,13 @@ public class WorldManager : MonoBehaviour
         WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
         var populations = worldPopulator.PopulateWorld(worldAnalysis);
 
+        GameObject populationParent = new GameObject("PopulationParent");
+        CreatePopulation(populations, populationParent);
         CreateWorldObject(world);
 
         visualizer.SetRecentLayout(layout);
         visualizer.SetRecentWorld(world);
+        recentAnalysisData = worldAnalysis;
     }
 
 
@@ -103,6 +112,14 @@ public class WorldManager : MonoBehaviour
         recentWorlds.Add(world);
     }
 
+    private void CreatePopulation(List<PopulationCandidate> population, GameObject parent)
+    {
+        foreach (PopulationCandidate candidate in population)
+        {
+            spawner.SpawnGameObject(candidate.prefab, candidate.worldPos, candidate.rotation, parent);
+        }
+    }
+
     private bool CheckForNull()
     {
         if (worldSettings == null || worldLayoutGenerator == null || worldGenerator == null)
@@ -111,5 +128,28 @@ public class WorldManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (recentAnalysisData != null)
+        {
+            var heightMap = recentAnalysisData.TerrainData.HeightMap;
+
+            for (int y = 0; y < heightMap.Height; y++)
+            {
+                for (int x = 0; x < heightMap.Width; x++) 
+                {
+                    float height = heightMap[x, y];
+                    if (height > 150)
+                    {
+                        Vector3 worldPosition = TerrainSpaceUtils.GridToTerrainWorld(x, y, heightMap.Width, heightMap.Height, heightMap[x, y]);
+
+                        Gizmos.color = Color.blue;
+                        Gizmos.DrawSphere(worldPosition, 0.5f);
+                    }
+                }
+            }
+        }
     }
 }

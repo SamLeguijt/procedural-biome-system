@@ -7,17 +7,60 @@ public class WorldPopulator : ScriptableObject
 {
     [field: SerializeField] public APopulationCandidatesResolver populationCandidatesResolver {  get; private set; }
 
-    public List<PopulateInstance> PopulateWorld(WorldAnalysisData analysisData)
+    public List<PopulationCandidate> PopulateWorld(WorldAnalysisData analysisData)
     {
-        List<PopulateCandidate> candidates = new List<PopulateCandidate>();
-        List<PopulateInstance> resolvedCandidates = populationCandidatesResolver.Resolve(candidates);
+        List<PopulationCandidate> candidates = GenerateCandidates(analysisData);
+        List<PopulationCandidate> resolvedCandidates = populationCandidatesResolver.Resolve(candidates);
         
         return resolvedCandidates;
     }
 
-    public List<PopulateCandidate> GenerateCandidates(WorldAnalysisData analysisData)
+    public List<PopulationCandidate> GenerateCandidates(WorldAnalysisData analysisData)
     {
-        // TODO: implementation.
-        return new List<PopulateCandidate>();
+        List<PopulationCandidate> result = new List<PopulationCandidate>();
+    
+        var heightMap = analysisData.TerrainData.HeightMap;
+        var slopeMap = analysisData.TerrainData.SlopeMap;
+        var primaryBiomeMap = analysisData.TerrainData.PrimaryBiomeMap;
+
+
+        for (int y = 0; y < primaryBiomeMap.Height; y++)
+        {
+            for (int x = 0; x < primaryBiomeMap.Width; x++)
+            {
+                BiomeConfig config = primaryBiomeMap[x, y];
+                Vector3 worldPosition = TerrainSpaceUtils.GridToTerrainWorld(x, y, primaryBiomeMap.Width, primaryBiomeMap.Height, heightMap[x, y]);
+                
+                PlacementContext context = new PlacementContext
+                    (
+                        x, y, worldPosition, analysisData.TerrainData
+                    );
+
+                if (config == null)
+                    continue;
+
+                foreach (PlacementRule rule in config.PopulationRules)
+                {
+                    bool ruleMet = rule.Evaluate(context);
+
+                    if (ruleMet)
+
+                    {
+                        PopulationCandidate candidate = new PopulationCandidate
+                            (
+                                rule.objectToPlace,
+                                worldPosition,
+                                Quaternion.identity,
+                                0
+                            );
+
+                        result.Add(candidate);
+                    }
+                }
+            }
+        }
+
+
+        return result;
     }
 }

@@ -5,27 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlacementRule_", menuName = "ScriptableObjects/PlacementRules")]
 public class PlacementRule : ScriptableObject
 {
-
     public GameObject objectToPlace;
+    public float radius; 
     public List<APopulateCondition> conditions = new List<APopulateCondition>();
 
-    // TODO: Refactor this class with updated system requirements. 
-    // This should come in CandidateGenerator or similar 
-    //public PlacementResult Evaluate(Vector3 position)
-    //{
-    //    if (objectToPlace == null || conditions == null || conditions.Count == 0)
-    //        return new PlacementResult(null, position);
+    public bool Evaluate(PlacementContext context)
+    {
+        if (objectToPlace == null || conditions == null || conditions.Count == 0)
+            return false;
 
-    //    foreach (APopulateCondition condition in conditions)
-    //    {
-    //        bool isMet = condition.Evaluate();
+        foreach (APopulateCondition condition in conditions)
+        {
+            bool isMet = condition.Evaluate(context);
 
-    //        if (!isMet)
-    //            return new PlacementResult(null, position);
-    //    }
+            if (!isMet)
+                return false;
+        }
 
-    //    return new PlacementResult(objectToPlace, position);
-    //}
+        return true; 
+    }
 }
 
 

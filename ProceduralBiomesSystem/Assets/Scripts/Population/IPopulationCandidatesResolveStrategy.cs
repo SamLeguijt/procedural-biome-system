@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPopulationCandidatesResolveStrategy 
 {
-    List<PopulateInstance> Resolve(List<PopulateCandidate> candidates);
+    List<PopulationCandidate> Resolve(List<PopulationCandidate> candidates);
 }
