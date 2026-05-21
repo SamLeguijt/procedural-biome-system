@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "WorldPopulator_", menuName = "ScriptableObjects/Population/New WorldPopulator")]
 public class WorldPopulator : ScriptableObject
 {
     [field: SerializeField] public APopulationCandidatesResolver populationCandidatesResolver {  get; private set; }

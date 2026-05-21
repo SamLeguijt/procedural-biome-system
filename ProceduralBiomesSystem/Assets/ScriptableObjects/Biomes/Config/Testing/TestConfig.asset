@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8402e90c580c1b046bde0d3a480b63a1, type: 3}
+  m_Name: TestConfig
+  m_EditorClassIdentifier: 
+  <NoiseSettings>k__BackingField:
+    useRandomSeed: 1
+    seed: 1939
+    octaves: 10
+    persistance: 0.39
+    lacunarity: 2.1
+    scale: 148.6
+    offset: {x: 0, y: 0}
+    useCurve: 1
+    remapCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.01102829
+        value: -0.000024750829
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.43663496
+        value: 0.0063738907
+        inSlope: 0.00015703731
+        outSlope: 0.00015703731
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.5914136
+        value: 0.3055877
+        inSlope: 3.3036883
+        outSlope: 3.3036883
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.17042698
+        outWeight: 0.073522925
+      - serializedVersion: 3
+        time: 0.8205789
+        value: 1.060272
+        inSlope: 3.1290128
+        outSlope: 3.1290128
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.16716929
+      - serializedVersion: 3
+        time: 0.95574296
+        value: 1.8670278
+        inSlope: 2.1351614
+        outSlope: 2.1351614
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.8020154
+      - serializedVersion: 3
+        time: 0.96435547
+        value: 2.011303
+        inSlope: 3.1706438
+        outSlope: 3.1706438
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.119022734
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    applyNormalise: 0
+  <HeightMultiplier>k__BackingField: 77.3
+  <HeightBaseline>k__BackingField: -0.5
+  <debugColor>k__BackingField: {r: 0.49019608, g: 0, b: 0.34051782, a: 0}
+  <BiomeRules>k__BackingField:
+  - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
+  <PopulationRules>k__BackingField:
+  - {fileID: 11400000, guid: 51efa7be4474e28408fe3729399b1629, type: 2}
+  terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
+    type: 3}
+  sampleSize: {x: 255, y: 255}

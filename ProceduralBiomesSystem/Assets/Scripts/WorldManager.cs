@@ -62,8 +62,8 @@ public class WorldManager : MonoBehaviour
         
         // TODO: 
         // Analyse and Populate steps
-        //WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
-        //var populations = worldPopulator.PopulateWorld(worldAnalysis);
+        WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
+        var populations = worldPopulator.PopulateWorld(worldAnalysis);
 
         CreateWorldObject(world);
 

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65b8572ab34824847875fc797e65ad2e, type: 3}
-  m_Name: PlacementRule_Test
+  m_Script: {fileID: 11500000, guid: a59f93c083b3be7449882d73b41b8fb8, type: 3}
+  m_Name: WorldAnalyzer_Default
   m_EditorClassIdentifier: 
-  objectToPlace: {fileID: 0}
-  conditions: []
+  <TerrainAnalyzer>k__BackingField: {fileID: 11400000, guid: ed734fa4d55ddaf4ab2940d45406974e,
+    type: 2}

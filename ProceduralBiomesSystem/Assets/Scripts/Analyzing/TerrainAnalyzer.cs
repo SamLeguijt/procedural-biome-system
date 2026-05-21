@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "TerrainAnalyzer_", menuName = "ScriptableObjects/Analyzation/New TerrainAnalyzer")]
 public class TerrainAnalyzer : ScriptableObject
 {
     public TerrainAnalysisData AnalyzeTerrain(WorldData data)
