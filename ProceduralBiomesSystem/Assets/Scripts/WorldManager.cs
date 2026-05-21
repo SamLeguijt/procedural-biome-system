@@ -11,39 +11,39 @@ public enum SeedMode
 
 public class WorldManager : MonoBehaviour
 {
-    [Header("Dependencies")]
-    [SerializeField] private WorldSettings worldSettings;
-    [SerializeField] private DependencyContainer demoContainer;
-    [SerializeField] private WorldAnalyzer worldAnalyzer;
-    [SerializeField] private WorldPopulator worldPopulator;
-
-    // TODO: Polymorphism
-    [SerializeField] private ObjectSpawner spawner; 
-
-    [SerializeField] private SeedMode seedMode;
-    public static bool AllowRandomSeeds = true;
+    [Header("Preset")]
+    [SerializeField] private WorldGenerationPreset preset;
 
     [Header("Visualization")]
     [SerializeField] private MapVisualizer visualizer;
 
+    // Dependencies
     private IWorldGenerator worldGenerator;
     private ALayoutGenerator worldLayoutGenerator;
+    private ABiomeAssigner biomeAssigner; 
+    private ABiomeTerrainGenerator biomeTerrainGenerator;
+    private WorldAnalyzer worldAnalyzer;
+    private WorldPopulator worldPopulator;
 
-    List<GameObject> recentWorlds = new List<GameObject>();
     private WorldAnalysisData recentAnalysisData = null;
+    public static bool AllowRandomSeeds = true;
+    List<GameObject> recentWorlds = new List<GameObject>();
 
     private void GetDependencies()
     {
-        worldGenerator = worldSettings.WorldGenerator;
-        worldLayoutGenerator = worldSettings.LayoutGenerator;
-        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps;
+        worldGenerator = preset.worldGenerator;
+        worldLayoutGenerator = preset.layoutGenerator;
+        biomeAssigner = preset.biomeAssigner;
+        biomeTerrainGenerator = preset.terrainGenerator;
+        worldAnalyzer = preset.worldAnalyzer;
+        worldPopulator = preset.worldPopulator;
 
-        spawner = new ObjectSpawner();
+        AllowRandomSeeds = preset.seedMode == SeedMode.Random ? true : false;
+        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps;
     }
 
     private void OnValidate()
     {
-        AllowRandomSeeds = seedMode == SeedMode.Random ? true : false;
     }
 
     private void VisualiseMaps(WorldLayout layout)
@@ -57,13 +57,13 @@ public class WorldManager : MonoBehaviour
     [Button]
     private void CreateWorld()
     {
-        if (CheckForNull())
+        if (HasMissingDependencies())
         {
             // Allows outside runtime generation.
             GetDependencies();
         }
 
-        WorldLayout layout = GenerateLayout(worldSettings);
+        WorldLayout layout = GenerateLayout(preset.worldSettings);
         WorldData world = GenerateWorld(layout);
         
         WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
@@ -117,13 +117,21 @@ public class WorldManager : MonoBehaviour
     {
         foreach (PopulationCandidate candidate in population)
         {
-            spawner.SpawnGameObject(candidate.Prefab, candidate.WorldPosition, candidate.Rotation, parent);
+            preset.spawner.SpawnGameObject(candidate.Prefab, candidate.WorldPosition, candidate.Rotation, parent);
         }
     }
 
-    private bool CheckForNull()
+    private bool HasMissingDependencies()
     {
-        if (worldSettings == null || worldLayoutGenerator == null || worldGenerator == null)
+        if 
+        (      preset == null 
+            || worldGenerator == null 
+            || worldLayoutGenerator == null
+            || biomeAssigner == null
+            || biomeTerrainGenerator == null
+            || worldAnalyzer == null
+            || worldPopulator == null
+        )
         {
             return true;
         }

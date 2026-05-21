@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSettings: {fileID: 11400000, guid: 112f250cc7347164e8873f8f0c0279ef, type: 2}
   layoutGenerator: {fileID: 11400000, guid: c2dc9ce4ac476304a84761bf3c058aa7, type: 2}
-  worldGenerator: {fileID: 11400000, guid: 7c7a105b6cbce9043ad706b215876113, type: 2}
   biomeAssigner: {fileID: 11400000, guid: 5533cf7b2b9970f42abdb314a51c1ce5, type: 2}
   terrainGenerator: {fileID: 11400000, guid: cb80b2cfa581a614bbfb9881bc8eb262, type: 2}
+  worldGenerator: {fileID: 11400000, guid: 7c7a105b6cbce9043ad706b215876113, type: 2}
+  worldAnalyzer: {fileID: 11400000, guid: f21022fdb95ee5f48b509e63164885be, type: 2}
+  worldPopulator: {fileID: 11400000, guid: fd8330a22381278499cb6760387435ed, type: 2}
   biomeSet: {fileID: 11400000, guid: 99bff43f312e5084ab566365c5c3d13e, type: 2}
+  seedMode: 1
