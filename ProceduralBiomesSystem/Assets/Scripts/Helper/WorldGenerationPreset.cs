@@ -2,9 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SeedMode
+{
+    Random,
+    Manual
+}
+
 [CreateAssetMenu(menuName = "ScriptableObjects/new DependencyContainer")]
 public class WorldGenerationPreset : ScriptableObject
 {
+
     [Header("Global Settings")]
     [SerializeField] public WorldSettings worldSettings;
     [SerializeField] public BiomeSet biomeSet;

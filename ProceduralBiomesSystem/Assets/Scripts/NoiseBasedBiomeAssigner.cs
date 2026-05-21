@@ -34,7 +34,7 @@ public class NoiseBasedBiomeAssigner : ABiomeAssigner
                 foreach (var config in possibleBiomes)
                 {
                     float weight = 0f;
-                    foreach (AbstractBiomeRule rule in config.BiomeRules)
+                    foreach (ABiomeLocationRule rule in config.BiomeRules)
                     {
                         /// TODO: Turn this into some context Dictionary that maps string to Map<float> instead.
                         weight += Mathf.Max(0f, rule.Evaluate(config, elevationValue, humidityValue, erosionValue, temperatureValue));

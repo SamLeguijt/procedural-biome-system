@@ -12,7 +12,7 @@ public class BiomeConfig : ScriptableObject
     [field: SerializeField] public Color debugColor {  get; private set; }
 
     [field: Space, Header("Biome rules")]
-    [field: SerializeField] public List<AbstractBiomeRule> BiomeRules { get; private set; }
+    [field: SerializeField] public List<ABiomeLocationRule> BiomeRules { get; private set; }
 
     [field: Space, Header("Population rules")]
     [field: SerializeField] public List<PlacementRule> PopulationRules { get; private set; }
