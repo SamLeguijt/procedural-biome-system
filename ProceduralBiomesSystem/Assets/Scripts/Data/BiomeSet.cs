@@ -5,5 +5,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BiomeSet_", menuName = "ScriptableObjects/Biomes/new BiomeSet")]
 public class BiomeSet : ScriptableObject
 {
-    [field: SerializeField] public List<BiomeConfig> Collection {  get; private set; } 
+    [SerializeField] private List<BiomeConfig> biomesList;
+
+    private HashSet<BiomeConfig> uniqueSet;
+    private bool isListDirty = false;
+
+    public HashSet<BiomeConfig> Collection
+    {
+        get
+        {
+            if (isListDirty || uniqueSet == null)
+            {
+                uniqueSet = new HashSet<BiomeConfig>(biomesList);
+                isListDirty = false;
+            }
+
+            return uniqueSet;
+        }
+    }
+
+    private void OnValidate()
+    {
+        isListDirty = true;
+    }
 }

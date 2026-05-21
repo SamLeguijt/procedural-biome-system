@@ -37,6 +37,24 @@ public class BiomeWeights
         return (highest, max);
     }
 
+    public List<BiomeConfig> GetBiomes(float minWeight = 0)
+    {
+        List<BiomeConfig> result = new();
+
+        foreach (var kvp in ConfigWeights)
+        {
+            if (kvp.Value >= minWeight)
+                result.Add(kvp.Key);
+        }
+
+        return result;
+    }
+
+    public List<BiomeConfig> GetBiomes()
+    {
+        return ConfigWeights.Keys.ToList();
+    }
+
     private void Normalise()
     {
         float sum = ConfigWeights.Values.Sum();

@@ -7,14 +7,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BlendedBiomeTerrainGenerator", menuName = "ScriptableObjects/Biomes/new BlendedBiomeTerrainGenerator")]
 public class BlendedBiomeTerrainGenerator : ABiomeTerrainGenerator
 {
-    [SerializeField] private BiomeSet biomes;
     [SerializeField, Range(0, 1)] private float minBiomeWeightBlendThreshold;
     [SerializeField, Min(1)] private float biomeMapsInfluence;
     [SerializeField, Min(1)] private float baseHeightMultiplier = 1;
 
-    public override Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap)
+    public override Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap, HashSet<BiomeConfig> availableBiomes)
     {
-        var biomeTerrainMaps = GenerateBiomeTerrainMaps(biomeWeightsMap);
+        var biomeTerrainMaps = GenerateBiomeTerrainMaps(availableBiomes ,biomeWeightsMap.Width, biomeWeightsMap.Height);
         var blendedMap = BlendBiomeMaps(biomeWeightsMap, biomeTerrainMaps);
         var result = CombineMaps(baseHeightMap, blendedMap);
 
@@ -58,13 +57,11 @@ public class BlendedBiomeTerrainGenerator : ABiomeTerrainGenerator
         return result;
     }
 
-    private Dictionary<BiomeConfig, Map<float>> GenerateBiomeTerrainMaps(Map<BiomeWeights> biomeWeightsMap)
+    private Dictionary<BiomeConfig, Map<float>> GenerateBiomeTerrainMaps(HashSet<BiomeConfig> availableBiomes, int width, int height)
     {
         var result = new Dictionary<BiomeConfig, Map<float>>();
-        int width = biomeWeightsMap.Width;
-        int height = biomeWeightsMap.Height;
 
-        foreach (BiomeConfig config in biomes.Collection)
+        foreach (BiomeConfig config in availableBiomes)
         {
             var noiseMap = NoiseGenerator.GenerateNoiseMap(width, height, config.NoiseSettings);
             Map<float> mapResult = new Map<float>(width, height);

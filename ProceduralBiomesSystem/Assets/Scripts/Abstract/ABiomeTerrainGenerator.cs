@@ -5,5 +5,5 @@ using UnityEngine;
 
 public abstract class ABiomeTerrainGenerator : ScriptableObject
 {
-    public abstract Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap);
+    public abstract Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap, HashSet<BiomeConfig> availableBiomes);
 }

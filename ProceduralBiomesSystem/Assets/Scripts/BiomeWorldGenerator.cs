@@ -37,17 +37,19 @@ public class BiomeWorldGenerator : AWorldGenerator
 
     public override WorldData GenerateWorld(WorldLayout layout)
     {
-        Map<float> baseHeightMap = layout.ElevationMap;
-        Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeMap(layout);
-        Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap);
+        //Map<float> baseHeightMap = layout.ElevationMap;
+        //Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeMap(layout);
+        //Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap);
 
-        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
-        Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
-            
-        terrainMesh.colors = colorMap;
+        //Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
+        //Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
 
-        recentWorldData = new WorldData(terrainMesh, terrainMaterial, terrainMap, rawBiomeMap);
-        return recentWorldData;
+        //terrainMesh.colors = colorMap;
+
+        //recentWorldData = new WorldData(terrainMesh, terrainMaterial, terrainMap, rawBiomeMap);
+        //return recentWorldData;
+
+        return null;
     }
 
     private void OnValidate()

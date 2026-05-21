@@ -93,11 +93,54 @@ public class WorldManager : MonoBehaviour
         return worldLayoutGenerator.GenerateWorldLayout(settings);
     }
 
-    private WorldData GenerateWorld(WorldLayout layout)
+    //private WorldData GenerateWorld(WorldLayout layout)
+    //{
+    //    return worldGenerator.GenerateWorld(layout);
+    //}
+
+    public WorldData GenerateWorld(WorldLayout layout)
     {
-        return worldGenerator.GenerateWorld(layout);
+        Map<float> baseHeightMap = layout.ElevationMap;
+        Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeInfluenceMap(layout, preset.biomeSet.Collection);
+        Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap, preset.biomeSet.Collection);
+
+        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
+        
+        // TODO: Visualiser class responsibility 
+        Color[] colorMap = BiomeToColorMap(rawBiomeMap, terrainMesh.vertices.Length);
+        terrainMesh.colors = colorMap;
+
+        WorldData world = new WorldData(terrainMesh, preset.worldSettings.TerrainMaterial, terrainMap, rawBiomeMap);
+        return world;
     }
 
+    private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
+    {
+        Color[] colorMap = new Color[verticesCount];
+
+        int width = biomeMap.Width;
+        int height = biomeMap.Height;
+
+        int index = 0;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Color finalColor = Color.white;
+
+                if (biomeMap.Contains(x, y))
+                {
+                    finalColor = EvaluateColor(biomeMap[x, y]);
+                }
+
+                colorMap[index] = finalColor;
+                index++;
+            }
+        }
+
+        return colorMap;
+    }
 
     private GameObject CreateWorldObject(WorldData worldData)
     {

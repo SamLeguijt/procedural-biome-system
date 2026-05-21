@@ -9,7 +9,7 @@ public class NoiseBasedBiomeAssigner : ABiomeAssigner
 {
     [SerializeField] private float blendFactor = 1;
 
-    public override Map<BiomeWeights> GenerateBiomeMap(WorldLayout layout)
+    public override Map<BiomeWeights> GenerateBiomeInfluenceMap(WorldLayout layout, HashSet<BiomeConfig> possibleBiomes)
     {
         Map<float> elevationMap = layout.ElevationMap;
         Map<float> erosionMap = layout.ErosionMap;
@@ -31,7 +31,7 @@ public class NoiseBasedBiomeAssigner : ABiomeAssigner
                 float temperatureValue = temperatureMap[x, y];
                 Dictionary<BiomeConfig, float> weights = new Dictionary<BiomeConfig, float>();
 
-                foreach (var config in BiomeSet.Collection)
+                foreach (var config in possibleBiomes)
                 {
                     float weight = 0f;
                     foreach (AbstractBiomeRule rule in config.BiomeRules)
