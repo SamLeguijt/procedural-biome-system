@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ac167a64f68ff4489517f3f04512c8, type: 3}
+  m_Name: PlacementRule_TreeForest
+  m_EditorClassIdentifier: 
+  PrefabVariations:
+  - {fileID: 928103621953073400, guid: 349b27658057d8b4abd803139815d0d7, type: 3}
+  - {fileID: 928103621953073400, guid: 855ad926227c2c646847b5a3be7482cf, type: 3}
+  - {fileID: 928103621953073400, guid: 9fe8f4ee2f072ef48b225626a9556d6b, type: 3}
+  <OccupationRadius>k__BackingField: 2
+  <Conditions>k__BackingField:
+  - {fileID: 11400000, guid: 0342803be6ed5fc44af66114325d195d, type: 2}
+  - {fileID: 11400000, guid: 83e23f79baa97fc45b0b92316b0580b8, type: 2}
+  - {fileID: 11400000, guid: 91cfb8410be6d3640a74aef3502473ee, type: 2}

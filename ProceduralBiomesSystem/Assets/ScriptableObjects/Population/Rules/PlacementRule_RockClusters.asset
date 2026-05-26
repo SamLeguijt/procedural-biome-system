@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ac167a64f68ff4489517f3f04512c8, type: 3}
+  m_Name: PlacementRule_RockClusters
+  m_EditorClassIdentifier: 
+  PrefabVariations:
+  - {fileID: 2600488934439525406, guid: 9fd89c45bf7e1304088137c6ba34dbb0, type: 3}
+  - {fileID: 2600488934439525406, guid: f7315e96585d195459d4d5634481e773, type: 3}
+  - {fileID: 2600488934439525406, guid: d890e6bbaa2beb548b26a869f51f693f, type: 3}
+  <OccupationRadius>k__BackingField: 8
+  <Conditions>k__BackingField:
+  - {fileID: 11400000, guid: 0342803be6ed5fc44af66114325d195d, type: 2}
+  - {fileID: 11400000, guid: 83e23f79baa97fc45b0b92316b0580b8, type: 2}
+  - {fileID: 11400000, guid: 91cfb8410be6d3640a74aef3502473ee, type: 2}

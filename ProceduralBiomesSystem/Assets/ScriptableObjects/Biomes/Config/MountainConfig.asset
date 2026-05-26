@@ -85,7 +85,38 @@ MonoBehaviour:
   <HeightMultiplier>k__BackingField: 125
   <HeightBaseline>k__BackingField: -0.5
   <debugColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <TerrainGradient>k__BackingField:
+    serializedVersion: 2
+    key0: {r: 0.21322785, g: 0.4716981, b: 0.15352438, a: 1}
+    key1: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
+    key2: {r: 0.3317528, g: 0.3317528, b: 0.3317528, a: 1}
+    key3: {r: 0.35788557, g: 0.35788557, b: 0.35788557, a: 1}
+    key4: {r: 1, g: 1, b: 1, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 5204
+    ctime2: 27949
+    ctime3: 52235
+    ctime4: 65342
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 41634
+    atime2: 58982
+    atime3: 65535
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
+  <PopulationRules>k__BackingField: []
   terrainMaterial: {fileID: 2100000, guid: 66859afbcae40244b901f28be6691bd9, type: 2}
   sampleSize: {x: 255, y: 255}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BiomeSet_Default
   m_EditorClassIdentifier: 
   biomesList:
-  - {fileID: 11400000, guid: 080a799af9b1a0442a0609898275679c, type: 2}
-  - {fileID: 11400000, guid: f54bab0045e297545a587fa9017754d6, type: 2}
-  - {fileID: 11400000, guid: 4850dcfe4bcbab340beda7c8184af974, type: 2}
-  - {fileID: 11400000, guid: 71b73a79346069b46b6eee21da909fcc, type: 2}
+  - {fileID: 11400000, guid: a5d04e795879f12498bf61e7dd222cb4, type: 2}
+  - {fileID: 11400000, guid: 0bdc3f6866608124fa94fee514057dc1, type: 2}
+  - {fileID: 11400000, guid: d70a03f6395700344a017c15a63c9d1b, type: 2}
+  - {fileID: 11400000, guid: ae776c4f5e86bcd40bc5a56834121ced, type: 2}
