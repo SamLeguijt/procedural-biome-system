@@ -69,7 +69,7 @@ public class WorldManager : MonoBehaviour
         List<PopulationCandidate> populations = worldPopulator.PopulateWorld(worldAnalysis);
 
         /// 5) Create scene representation
-        GameObject worldObject = CreateWorldObject(world);
+        GameObject worldObject = CreateWorldObject(world, worldAnalysis);
         GameObject populationParent = new GameObject("PopulationParent");
         CreatePopulation(populations, populationParent);
         populationParent.transform.SetParent(worldObject.transform, false);
@@ -100,13 +100,13 @@ public class WorldManager : MonoBehaviour
         return world;
     }
 
-    private GameObject CreateWorldObject(WorldData worldData)
+    private GameObject CreateWorldObject(WorldData worldData, WorldAnalysisData analysis)
     {
         GameObject world = new GameObject("World");
         MeshFilter meshFilter = world.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
         TerrainVisualiser terrainVisualiser = world.AddComponent<TerrainVisualiser>();
-        terrainVisualiser.SetWorldData(worldData);
+        terrainVisualiser.SetWorldData(analysis, worldData.Mesh);
 
         meshFilter.mesh = worldData.Mesh;
         meshRenderer.material = worldData.Material;

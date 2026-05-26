@@ -10,7 +10,6 @@ public class RandomBasedCandidatesResolver : APopulationCandidatesResolver
     public override List<PopulationCandidate> Resolve(List<PopulationCandidate> candidates)
     {
         List<PopulationCandidate> result = new List<PopulationCandidate>();
-        Debug.Log("Received: " + candidates.Count);
 
         int count = Mathf.Min(maxAllowedInstances, candidates.Count);
 
@@ -25,8 +24,6 @@ public class RandomBasedCandidatesResolver : APopulationCandidatesResolver
             available.RemoveAt(randomIndex);
         }
 
-        Debug.Log("Resolved: " + result.Count);
         return result;
-
     }
 }

@@ -11,14 +11,16 @@ public class TerrainAnalyzer : ScriptableObject
         var slopeMap = GenerateSlopeMap(heightMap);
         var primaryBiomes = GetPrimaryBiomeMap(data.BiomeMap);
         var biomeWeightsMap = data.BiomeMap;
+        var biomeHeightRanges = ComputeBiomeRanges(primaryBiomes, heightMap);
 
         return new TerrainAnalysisData
-        (
-            heightMap,
-            slopeMap,
-            primaryBiomes,
-            biomeWeightsMap
-        );
+            (
+                heightMap,
+                slopeMap, 
+                primaryBiomes, 
+                biomeWeightsMap, 
+                biomeHeightRanges
+            );
     }
 
     private Map<BiomeConfig> GetPrimaryBiomeMap(Map<BiomeWeights> weightsMap)
@@ -32,6 +34,32 @@ public class TerrainAnalyzer : ScriptableObject
                 (BiomeConfig, float) primary = weightsMap[x, y].GetHighest();
                 result[x, y] = primary.Item1;
 
+            }
+        }
+
+        return result;
+    }
+
+    private Dictionary<BiomeConfig, BiomeHeightRange> ComputeBiomeRanges(Map<BiomeConfig> primaryBiomes, Map<float> heightMap)
+    {
+        var result = new Dictionary<BiomeConfig, BiomeHeightRange>();
+
+        for (int y = 0; y < primaryBiomes.Height; y++)
+        {
+            for (int x = 0; x < primaryBiomes.Width; x++)
+            {
+                var biome = primaryBiomes[x, y];
+                float height = heightMap[x, y];
+
+                if (biome == null)
+                    continue;
+
+                if (!result.TryGetValue(biome, out var range))
+                    range = new BiomeHeightRange(height, height);
+                else
+                    range.Encapsulate(height);
+
+                result[biome] = range;
             }
         }
 

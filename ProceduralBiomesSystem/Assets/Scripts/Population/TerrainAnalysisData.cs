@@ -13,17 +13,20 @@ public class TerrainAnalysisData
     public Map<float> SlopeMap { get; private set; }
     public Map<BiomeConfig> PrimaryBiomeMap { get; private set; }
     public Map<BiomeWeights> BiomeWeightsMap { get; private set; }
+    public Dictionary<BiomeConfig, BiomeHeightRange> BiomeHeightRanges {  get; private set; }
 
     public int Width => HeightMap.Width;
     public int Height => HeightMap.Height;
 
-    public TerrainAnalysisData(Map<float> heightMap, Map<float> slopeMap, Map<BiomeConfig> primaryBiomeMap, Map<BiomeWeights> biomeWeightsMap)
+    public TerrainAnalysisData(Map<float> heightMap, Map<float> slopeMap, Map<BiomeConfig> primaryBiomeMap, Map<BiomeWeights> biomeWeightsMap, Dictionary<BiomeConfig, BiomeHeightRange> biomeMinMaxHeights)
     {
         HeightMap = heightMap;
         SlopeMap = slopeMap;
         PrimaryBiomeMap = primaryBiomeMap;
         BiomeWeightsMap = biomeWeightsMap;
+        BiomeHeightRanges = biomeMinMaxHeights;
     }
+
     public float GetHeight(int x, int y)
     {
         return HeightMap[x, y];

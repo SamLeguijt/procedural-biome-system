@@ -7,20 +7,20 @@ public class TerrainVisualiser : MonoBehaviour
 {
     private enum TerrainColorMode
     {
+        TerrainGradient,
         DominantThreshold,
         DominantStrengthGrayscale,
         DominantWithBlend,
         DominantScaled,
         ColorBlend,
-        TerrainGradient
     }
 
     [Header("Terrain visuals")]
     [SerializeField] private TerrainColorMode colorMode;
     [SerializeField, Range(0f, 1f)] private float biomeVisualizationThreshold = 0.6f;
 
-
-    WorldData worldData = null;
+    private Mesh mesh; 
+    private WorldAnalysisData worldData = null;
 
     private void OnValidate()
     {
@@ -30,18 +30,20 @@ public class TerrainVisualiser : MonoBehaviour
         }
     }
 
-    public void SetWorldData(WorldData data)
+    public void SetWorldData(WorldAnalysisData data, Mesh meshI)
     {
         worldData = data;
+        mesh = meshI;
         ApplyBiomeToColorMap();
     }
+
 
     private void ApplyBiomeToColorMap()
     {
         if (worldData != null)
         {
-            Color[] colorMap = BiomeToColorMap(worldData.BiomeMap, worldData.Mesh.vertices.Length, worldData.TerrainMap);
-            worldData.Mesh.colors = colorMap;
+            Color[] colorMap = BiomeToColorMap(worldData.TerrainData.BiomeWeightsMap, mesh.vertices.Length, worldData.TerrainData.HeightMap);
+            mesh.colors = colorMap;
         }
     }
 
@@ -92,7 +94,7 @@ public class TerrainVisualiser : MonoBehaviour
             case TerrainColorMode.ColorBlend:
                 return weights.ToColor();
             case TerrainColorMode.TerrainGradient:
-                return GetConfigGradientColor(weights, height);
+                return GetConfigGradientColor(weights, height, worldData.TerrainData.BiomeHeightRanges);
 
             default:
                 return Color.magenta;
@@ -177,7 +179,7 @@ public class TerrainVisualiser : MonoBehaviour
         return Color.Lerp(Color.white, dominantColor, intensity);
     }
 
-    private Color GetConfigGradientColor(BiomeWeights weights, float height) 
+    private Color GetConfigGradientColor(BiomeWeights weights, float height, Dictionary<BiomeConfig, BiomeHeightRange> ranges) 
     {
         Color result = Color.black;
         float total = 0f;
@@ -185,12 +187,14 @@ public class TerrainVisualiser : MonoBehaviour
         foreach (var kvp in weights.ConfigWeights)
         {
             BiomeConfig biome = kvp.Key;
+
+            if (!ranges.TryGetValue(biome, out BiomeHeightRange range))
+                continue;
+
             float weight = kvp.Value;
+            float normalizedHeight = Mathf.InverseLerp(range.Min, range.Max, height);
 
-            float normalizedHeight = Mathf.InverseLerp(0f, 200f, height);
-
-            Color biomeColor =
-                biome.TerrainGradient.Evaluate(normalizedHeight);
+            Color biomeColor = biome.TerrainGradient.Evaluate(normalizedHeight);
 
             result += biomeColor * weight;
             total += weight;
