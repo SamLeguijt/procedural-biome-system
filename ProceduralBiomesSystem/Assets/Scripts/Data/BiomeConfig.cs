@@ -10,6 +10,7 @@ public class BiomeConfig : ScriptableObject
     [field: SerializeField] public float HeightMultiplier { get; private set; }
     [field: SerializeField] public float HeightBaseline {  get; private set; }
     [field: SerializeField] public Color debugColor {  get; private set; }
+    [field: SerializeField] public Gradient TerrainGradient { get; private set; }
 
     [field: Space, Header("Biome rules")]
     [field: SerializeField] public List<ABiomeLocationRule> BiomeRules { get; private set; }

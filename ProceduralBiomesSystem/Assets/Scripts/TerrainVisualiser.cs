@@ -11,7 +11,8 @@ public class TerrainVisualiser : MonoBehaviour
         DominantStrengthGrayscale,
         DominantWithBlend,
         DominantScaled,
-        ColorBlend
+        ColorBlend,
+        TerrainGradient
     }
 
     [Header("Terrain visuals")]
@@ -39,12 +40,12 @@ public class TerrainVisualiser : MonoBehaviour
     {
         if (worldData != null)
         {
-            Color[] colorMap = BiomeToColorMap(worldData.BiomeMap, worldData.Mesh.vertices.Length);
+            Color[] colorMap = BiomeToColorMap(worldData.BiomeMap, worldData.Mesh.vertices.Length, worldData.TerrainMap);
             worldData.Mesh.colors = colorMap;
         }
     }
 
-    private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount)
+    private Color[] BiomeToColorMap(Map<BiomeWeights> biomeMap, int verticesCount, Map<float> heightMap)
     {
         Color[] colorMap = new Color[verticesCount];
 
@@ -61,7 +62,7 @@ public class TerrainVisualiser : MonoBehaviour
 
                 if (biomeMap.Contains(x, y))
                 {
-                    finalColor = EvaluateColor(biomeMap[x, y]);
+                    finalColor = EvaluateColor(biomeMap[x, y], heightMap[x,y]);
                 }
 
                 colorMap[index] = finalColor;
@@ -72,7 +73,7 @@ public class TerrainVisualiser : MonoBehaviour
         return colorMap;
     }
 
-    private Color EvaluateColor(BiomeWeights weights)
+    private Color EvaluateColor(BiomeWeights weights, float height)
     {
         switch (colorMode)
         {
@@ -90,6 +91,8 @@ public class TerrainVisualiser : MonoBehaviour
 
             case TerrainColorMode.ColorBlend:
                 return weights.ToColor();
+            case TerrainColorMode.TerrainGradient:
+                return GetConfigGradientColor(weights, height);
 
             default:
                 return Color.magenta;
@@ -172,5 +175,30 @@ public class TerrainVisualiser : MonoBehaviour
 
         float intensity = Mathf.Pow(maxWeight, 0.5f);
         return Color.Lerp(Color.white, dominantColor, intensity);
+    }
+
+    private Color GetConfigGradientColor(BiomeWeights weights, float height) 
+    {
+        Color result = Color.black;
+        float total = 0f;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            BiomeConfig biome = kvp.Key;
+            float weight = kvp.Value;
+
+            float normalizedHeight = Mathf.InverseLerp(0f, 200f, height);
+
+            Color biomeColor =
+                biome.TerrainGradient.Evaluate(normalizedHeight);
+
+            result += biomeColor * weight;
+            total += weight;
+        }
+
+        if (total > 0f)
+            result /= total;
+
+        return result;
     }
 }
