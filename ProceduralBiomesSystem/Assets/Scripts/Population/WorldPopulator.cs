@@ -48,7 +48,7 @@ public class WorldPopulator : ScriptableObject
                     {
                         PopulationCandidate candidate = new PopulationCandidate
                             (
-                                rule.Prefab,
+                                rule.GetRandomVariation(),
                                 worldPosition,
                                 Quaternion.identity,
                                 rule.OccupationRadius
