@@ -18,7 +18,7 @@ public class BiomeHeightRange
         this.max = max;
     }
 
-    private float GetValueInRange(float value)
+    public float GetValueInRange(float value)
     {
         return Mathf.InverseLerp(Min, Max, value);
     }

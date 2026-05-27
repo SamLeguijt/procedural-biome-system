@@ -27,11 +27,6 @@ public class TerrainAnalysisData
         BiomeHeightRanges = biomeMinMaxHeights;
     }
 
-    public float GetHeight(int x, int y)
-    {
-        return HeightMap[x, y];
-    }
-
     public float GetSlope(int x, int y)
     {
         return SlopeMap[x, y];
@@ -45,5 +40,22 @@ public class TerrainAnalysisData
     public BiomeWeights GetBiomeWeights(int x, int y)
     {
         return BiomeWeightsMap[x, y];
+    }
+
+    public float GetAbsoluteHeight(int x, int y)
+    {
+        return HeightMap[x, y];
+    }
+
+    public float GetNormalisedHeight(int x, int y, BiomeConfig biome)
+    {
+        BiomeHeightRange range = BiomeHeightRanges[biome];
+
+        if (range == null)
+            return 0.0f;
+
+        float rawHeight = HeightMap[x, y];
+
+        return range.GetValueInRange(rawHeight);
     }
 }
