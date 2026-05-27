@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dac573ce267dfa438edacc25beb55fc, type: 3}
+  m_Name: DebugGizmoSettings_Default
+  m_EditorClassIdentifier: 
+  <GizmoSettings>k__BackingField:
+  - DebugMode: 1
+    GizmosType: 2
+    GizmoColor: {r: 0, g: 0.5596247, b: 1, a: 0}
+    Radius: 0.5
+    Size: {x: 1, y: 1, z: 1}
+    Direction: {x: 0, y: 0, z: 0}
+  - DebugMode: 2
+    GizmosType: 2
+    GizmoColor: {r: 0, g: 1, b: 0.41552758, a: 1}
+    Radius: 0.5
+    Size: {x: 1, y: 1, z: 1}
+    Direction: {x: 0, y: 0, z: 0}
+  - DebugMode: 3
+    GizmosType: 3
+    GizmoColor: {r: 1, g: 0, b: 0.8009267, a: 0}
+    Radius: 0.5
+    Size: {x: 0, y: 0, z: 0}
+    Direction: {x: 0, y: 0, z: 0}

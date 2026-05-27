@@ -10,6 +10,7 @@ public class WorldManager : MonoBehaviour
 
     [Header("Visualization")]
     [SerializeField] private MapVisualizer visualizer;
+    [SerializeField] private DebugVisualiserConfig visualizerConfig;
 
     // Dependencies
     private ALayoutGenerator worldLayoutGenerator;
@@ -105,8 +106,11 @@ public class WorldManager : MonoBehaviour
         GameObject world = new GameObject("World");
         MeshFilter meshFilter = world.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = world.AddComponent<MeshRenderer>();
+
         TerrainVisualiser terrainVisualiser = world.AddComponent<TerrainVisualiser>();
         terrainVisualiser.SetWorldData(analysis, worldData.Mesh);
+        TerrainDebugVisualiser debugVisualiser = world.AddComponent<TerrainDebugVisualiser>();
+        debugVisualiser.SetWorldAnalysisData(analysis, visualizerConfig);
 
         meshFilter.mesh = worldData.Mesh;
         meshRenderer.material = worldData.Material;
