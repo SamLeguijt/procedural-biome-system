@@ -24,11 +24,12 @@ public class TerrainDebugVisualiser : MonoBehaviour
     [System.Serializable]
     public class DebugGizmoSettings
     {
+        [Header("Configurations")]
         public DebugMode DebugMode;
         public GizmosType GizmosType;
         public Color GizmoColor;
 
-        [Header("Settings")]
+        [Header("Per GizmoType Settings")]
         public float Radius = 0;
         public Vector3 Size = Vector3.one;
         public Vector3 Direction = Vector3.up;
@@ -37,9 +38,9 @@ public class TerrainDebugVisualiser : MonoBehaviour
     [field: SerializeField] public DebugMode CurrentMode { get; private set; }
     public List<DebugGizmoSettings> GizmoSettings { get; private set; }
 
-    public float heightAbsoluteThreshold = 100;
-    [Range(0, 1)]public float heightNormalisedThreshold = 1;
-    public float slopeThreshold;
+    public ValueRange absoluteHeightRange;
+    public ValueRangeNormalised normalizedLocalHeightRange;
+    public ValueRangeNormalised slopeRange;
 
     private WorldAnalysisData analysisData;
 
@@ -85,7 +86,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
                 float value = heights[x, y];
                 Vector3 worldPosition = GetWorldPosition(x, y, data);
 
-                if (value > heightAbsoluteThreshold)
+                if (absoluteHeightRange.FallsInRange(value))
                 {
                     DrawGizmoFromSettings(worldPosition, mapping);
                 }
@@ -108,7 +109,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
                 float value = slopes[x, y];
                 Vector3 worldPosition = GetWorldPosition(x, y, data);
 
-                if (value > slopeThreshold)
+                if (slopeRange.FallsInRange(value))
                 {
                     DrawGizmoFromSettings(worldPosition, mapping);
                 }
@@ -128,7 +129,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
                 BiomeConfig primaryBiome = data.TerrainData.GetPrimaryBiome(x, y);
                 float value = data.TerrainData.GetNormalisedHeight(x, y, primaryBiome);
 
-                if (value > heightNormalisedThreshold)
+                if (normalizedLocalHeightRange.FallsInRange(value))
                 {
                     Vector3 worldPosition = GetWorldPosition(x,y,data);
                     DrawGizmoFromSettings(worldPosition, mapping);
