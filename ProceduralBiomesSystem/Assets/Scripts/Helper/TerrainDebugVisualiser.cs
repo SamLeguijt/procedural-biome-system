@@ -118,7 +118,6 @@ public class TerrainDebugVisualiser : MonoBehaviour
 
     private void DrawNormalisedHeightGizmos(WorldAnalysisData data)
     {
-        Debug.Log("Draw");
         Map<float> heights = data.TerrainData.HeightMap;
         DebugGizmoSettings mapping = GetMapping(CurrentMode);
 
@@ -140,7 +139,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
 
     private void DrawGizmoFromSettings(Vector3 position, DebugGizmoSettings mapping)
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = mapping.GizmoColor;
 
         switch (mapping.GizmosType)
         {
@@ -166,7 +165,9 @@ public class TerrainDebugVisualiser : MonoBehaviour
     {
         Map<float> heightMap = data.TerrainData.HeightMap;
         float heightValue = data.TerrainData.GetAbsoluteHeight(x, y);
-        return TerrainSpaceUtils.GridToTerrainWorld(x, y, heightMap.Width, heightMap.Height, heightValue);
+        Vector3 objectPosition = transform.position; 
+
+        return objectPosition + TerrainSpaceUtils.GridToTerrainWorld(x, y, heightMap.Width, heightMap.Height, heightValue);
     }
 
     private DebugGizmoSettings GetMapping(DebugMode mode)

@@ -15,7 +15,7 @@ MonoBehaviour:
   <GizmoSettings>k__BackingField:
   - DebugMode: 1
     GizmosType: 2
-    GizmoColor: {r: 0, g: 0.5596247, b: 1, a: 0}
+    GizmoColor: {r: 0, g: 0.5596247, b: 1, a: 1}
     Radius: 0.5
     Size: {x: 1, y: 1, z: 1}
     Direction: {x: 0, y: 0, z: 0}
@@ -27,7 +27,7 @@ MonoBehaviour:
     Direction: {x: 0, y: 0, z: 0}
   - DebugMode: 3
     GizmosType: 3
-    GizmoColor: {r: 1, g: 0, b: 0.8009267, a: 0}
+    GizmoColor: {r: 1, g: 0, b: 0.8009267, a: 1}
     Radius: 0.5
     Size: {x: 0, y: 0, z: 0}
     Direction: {x: 0, y: 0, z: 0}
