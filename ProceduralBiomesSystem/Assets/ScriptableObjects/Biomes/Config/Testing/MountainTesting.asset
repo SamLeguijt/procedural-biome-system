@@ -118,6 +118,7 @@ MonoBehaviour:
   <BiomeRules>k__BackingField:
   - {fileID: 11400000, guid: e6019372b64688f41be4384184ed71ca, type: 2}
   <PopulationRules>k__BackingField:
+  - {fileID: 11400000, guid: c98c6a2c35b528e46a65ee53bb4d224a, type: 2}
   - {fileID: 11400000, guid: 48f170a23fe9ed54592f596cc2ab0a2a, type: 2}
   terrainMaterial: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
     type: 3}

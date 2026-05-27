@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ac167a64f68ff4489517f3f04512c8, type: 3}
+  m_Name: PlacementRule_CombatZone
+  m_EditorClassIdentifier: 
+  PrefabVariations:
+  - {fileID: 3695797408355837634, guid: f8fd0f2cb4a01ae4faedc375cf5e9f56, type: 3}
+  <OccupationRadius>k__BackingField: 10
+  <Conditions>k__BackingField:
+  - {fileID: 11400000, guid: 91cfb8410be6d3640a74aef3502473ee, type: 2}
+  - {fileID: 11400000, guid: 403ff4621db8b7c47a055d357ba4df31, type: 2}
+  - {fileID: 11400000, guid: 0342803be6ed5fc44af66114325d195d, type: 2}
+  - {fileID: 11400000, guid: 83e23f79baa97fc45b0b92316b0580b8, type: 2}
