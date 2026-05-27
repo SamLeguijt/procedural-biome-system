@@ -1,40 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DebugMode
+{
+    None,
+    AbsoluteHeights,
+    NormalisedLocalHeights,
+    Slopes,
+}
+
 public class TerrainDebugVisualiser : MonoBehaviour
 {
-    public enum DebugMode
-    {
-        None,
-        AbsoluteHeights,
-        NormalisedLocalHeights,
-        Slopes,
-    }
-
-    public enum GizmosType
-    {
-        Cube,
-        Sphere,
-        WireCube,
-        WireSphere,
-        Ray
-    }
-
-    [System.Serializable]
-    public class DebugGizmoSettings
-    {
-        [Header("Configurations")]
-        public DebugMode DebugMode;
-        public GizmosType GizmosType;
-        public Color GizmoColor;
-
-        [Header("Per GizmoType Settings")]
-        public float Radius = 0;
-        public Vector3 Size = Vector3.one;
-        public Vector3 Direction = Vector3.up;
-    }
-
     [field: SerializeField] public DebugMode CurrentMode { get; private set; }
     public List<DebugGizmoSettings> GizmoSettings { get; private set; }
 
@@ -131,7 +109,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
 
                 if (normalizedLocalHeightRange.FallsInRange(value))
                 {
-                    Vector3 worldPosition = GetWorldPosition(x,y,data);
+                    Vector3 worldPosition = GetWorldPosition(x, y, data);
                     DrawGizmoFromSettings(worldPosition, mapping);
                 }
             }
@@ -166,7 +144,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
     {
         Map<float> heightMap = data.TerrainData.HeightMap;
         float heightValue = data.TerrainData.GetAbsoluteHeight(x, y);
-        Vector3 objectPosition = transform.position; 
+        Vector3 objectPosition = transform.position;
 
         return objectPosition + TerrainSpaceUtils.GridToTerrainWorld(x, y, heightMap.Width, heightMap.Height, heightValue);
     }

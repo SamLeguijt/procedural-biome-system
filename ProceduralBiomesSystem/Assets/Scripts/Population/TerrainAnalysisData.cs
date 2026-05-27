@@ -14,7 +14,6 @@ public class TerrainAnalysisData
     public Map<BiomeConfig> PrimaryBiomeMap { get; private set; }
     public Map<BiomeWeights> BiomeWeightsMap { get; private set; }
     public Dictionary<BiomeConfig, BiomeHeightRange> BiomeHeightRanges {  get; private set; }
-
     public int Width => HeightMap.Width;
     public int Height => HeightMap.Height;
 
