@@ -31,3 +31,9 @@ MonoBehaviour:
     Radius: 0.5
     Size: {x: 0, y: 0, z: 0}
     Direction: {x: 0, y: 0, z: 0}
+  - DebugMode: 4
+    GizmosType: 1
+    GizmoColor: {r: 1, g: 0, b: 0.18196487, a: 1}
+    Radius: 0.5
+    Size: {x: 0, y: 0, z: 0}
+    Direction: {x: 0, y: 0, z: 0}

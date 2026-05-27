@@ -9,6 +9,7 @@ public enum DebugMode
     AbsoluteHeights,
     NormalisedLocalHeights,
     Slopes,
+    BiomePurity
 }
 
 public class TerrainDebugVisualiser : MonoBehaviour
@@ -19,6 +20,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
     public ValueRange absoluteHeightRange;
     public ValueRangeNormalised normalizedLocalHeightRange;
     public ValueRangeNormalised slopeRange;
+    public ValueRangeNormalised biomePurtiyRange;
 
     private WorldAnalysisData analysisData;
 
@@ -46,6 +48,32 @@ public class TerrainDebugVisualiser : MonoBehaviour
             case DebugMode.NormalisedLocalHeights:
                 DrawNormalisedHeightGizmos(analysisData);
                 break;
+            case DebugMode.BiomePurity:
+                DrawBiomePurityGizmos(analysisData);
+                break;
+        }
+    }
+
+    private void DrawBiomePurityGizmos(WorldAnalysisData analysisData)
+    {
+        Map<BiomeWeights> biomeWeights = analysisData.TerrainData.BiomeWeightsMap;
+        DebugGizmoSettings mapping = GetMapping(CurrentMode);
+
+        if (mapping == null)
+            return;
+
+        for (int y = 0; y < biomeWeights.Height; y++)
+        {
+            for (int x = 0; x < biomeWeights.Width; x++)
+            {
+                var highest = biomeWeights[x,y].GetHighest();
+
+                if (biomePurtiyRange.FallsInRange(highest.Item2))
+                {
+                    Vector3 worldPosition = GetWorldPosition(x, y, analysisData);
+                    DrawGizmoFromSettings(worldPosition, mapping);
+                }
+            }
         }
     }
 
