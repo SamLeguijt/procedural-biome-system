@@ -11,7 +11,7 @@ public class NoiseLayoutGenerator : ALayoutGenerator
     [SerializeField] private NoiseSettings elevation; 
     [SerializeField] private NoiseSettings erosion; 
     [SerializeField] private NoiseSettings humidity; 
-    [SerializeField] private NoiseSettings temperature; 
+    [SerializeField] private NoiseSettings temperature;
 
     private int recentWidth = 0; 
     private int recentHeight = 0;

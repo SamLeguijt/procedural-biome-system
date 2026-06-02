@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd056f1264bd6347a38cbe4e89411b7, type: 3}
   m_Name: WorldSettings_Default
   m_EditorClassIdentifier: 
-  <WorldSize>k__BackingField: {x: 1000, y: 1000}
-  <ChunkQuads>k__BackingField: {x: 200, y: 200}
+  <WorldSize>k__BackingField: {x: 100, y: 100}
   <TerrainMaterial>k__BackingField: {fileID: -876546973899608171, guid: 893da55402ac83a4ea2d996d24f079bb,
     type: 3}

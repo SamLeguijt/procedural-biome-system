@@ -22,20 +22,10 @@ public class DebugPin : MonoBehaviour
         string positionInfo = $"World Pos: {transform.position}";
         string coordInfo = $"Map Coordinate: {coord}";
         
-        var biomeMap = analysisData.TerrainData.BiomeWeightsMap;
         var heightMap = analysisData.TerrainData.HeightMap;
-        var weights = biomeMap[coord.x, coord.y];
-
-        string weightInfo = string.Empty;
-
-        foreach (var kvp in weights.ConfigWeights)
-        {
-            weightInfo += $" - {kvp.Key.name}: {kvp.Value:F4}";
-        }
-
         string heightInfo = $"Final Height: {heightMap[coord.x, coord.y]:F4}";
-       
-        Debug.Log($"{coordInfo} - {positionInfo} \n {weightInfo} --- {heightInfo}");
+        string biomeInfo = GetBiomeInfo(coord, analysisData);
+        Debug.Log($"{coordInfo} - {positionInfo} - {heightInfo} \n {biomeInfo}");
     }
 
 
@@ -53,6 +43,29 @@ public class DebugPin : MonoBehaviour
             transform.position = new Vector3(position.x, height, position.z);
         }
     }
+
+    private string GetBiomeInfo(Vector2Int coordinate, WorldAnalysisData analysisData)
+    {
+        TerrainData terrainData = analysisData.TerrainData.TerrainData;
+        var biomeWeightsMap = analysisData.TerrainData.BiomeWeightsMap;
+
+        var weights = biomeWeightsMap[coordinate.x, coordinate.y];
+        string completeBiomeInfo = string.Empty;
+
+        foreach (var kvp in weights.ConfigWeights)
+        {
+            string weightInfo = $" -Weight: {kvp.Value:F4} ";
+            var terrainMap = terrainData.BiomeTerrainMaps[kvp.Key];
+            string terrainHeightInfo = $" -TerrainHeight: {terrainMap[coordinate.x, coordinate.y]} ";
+
+            string biomeInfo = $"{kvp.Key.name}: \n {weightInfo} {terrainHeightInfo}";
+
+            completeBiomeInfo += $"\n{biomeInfo}";
+        }
+
+        return completeBiomeInfo;
+    }   
+
 
     private Vector2Int GetMapCoordinates()
     {

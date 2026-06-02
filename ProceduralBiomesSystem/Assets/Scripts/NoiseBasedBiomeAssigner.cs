@@ -40,10 +40,9 @@ public class NoiseBasedBiomeAssigner : ABiomeAssigner
                         weight += Mathf.Max(0f, rule.Evaluate(config, elevationValue, humidityValue, erosionValue, temperatureValue));
                     }
 
-                    weight = Mathf.Pow(weight, blendFactor); 
+                    //weight = Mathf.Pow(weight, blendFactor); 
+
                     weights[config] = weight;
-
-
                 }
 
                 float totalWeight = 0f;

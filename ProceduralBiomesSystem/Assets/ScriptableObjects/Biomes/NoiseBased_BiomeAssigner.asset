@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8d8dde92c81c5641b5dadc94ed8b4df, type: 3}
   m_Name: NoiseBased_BiomeAssigner
   m_EditorClassIdentifier: 
-  <BiomeSet>k__BackingField: {fileID: 11400000, guid: b0e74b9b0b413df438c98ba48fdabf50,
-    type: 2}
-  blendFactor: 2
+  blendFactor: 5

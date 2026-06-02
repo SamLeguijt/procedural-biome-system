@@ -19,7 +19,7 @@ public class WorldManager : MonoBehaviour
     private WorldAnalyzer worldAnalyzer;
     private WorldPopulator worldPopulator;
 
-    public static bool AllowRandomSeeds = true;
+    public static bool AllowRandomSeeds = false;
     private List<GameObject> recentWorlds = new List<GameObject>();
 
     private void GetDependencies()
@@ -35,9 +35,6 @@ public class WorldManager : MonoBehaviour
         biomeTerrainGenerator = preset.terrainGenerator;
         worldAnalyzer = preset.worldAnalyzer;
         worldPopulator = preset.worldPopulator;
-
-        AllowRandomSeeds = preset.seedMode == SeedMode.Random ? true : false;
-        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps;
     }
 
     private void VisualiseMaps(WorldLayout layout)
@@ -55,8 +52,11 @@ public class WorldManager : MonoBehaviour
         if (HasMissingDependencies())
             GetDependencies();
 
+        AllowRandomSeeds = preset.seedMode == SeedMode.Random ? true : false;
+        worldLayoutGenerator.OnLayoutChanged += VisualiseMaps;
+
         /// Pipeline steps: 
-        
+
         /// 1) Generate layout of the world
         WorldLayout layout = GenerateLayout(preset.worldSettings);
         
@@ -66,13 +66,13 @@ public class WorldManager : MonoBehaviour
         /// 3) Analyse the generated world
         WorldAnalysisData worldAnalysis = worldAnalyzer.GetAnalysis(world);
 
-        /// 4) Populate the world
-        List<PopulationCandidate> populations = worldPopulator.PopulateWorld(worldAnalysis);
+        /// 4) Populate the world 
+        //List<PopulationCandidate> populations = worldPopulator.PopulateWorld(worldAnalysis);
 
         /// 5) Create scene representation
         GameObject worldObject = CreateWorldObject(world, worldAnalysis);
         GameObject populationParent = new GameObject("PopulationParent");
-        CreatePopulation(populations, populationParent);
+        //CreatePopulation(populations, populationParent);
         populationParent.transform.SetParent(worldObject.transform, false);
 
         visualizer.SetRecentLayout(layout);
@@ -95,9 +95,9 @@ public class WorldManager : MonoBehaviour
     {
         Map<float> baseHeightMap = layout.ElevationMap;
         Map<BiomeWeights> rawBiomeMap = biomeAssigner.GenerateBiomeInfluenceMap(layout, preset.biomeSet.Collection);
-        Map<float> terrainMap = biomeTerrainGenerator.GenerateTerrainMap(baseHeightMap, rawBiomeMap, preset.biomeSet.Collection);
-        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainMap);
-        WorldData world = new WorldData(terrainMesh, preset.worldSettings.TerrainMaterial, terrainMap, rawBiomeMap);
+        TerrainData terrainData = biomeTerrainGenerator.GenerateTerrainData(baseHeightMap, rawBiomeMap, preset.biomeSet.Collection);
+        Mesh terrainMesh = MeshGenerator.CreateMesh(terrainData.TerrainMapResult);
+        WorldData world = new WorldData(terrainMesh, preset.worldSettings.TerrainMaterial, terrainData, rawBiomeMap);
         return world;
     }
 

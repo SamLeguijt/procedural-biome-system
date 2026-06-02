@@ -18,7 +18,7 @@ MonoBehaviour:
     octaves: 10
     persistance: 0.39
     lacunarity: 2.1
-    scale: 148.6
+    scale: 149.36
     offset: {x: 0, y: 0}
     useCurve: 1
     remapCurve:
@@ -82,8 +82,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     applyNormalise: 0
-  <HeightMultiplier>k__BackingField: 77.3
-  <HeightBaseline>k__BackingField: -0.5
+  <HeightMultiplier>k__BackingField: 20
+  <HeightBaseline>k__BackingField: -1
   <debugColor>k__BackingField: {r: 0, g: 0.49056602, b: 0.16352196, a: 0}
   <TerrainGradient>k__BackingField:
     serializedVersion: 2

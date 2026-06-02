@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: BiomeSet_Testing
   m_EditorClassIdentifier: 
   biomesList:
-  - {fileID: 11400000, guid: 080a799af9b1a0442a0609898275679c, type: 2}
-  - {fileID: 11400000, guid: f54bab0045e297545a587fa9017754d6, type: 2}
   - {fileID: 11400000, guid: 4850dcfe4bcbab340beda7c8184af974, type: 2}
-  - {fileID: 11400000, guid: 71b73a79346069b46b6eee21da909fcc, type: 2}
+  - {fileID: 11400000, guid: f54bab0045e297545a587fa9017754d6, type: 2}

@@ -11,7 +11,8 @@ public class WorldPopulator : ScriptableObject
     {
         List<PopulationCandidate> candidates = GenerateCandidates(analysisData);
         List<PopulationCandidate> resolvedCandidates = populationCandidatesResolver.Resolve(candidates);
-        
+        analysisData.GeneratedCandidates = resolvedCandidates;
+
         return resolvedCandidates;
     }
 
@@ -44,7 +45,6 @@ public class WorldPopulator : ScriptableObject
                     bool ruleMet = rule.Evaluate(context);
 
                     if (ruleMet)
-
                     {
                         PopulationCandidate candidate = new PopulationCandidate
                             (

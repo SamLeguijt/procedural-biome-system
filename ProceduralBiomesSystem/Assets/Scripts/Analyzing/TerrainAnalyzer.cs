@@ -7,7 +7,7 @@ public class TerrainAnalyzer : ScriptableObject
 {
     public TerrainAnalysisData AnalyzeTerrain(WorldData data)
     {
-        var heightMap = data.TerrainMap; 
+        var heightMap = data.TerrainData.TerrainMapResult; 
         var slopeMap = GenerateSlopeMap(heightMap);
         var primaryBiomes = GetPrimaryBiomeMap(data.BiomeMap);
         var biomeWeightsMap = data.BiomeMap;
@@ -19,7 +19,8 @@ public class TerrainAnalyzer : ScriptableObject
                 slopeMap, 
                 primaryBiomes, 
                 biomeWeightsMap, 
-                biomeHeightRanges
+                biomeHeightRanges,
+                data.TerrainData
             );
     }
 

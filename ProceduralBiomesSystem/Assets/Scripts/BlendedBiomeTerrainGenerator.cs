@@ -11,18 +11,20 @@ public class BlendedBiomeTerrainGenerator : ABiomeTerrainGenerator
     [SerializeField, Min(1)] private float biomeMapsInfluence;
     [SerializeField, Min(1)] private float baseHeightMultiplier = 1;
 
-    public override Map<float> GenerateTerrainMap(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap, HashSet<BiomeConfig> availableBiomes)
+    public override TerrainData GenerateTerrainData(Map<float> baseHeightMap, Map<BiomeWeights> biomeWeightsMap, HashSet<BiomeConfig> availableBiomes)
     {
-        var biomeTerrainMaps = GenerateBiomeTerrainMaps(availableBiomes ,biomeWeightsMap.Width, biomeWeightsMap.Height);
-        var blendedMap = BlendBiomeMaps(biomeWeightsMap, biomeTerrainMaps);
+        Dictionary<BiomeConfig, Map<float>> biomeTerrainMaps = GenerateBiomeTerrainMaps(availableBiomes, biomeWeightsMap.Width, biomeWeightsMap.Height);
+        Map<float> blendedMap = BlendBiomeMaps(biomeWeightsMap, biomeTerrainMaps);
         var result = CombineMaps(baseHeightMap, blendedMap);
 
-        return result;
+        return new TerrainData(biomeTerrainMaps, blendedMap, baseHeightMap, result);
     }
 
     private Map<float> BlendBiomeMaps(Map<BiomeWeights> biomeWeightsMap, Dictionary<BiomeConfig, Map<float>> biomeTerrainMaps)
     {
         Map<float> result = new Map<float>(biomeWeightsMap.Width, biomeWeightsMap.Height);
+
+        int counter = 0;
 
         for (int y = 0; y < result.Height; y++)
         {
@@ -38,11 +40,10 @@ public class BlendedBiomeTerrainGenerator : ABiomeTerrainGenerator
                     BiomeConfig config = biomeMapPair.Key;
                     float weight = weights.GetWeight(config);
                     float terrainMapHeight = biomeMapPair.Value[x, y];
-
                     float influence = Mathf.InverseLerp(minBiomeWeightBlendThreshold, 1f, weight);
                     float delta = terrainMapHeight - config.HeightBaseline;
 
-                    blendedHeight +=  delta * influence;
+                    blendedHeight += delta * influence;
                     totalWeight += influence;
                 }
 
@@ -101,4 +102,6 @@ public class BlendedBiomeTerrainGenerator : ABiomeTerrainGenerator
 
         return result;
     }
+
+
 }

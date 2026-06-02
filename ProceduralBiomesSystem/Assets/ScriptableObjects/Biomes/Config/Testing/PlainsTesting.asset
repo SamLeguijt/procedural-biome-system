@@ -108,7 +108,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    applyNormalise: 1
+    applyNormalise: 0
   <HeightMultiplier>k__BackingField: 1
   <HeightBaseline>k__BackingField: -0.5
   <debugColor>k__BackingField: {r: 0.4811321, g: 0.21226414, b: 0, a: 0.6666667}

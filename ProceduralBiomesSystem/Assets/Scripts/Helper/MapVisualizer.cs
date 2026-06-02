@@ -22,20 +22,18 @@ public class MapVisualizer : MonoBehaviour
 
     WorldLayout recentLayoutDebug;
     WorldData recentWorldData;
-        
 
     public void SetRecentLayout(WorldLayout layout)
     {
         if (layout != null)
             recentLayoutDebug = layout;
 
-
         Draw();
     }
 
     public void SetRecentWorld(WorldData data)
     {
-        if (data.TerrainMap != null)
+        if (data.TerrainData.TerrainMapResult != null)
         {
             recentWorldData = data;
         }
