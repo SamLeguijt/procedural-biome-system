@@ -24,6 +24,22 @@ public class TerrainDebugVisualiser : MonoBehaviour
 
     private WorldAnalysisData analysisData;
 
+    [Button]
+    public void DropDebugPin()
+    {
+        if (analysisData == null)
+            return;
+
+        GameObject pinObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        pinObj.name = "DebugPin";
+        pinObj.transform.parent = transform;
+        pinObj.transform.localPosition = Vector3.zero;
+
+
+        DebugPin pin = pinObj.AddComponent<DebugPin>();   
+        pin.SetData(analysisData);
+    }
+
     public void SetWorldAnalysisData(WorldAnalysisData data, DebugVisualiserConfig config)
     {
         analysisData = data;
@@ -66,7 +82,7 @@ public class TerrainDebugVisualiser : MonoBehaviour
         {
             for (int x = 0; x < biomeWeights.Width; x++)
             {
-                var highest = biomeWeights[x,y].GetHighest();
+                var highest = biomeWeights[x, y].GetHighest();
 
                 if (biomePurtiyRange.FallsInRange(highest.Item2))
                 {

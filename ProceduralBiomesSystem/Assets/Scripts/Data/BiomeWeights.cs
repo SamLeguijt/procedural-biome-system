@@ -17,7 +17,7 @@ public class BiomeWeights
 
     public float GetWeight(BiomeConfig config)
     {
-        return ConfigWeights.TryGetValue(config, out var w) ? w : 0f;
+        return ConfigWeights.TryGetValue(config, out var w) ? w : -1f;
     }
 
     public (BiomeConfig, float) GetHighest()
